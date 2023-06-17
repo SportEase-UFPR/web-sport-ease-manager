@@ -1,1 +1,115 @@
 /* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */
+
+/* Importing Bootstrap SCSS file. */
+@import "bootstrap/scss/bootstrap";
+
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+:root {
+  --font-family: "Poppins", sans-serif;
+}
+
+* {
+  font-family: var(--font-family) !important;
+}
+
+html,
+body {
+  font-family: var(--font-family) !important;
+}
+
+a,
+p,
+input,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span,
+button {
+  font-family: var(--font-family) !important;
+}
+
+body {
+  background-color: #fafbfc;
+  min-height: 100vh;
+}
+
+.display-login{
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.text-dark-blue {
+  color: #151d48;
+}
+
+.text-purple {
+  color: #5d5fef;
+}
+
+.text-blue {
+  color: #0076ff;
+}
+
+.text-gray {
+  color: #aaa;
+}
+
+.card-shadow {
+  background-color: #fff;
+  box-shadow: 2px 2px 6px 2px #aaa;
+  border-radius: 20px;
+}
+
+.input-without-label-basic {
+  border: none;
+  border-radius: 10px;
+  height: 45px;
+  outline: none;
+  padding: 0 10px;
+  box-shadow: 4px 4px 5px 0 #aaa;
+  color: #aaa;
+  transition: 0.2s ease-in-out;
+
+  &:focus {
+    transition: 0.2s ease-in-out;
+    box-shadow: 4px 4px 2px 0 #5d5fef;
+  }
+
+  &::placeholder {
+    color: #aaa;
+  }
+}
+
+.input-number {
+  &::-webkit-inner-spin-button,
+  ::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+  }
+}
+
+.is-invalid-input-without-label {
+  input {
+    box-shadow: 4px 4px 2px 0 #ff0000;
+  }
+}
+
+.btn-basic {
+  border: none;
+  border-radius: 10px;
+  font-weight: 500;
+  height: 45px;
+  padding: 8px;
+  width: 100%;
+  transition: 0.2s ease-in-out;
+
+  &:hover:not(:disabled) {
+    transition: 0.2s ease-in-out;
+    transform: scale(1.05);
+  }
+}
