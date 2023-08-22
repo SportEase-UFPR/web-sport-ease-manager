@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-formulario',
@@ -12,7 +13,7 @@ export class FormularioComponent implements OnInit, OnDestroy {
     senha: new FormControl(null, [Validators.required]),
   });
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     document.body.classList.add('display-login');
@@ -22,5 +23,7 @@ export class FormularioComponent implements OnInit, OnDestroy {
       document.body.classList.remove('display-login')
   }
 
-  entrar() {}
+  entrar() {
+    this.router.navigateByUrl('/dashboard')
+  }
 }
