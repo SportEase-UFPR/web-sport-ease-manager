@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ComunicacaoClientesComponent } from './comunicacao-clientes/comunicacao-clientes.component';
+import { ComunicacaoClientesComponent } from './comunicacao-clientes.component';
 
 
 

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AdministradoresComponent } from './administradores/administradores.component';
+import { AdministradoresComponent } from './administradores.component';
 
 
 

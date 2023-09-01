@@ -1,17 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { FormularioComponent } from './login/formulario/formulario.component';
-import { HomeComponent } from './dashboard/home/home.component';
-import { AdministradoresComponent } from './administradores/administradores/administradores.component';
-import { ClientesComponent } from './clientes/clientes/clientes.component';
-import { ComunicacaoClientesComponent } from './comunicacao-clientes/comunicacao-clientes/comunicacao-clientes.component';
-import { EspacosEsportivosComponent } from './espacos-esportivos/espacos-esportivos/espacos-esportivos.component';
-import { RelatoriosComponent } from './relatorios/relatorios/relatorios.component';
+
+import { AdministradoresComponent } from './administradores/administradores.component';
+import { ClientesComponent } from './clientes/clientes.component';
+import { ComunicacaoClientesComponent } from './comunicacao-clientes/comunicacao-clientes.component';
+import { EspacosEsportivosComponent } from './espacos-esportivos/espacos-esportivos.component';
+import { RelatoriosComponent } from './relatorios/relatorios.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
    {
      path: 'login',
-     component: FormularioComponent,
+     component: LoginComponent,
    },
 
    {
@@ -22,7 +23,7 @@ const routes: Routes = [
 
    {
     path: 'dashboard',
-    component: HomeComponent
+    component: DashboardComponent
    },
 
    {

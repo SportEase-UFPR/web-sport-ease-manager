@@ -15,14 +15,16 @@ export class AppComponent implements OnInit, DoCheck {
 
   ngDoCheck(): void {
     const url = this.router.url;
-    this.isNotLogado = this.isCliente(url.split('/')[1]);
+    this.isNotLogado = this.isCliente(url.split('/')[1]?.split('?')[0]);
   }
 
   isCliente(url: string): boolean {
     if (
       url === 'login' ||
       url === 'autocadastro' ||
-      url === 'confirmacao-cadastro'
+      url === 'confirmacao-cadastro' ||
+      url === 'recuperar-senha' ||
+      url === 'cadastrar-senha'
     )
       return true;
 

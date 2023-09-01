@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RelatoriosComponent } from './relatorios/relatorios.component';
+import { RelatoriosComponent } from './relatorios.component';
 
 
 
