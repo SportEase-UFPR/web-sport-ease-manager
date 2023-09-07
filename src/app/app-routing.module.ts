@@ -8,6 +8,7 @@ import { EspacosEsportivosComponent } from './espacos-esportivos/espacos-esporti
 import { RelatoriosComponent } from './relatorios/relatorios.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
+import { authGuard } from './guards/auth/auth.guard';
 
 const routes: Routes = [
    {
@@ -23,32 +24,38 @@ const routes: Routes = [
 
    {
     path: 'dashboard',
-    component: DashboardComponent
+    component: DashboardComponent,
+    canActivate: [authGuard]
    },
 
    {
     path: 'administradores',
-    component: AdministradoresComponent
+    component: AdministradoresComponent,
+    canActivate: [authGuard]
    },
 
    {
     path: 'clientes',
-    component: ClientesComponent
+    component: ClientesComponent,
+    canActivate: [authGuard]
    },
 
    {
     path: 'comunicar-clientes',
-    component: ComunicacaoClientesComponent
+    component: ComunicacaoClientesComponent,
+    canActivate: [authGuard]
    },
 
    {
     path: 'espacos-esportivos',
-    component: EspacosEsportivosComponent
+    component: EspacosEsportivosComponent,
+    canActivate: [authGuard]
    },
 
    {
     path: 'relatorios',
-    component: RelatoriosComponent
+    component: RelatoriosComponent,
+    canActivate: [authGuard]
    },
 ];
 

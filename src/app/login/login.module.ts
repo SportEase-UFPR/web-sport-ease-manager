@@ -8,8 +8,21 @@ import { CadastrarSenhaComponent } from './cadastrar-senha/cadastrar-senha.compo
 import { RecuperarSenhaComponent } from './recuperar-senha/recuperar-senha.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ToastrModule } from 'ngx-toastr';
+import { LoginService } from './services/login.service';
+import { NgxUiLoaderConfig, NgxUiLoaderModule, POSITION, SPINNER } from 'ngx-ui-loader';
+import { HttpClientModule } from '@angular/common/http';
 
-
+const ngxUiLoaderConfig: NgxUiLoaderConfig = {
+  bgsColor: "#5d5fef",
+  bgsPosition: POSITION.centerCenter,
+  bgsSize: 40,
+  bgsType: SPINNER.ballSpinClockwise,
+  fgsType: SPINNER.ballSpin,
+  fgsColor: '#5d5fef',
+  blur: 10,
+  overlayColor: "rgba(255,255,255,0.5)",
+  hasProgressBar: false
+};
 
 @NgModule({
   declarations: [
@@ -20,11 +33,14 @@ import { ToastrModule } from 'ngx-toastr';
   imports: [
     CommonModule,
     LoginRoutingModule,
+    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
     FontAwesomeModule,
     ToastrModule.forRoot(),
-  ]
+    NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
+  ],
+  providers: [LoginService]
 })
 export class LoginModule { }

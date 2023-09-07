@@ -9,6 +9,7 @@ import {
   faPlusSquare,
   faUserGroup,
 } from '@fortawesome/free-solid-svg-icons';
+import { LoginService } from '../login/services/login.service';
 
 @Component({
   selector: 'app-menu',
@@ -23,7 +24,7 @@ export class MenuComponent implements OnInit, DoCheck {
   faChart = faChartSimple;
   faExit = faArrowRightFromBracket;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private loginService: LoginService) {}
 
   ngOnInit(): void {}
 
@@ -105,6 +106,12 @@ export class MenuComponent implements OnInit, DoCheck {
         espacos?.remove('menu-actived');
         relatorios?.remove('menu-actived');
         break;
+    }
+  }
+
+  sair() {
+    if (this.loginService.logout()) {
+      this.router.navigateByUrl('/login');
     }
   }
 }

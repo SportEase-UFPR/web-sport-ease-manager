@@ -1,48 +1,48 @@
-import { Component, DoCheck, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+
+import { LocalStorageService } from './shared/services/local-storage/local-storage.service';
+import { UsuarioLs } from './shared/models/usuario-ls/usuario-ls.model';
+import { environment as env } from 'src/environments/environment';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit, DoCheck {
+export class AppComponent implements OnInit {
   isNotLogado: boolean = true;
 
-  constructor(private router: Router) {}
+  constructor(private lsService: LocalStorageService) {}
 
-  ngOnInit(): void {}
-
-  ngDoCheck(): void {
-    const url = this.router.url;
-    this.isNotLogado = this.isCliente(url.split('/')[1]?.split('?')[0]);
+  ngOnInit(): void {
+    window.onresize = () => {
+      this.formatLayout();
+    };
   }
 
-  isCliente(url: string): boolean {
-    if (
-      url === 'login' ||
-      url === 'autocadastro' ||
-      url === 'confirmacao-cadastro' ||
-      url === 'recuperar-senha' ||
-      url === 'cadastrar-senha'
-    )
-      return true;
-
+  formatLayout() {
     const alturaJanela = window.innerHeight;
     const alturaMinima = Math.round(alturaJanela * 0.05);
     const alturaMaxima = Math.round(alturaJanela * 0.95) - alturaMinima;
-    const cabecalho = document.getElementById('cabecalho');
-    const menu = document.getElementById('menu');
-    const paginas = document.getElementById('paginas');
-
-    console.log(alturaJanela, alturaMinima, alturaMaxima)
+    const cabecalho = document?.getElementById('cabecalho');
+    const menu = document?.getElementById('menu');
+    const paginas = document?.getElementById('paginas');
 
     if (cabecalho) cabecalho.style.minHeight = `${alturaMinima}px`;
 
     if (menu) menu.style.minHeight = `${alturaMaxima}px`;
 
     if (paginas) paginas.style.minHeight = `${alturaMaxima}px`;
+  }
 
-    return false;
+  isLogado(): boolean {
+    const lsDados: UsuarioLs = this.lsService.get(env.ls_token);
+    this.formatLayout();
+
+    if (lsDados) {
+      return lsDados.usuarioLogado!;
+    } else {
+      return false;
+    }
   }
 }
