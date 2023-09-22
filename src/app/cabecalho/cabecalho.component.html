@@ -8,14 +8,13 @@
     <h2 class="ms-2 mb-0 text-dark-blue">SportEase</h2>
 
     <div class="ms-3">
-      <h2 class="mb-0">Administrador</h2>
+      <h2 class="mb-0">{{ getSaudacao() }}{{ ", " + nomeAdministrador }}</h2>
     </div>
   </div>
 
   <div>
-    <p class="dados-cliente text-dark-blue">
+    <a class="dados-cliente text-dark-blue m-0" routerLink="/editar-perfil">
       <fa-icon [icon]="faUser"></fa-icon>
-      {{ nomeAdministrador }}
-    </p>
+    </a>
   </div>
 </header>

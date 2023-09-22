@@ -1,10 +1,15 @@
+@import "/src/cores.scss";
+
 header {
-  background-color: #ffffff;
+  background-color: var(--branco);
 }
 
 .dados-cliente {
-  font-size: 18px;
-  font-weight: 500;
+  cursor: pointer;
+
+  fa-icon {
+    font-size: 30px;
+  }
 }
 
 fa-icon {

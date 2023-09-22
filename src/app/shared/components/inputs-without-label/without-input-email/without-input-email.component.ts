@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import { ValidacoesForm } from 'src/app/utils/validacao-form';
 
 @Component({
   selector: 'app-without-input-email',
@@ -26,5 +27,13 @@ export class WithoutInputEmailComponent implements OnInit {
 
   changeInput(data: any): void {
     return this.emmiterChange.emit(data);
+  }
+
+  inputValid(): boolean {
+    return ValidacoesForm.inputInvalid(
+      this.formGroup,
+      this.controlName,
+      this.validacaoInput
+    );
   }
 }

@@ -12,6 +12,9 @@ import { WithoutInputNumberComponent } from './components/inputs-without-label/w
 import { WithoutInputEmailComponent } from './components/inputs-without-label/without-input-email/without-input-email.component';
 import { InputSenhaComponent } from './components/inputs-with-label/input-senha/input-senha.component';
 import { BtnPurpleComponent } from './components/buttons/btn-purple/btn-purple.component';
+import { InputTextComponent } from './components/inputs-with-label/input-text/input-text.component';
+import { InputEmailComponent } from './components/inputs-with-label/input-email/input-email.component';
+import { BtnBorderPurpleComponent } from './components/buttons/btn-border-purple/btn-border-purple.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +25,9 @@ import { BtnPurpleComponent } from './components/buttons/btn-purple/btn-purple.c
     WithoutInputEmailComponent,
     InputSenhaComponent,
     BtnPurpleComponent,
+    InputTextComponent,
+    InputEmailComponent,
+    BtnBorderPurpleComponent,
   ],
   imports: [
     CommonModule,
@@ -37,7 +43,10 @@ import { BtnPurpleComponent } from './components/buttons/btn-purple/btn-purple.c
     WithoutInputNumberComponent,
     WithoutInputEmailComponent,
     InputSenhaComponent,
-    BtnPurpleComponent
+    BtnPurpleComponent,
+    InputTextComponent,
+    InputEmailComponent,
+    BtnBorderPurpleComponent,
   ],
   providers: [provideNgxMask()],
 })

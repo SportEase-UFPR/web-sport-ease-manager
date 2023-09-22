@@ -3,16 +3,15 @@ import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { ValidacoesForm } from 'src/app/utils/validacao-form';
 
 @Component({
-  selector: 'app-without-input-number',
-  templateUrl: './without-input-number.component.html',
-  styleUrls: ['./without-input-number.component.scss'],
+  selector: 'app-input-email',
+  templateUrl: './input-email.component.html',
+  styleUrls: ['./input-email.component.scss'],
 })
-export class WithoutInputNumberComponent implements OnInit {
+export class InputEmailComponent implements OnInit {
   @Input() formGroup: FormGroup = new FormGroup({});
-  @Input() placeholder: string = '';
   @Input() controlName?: any;
-  @Input() maskInput?: any;
-  @Input() placeHolder?: string = '';
+  @Input() placeholder: string = '';
+  @Input() label: string = '';
   @Input() validacaoInput: boolean = false;
 
   constructor() {}

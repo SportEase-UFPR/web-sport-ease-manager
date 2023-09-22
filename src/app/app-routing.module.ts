@@ -9,54 +9,60 @@ import { RelatoriosComponent } from './relatorios/relatorios.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { authGuard } from './guards/auth/auth.guard';
+import { EdicaoPerfilComponent } from './edicao-perfil/edicao-perfil.component';
 
 const routes: Routes = [
-   {
-     path: 'login',
-     component: LoginComponent,
-   },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
 
-   {
-     path: '',
-     redirectTo: 'login',
-     pathMatch: 'full',
-   },
-
-   {
+  {
     path: 'dashboard',
     component: DashboardComponent,
-    canActivate: [authGuard]
-   },
+    //canActivate: [authGuard]
+  },
 
-   {
+  {
     path: 'administradores',
     component: AdministradoresComponent,
-    canActivate: [authGuard]
-   },
+    //canActivate: [authGuard]
+  },
 
-   {
+  {
     path: 'clientes',
     component: ClientesComponent,
-    canActivate: [authGuard]
-   },
+    //canActivate: [authGuard]
+  },
 
-   {
+  {
     path: 'comunicar-clientes',
     component: ComunicacaoClientesComponent,
-    canActivate: [authGuard]
-   },
+    //canActivate: [authGuard]
+  },
 
-   {
+  {
     path: 'espacos-esportivos',
     component: EspacosEsportivosComponent,
-    canActivate: [authGuard]
-   },
+    //: [authGuard]
+  },
 
-   {
+  {
     path: 'relatorios',
     component: RelatoriosComponent,
-    canActivate: [authGuard]
-   },
+    //canActivate: [authGuard]
+  },
+
+  {
+    path: 'editar-perfil',
+    component: EdicaoPerfilComponent
+  },
+
+  {
+    path: '',
+    redirectTo: 'login',
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({

@@ -1,19 +1,11 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 
 @Component({
-  selector: 'app-btn-purple',
-  templateUrl: './btn-purple.component.html',
-  styleUrls: ['./btn-purple.component.scss'],
+  selector: 'app-btn-border-purple',
+  templateUrl: './btn-border-purple.component.html',
+  styleUrls: ['./btn-border-purple.component.scss']
 })
-export class BtnPurpleComponent implements OnInit {
+export class BtnBorderPurpleComponent implements OnInit {
   @Input() buttonDisabled: boolean = false;
   @Input() textButton: string = '';
   @Input() showIcon: boolean = false;
@@ -21,7 +13,7 @@ export class BtnPurpleComponent implements OnInit {
   @Input() icone: any;
 
   @Output() emmiterClick = new EventEmitter();
-  
+
   @ViewChild('buttonPurple') buttonPurple!: ElementRef;
 
   constructor() {}

@@ -2,10 +2,27 @@
   min-height: 100vh;
 
   .cabecalho {
-    background-color: #ffffff;
+    background-color: var(--branco);
   }
 
   .menu {
-    background-color: #ffffff;
+    background-color: var(--branco);
+    scrollbar-width: thin;
+    scrollbar-color: var(--roxo) var(--branco);
+    direction: ltr !important;
+
+    &::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: var(--branco);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--roxo);
+      border-radius: 20px;
+      border: 3px solid var(--branco);
+    }
   }
 }

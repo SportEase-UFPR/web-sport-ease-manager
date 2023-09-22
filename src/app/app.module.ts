@@ -15,12 +15,14 @@ import { ClientesModule } from './clientes/clientes.module';
 import { ComunicacaoClientesModule } from './comunicacao-clientes/comunicacao-clientes.module';
 import { EspacosEsportivosModule } from './espacos-esportivos/espacos-esportivos.module';
 import { RelatoriosModule } from './relatorios/relatorios.module';
+import { EdicaoPerfilComponent } from './edicao-perfil/edicao-perfil.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CabecalhoComponent,
-    MenuComponent
+    MenuComponent,
+    EdicaoPerfilComponent
   ],
   imports: [
     BrowserModule,
