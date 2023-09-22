@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
-import { ValidacoesForm } from 'src/app/utils/validacao-form';
+import { ValidacoesForm } from 'src/app/utils/validacoes-form';
 
 @Component({
   selector: 'app-input-senha',

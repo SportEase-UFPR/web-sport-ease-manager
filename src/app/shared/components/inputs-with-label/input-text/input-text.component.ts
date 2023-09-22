@@ -7,7 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
-import { ValidacoesForm } from 'src/app/utils/validacao-form';
+import { ValidacoesForm } from 'src/app/utils/validacoes-form';
 
 @Component({
   selector: 'app-input-text',
