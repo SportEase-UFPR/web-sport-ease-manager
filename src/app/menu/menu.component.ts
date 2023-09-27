@@ -62,6 +62,24 @@ export class MenuComponent implements OnInit, DoCheck {
         relatorios?.remove('menu-actived');
         break;
 
+      case 'novo-administrador':
+        administradores?.add('menu-actived');
+        inicio?.remove('menu-actived');
+        clientes?.remove('menu-actived');
+        comunicarClientes?.remove('menu-actived');
+        espacos?.remove('menu-actived');
+        relatorios?.remove('menu-actived');
+        break;
+
+      case 'editar-administrador':
+        administradores?.add('menu-actived');
+        inicio?.remove('menu-actived');
+        clientes?.remove('menu-actived');
+        comunicarClientes?.remove('menu-actived');
+        espacos?.remove('menu-actived');
+        relatorios?.remove('menu-actived');
+        break;
+
       case 'clientes':
         clientes?.add('menu-actived');
         inicio?.remove('menu-actived');
@@ -81,6 +99,33 @@ export class MenuComponent implements OnInit, DoCheck {
         break;
 
       case 'espacos-esportivos':
+        espacos?.add('menu-actived');
+        inicio?.remove('menu-actived');
+        administradores?.remove('menu-actived');
+        clientes?.remove('menu-actived');
+        comunicarClientes?.remove('menu-actived');
+        relatorios?.remove('menu-actived');
+        break;
+
+      case 'novo-espaco':
+        espacos?.add('menu-actived');
+        inicio?.remove('menu-actived');
+        administradores?.remove('menu-actived');
+        clientes?.remove('menu-actived');
+        comunicarClientes?.remove('menu-actived');
+        relatorios?.remove('menu-actived');
+        break;
+
+      case 'editar-espaco':
+        espacos?.add('menu-actived');
+        inicio?.remove('menu-actived');
+        administradores?.remove('menu-actived');
+        clientes?.remove('menu-actived');
+        comunicarClientes?.remove('menu-actived');
+        relatorios?.remove('menu-actived');
+        break;
+
+      case 'visualizar-espaco':
         espacos?.add('menu-actived');
         inicio?.remove('menu-actived');
         administradores?.remove('menu-actived');

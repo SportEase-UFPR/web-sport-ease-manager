@@ -20,7 +20,7 @@ export class CabecalhoComponent implements OnInit {
     const horaAtual = new Date().getHours();
     let saudacao = 'Bom dia';
 
-    if (horaAtual > 18) {
+    if (horaAtual > 18 && horaAtual < 6) {
       saudacao = 'Boa noite';
     } else if (horaAtual > 12) {
       saudacao = 'Boa tarde';

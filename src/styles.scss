@@ -78,7 +78,7 @@ body {
   outline: none;
   padding: 0 10px;
   box-shadow: 4px 4px 5px 0 var(--cinza-claro);
-  color: var(--cinza-claro);
+  color: var(--azul-escuro);
   transition: 0.2s ease-in-out;
 
   &:focus {
@@ -124,6 +124,86 @@ body {
   }
 }
 
+.btn-close-modal {
+  border: none;
+  background-color: transparent;
+  border-radius: 10px;
+  font-size: 20px;
+  transition: 0.2s ease-in-out;
+
+  &:hover:not(:disabled) {
+    transition: 0.2s ease-in-out;
+    transform: scale(1.05);
+  }
+}
+
+//Estilo do modal
+.modal-content {
+  border: none !important;
+  border-radius: 15px;
+  background-color: var(--branco-gelo);
+}
+
+// Estilo para o checklist da senha
+.checklist {
+  .password-checklist {
+    list-style: none;
+    padding: 0 10px;
+
+    li {
+      fa-icon {
+        font-size: 16px;
+        margin-right: 4px;
+        padding: 0;
+      }
+    }
+
+    .tem-erros {
+      fa-icon {
+        color: var(--vermelho);
+      }
+    }
+
+    .sem-erros {
+      fa-icon {
+        color: var(--verde);
+      }
+    }
+  }
+}
+
+// Estilo para o ngx-pagination
+
+.ngx-pagination .pagination-previous a::before,
+.ngx-pagination .pagination-previous.disabled::before,
+.ngx-pagination .pagination-next a::after,
+.ngx-pagination .pagination-next.disabled::after {
+  display: none !important;
+  content: "" !important;
+}
+
+.ngx-pagination {
+  color: var(--cinza-claro) !important;
+  font-size: 18px !important;
+
+  a {
+    background-color: transparent !important;
+    transition: 0.2s ease-in-out;
+
+    &:hover {
+      transition: 0.2s ease-in-out;
+      color: var(--roxo) !important;
+      transform: scale(1.3);
+    }
+  }
+
+  .current {
+    background-color: transparent !important;
+    color: var(--azul-escuro) !important;
+    border-bottom: 2px solid var(--roxo) !important;
+  }
+}
+
 // Estilo para o ngx-toastr
 .toast-container .ngx-toastr {
   border-radius: 10px 5px 5px 10px !important;
@@ -145,4 +225,13 @@ body {
 
 .toast-warning {
   background-color: #ffa500 !important;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }

@@ -16,6 +16,7 @@ import { ComunicacaoClientesModule } from './comunicacao-clientes/comunicacao-cl
 import { EspacosEsportivosModule } from './espacos-esportivos/espacos-esportivos.module';
 import { RelatoriosModule } from './relatorios/relatorios.module';
 import { EdicaoPerfilComponent } from './edicao-perfil/edicao-perfil.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { EdicaoPerfilComponent } from './edicao-perfil/edicao-perfil.component';
     ComunicacaoClientesModule,
     EspacosEsportivosModule,
     RelatoriosModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

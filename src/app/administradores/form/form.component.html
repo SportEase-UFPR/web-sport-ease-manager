@@ -1,0 +1,97 @@
+<div class="mx-3 mt-4">
+  <h3 class="text-purple font-weight-bold mb-3">{{ isCadastro ? "Cadastrar administrador" : "Editar Administrador" }} </h3>
+
+  <form [formGroup]="formAdministrador">
+    <div class="row w-100">
+      <div class="col-12">
+        <app-input-text
+          [formGroup]="formAdministrador"
+          [label]="'Nome Completo'"
+          [controlName]="'nome'"
+          [validacaoInput]="true"
+        ></app-input-text>
+      </div>
+
+      <div class="col-12">
+        <app-input-email
+          [formGroup]="formAdministrador"
+          [label]="'E-mail'"
+          [controlName]="'email'"
+          [validacaoInput]="true"
+        ></app-input-email>
+      </div>
+
+      <div class="col-12">
+        <app-input-text
+          [formGroup]="formAdministrador"
+          [label]="'CPF'"
+          [controlName]="'cpf'"
+          [isDisabled]="!isCadastro"
+          [validacaoInput]="true"
+          [mask]="isCadastro ? '000.000.000-00' : ''"
+        ></app-input-text>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <app-input-senha
+          [formGroup]="formAdministrador"
+          [controlName]="'senha'"
+          [label]="'Senha'"
+          [validacaoInput]="true"
+          (emmiterFocus)="focusPassword()"
+        >
+        </app-input-senha>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <app-input-senha
+          [formGroup]="formAdministrador"
+          [controlName]="'confirmacaoSenha'"
+          [label]="'Confirmar Senha'"
+          [validacaoInput]="true"
+          (emmiterFocus)="focusPassword()"
+        >
+        </app-input-senha>
+      </div>
+
+      <ng-container *ngIf="passwordChecklist">
+        <div class="checklist">
+          <ul class="password-checklist">
+            <li [ngClass]="passwordValid('senha') ? 'tem-erros' : 'sem-erros'">
+              <fa-icon
+                [icon]="passwordValid('senha') ? faInvalid : faValid"
+              ></fa-icon>
+
+              A senha deve ter pelo menos <strong> 6 dígitos </strong>
+            </li>
+
+            <li [ngClass]="senhasDiferentes ? 'tem-erros' : 'sem-erros'">
+              <fa-icon
+                [icon]="senhasDiferentes ? faInvalid : faValid"
+              ></fa-icon>
+
+              As senhas devem ser <strong> iguais </strong>
+            </li>
+          </ul>
+        </div>
+      </ng-container>
+
+      <div class="col-12 d-flex justify-content-end">
+        <div>
+          <app-btn-purple
+            [textButton]="isCadastro ? 'Cadastrar' : 'Salvar'"
+            [buttonDisabled]="formAdministrador.invalid && senhasDiferentes"
+            (emmiterClick)="alterarDados()"
+          ></app-btn-purple>
+        </div>
+
+        <div class="ms-2">
+          <app-btn-border-purple
+            [textButton]="'Cancelar'"
+            (emmiterClick)="navigate()"
+          ></app-btn-border-purple>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

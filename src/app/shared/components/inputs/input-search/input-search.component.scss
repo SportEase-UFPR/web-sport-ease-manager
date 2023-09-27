@@ -1,0 +1,29 @@
+@import "/src/cores.scss";
+
+.input-search-content {
+  box-shadow: 4px 4px 5px 0 var(--cinza-claro);
+  border-radius: 10px;
+
+  .input-search {
+    background-color: transparent;
+    border: none;
+    border-radius: 10px 0 0 10px;
+    height: 45px;
+    outline: none;
+    padding: 0 10px;
+    color: var(--cinza-claro);
+    box-shadow: none;
+  }
+
+  .btn-search {
+    background-color: transparent;
+    border: none;
+    color: var(--cinza-claro);
+    border-radius: 0 10px 10px 0;
+    font-weight: 500;
+    height: 45px;
+    padding: 8px;
+    width: 7%;
+    box-shadow: none;
+  }
+}

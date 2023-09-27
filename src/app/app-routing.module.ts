@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AdministradoresComponent } from './administradores/administradores.component';
 import { ClientesComponent } from './clientes/clientes.component';
 import { ComunicacaoClientesComponent } from './comunicacao-clientes/comunicacao-clientes.component';
-import { EspacosEsportivosComponent } from './espacos-esportivos/espacos-esportivos.component';
 import { RelatoriosComponent } from './relatorios/relatorios.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
@@ -24,12 +22,6 @@ const routes: Routes = [
   },
 
   {
-    path: 'administradores',
-    component: AdministradoresComponent,
-    //canActivate: [authGuard]
-  },
-
-  {
     path: 'clientes',
     component: ClientesComponent,
     //canActivate: [authGuard]
@@ -39,12 +31,6 @@ const routes: Routes = [
     path: 'comunicar-clientes',
     component: ComunicacaoClientesComponent,
     //canActivate: [authGuard]
-  },
-
-  {
-    path: 'espacos-esportivos',
-    component: EspacosEsportivosComponent,
-    //: [authGuard]
   },
 
   {

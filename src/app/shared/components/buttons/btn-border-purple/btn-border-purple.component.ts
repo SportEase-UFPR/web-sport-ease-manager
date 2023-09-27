@@ -14,17 +14,9 @@ export class BtnBorderPurpleComponent implements OnInit {
 
   @Output() emmiterClick = new EventEmitter();
 
-  @ViewChild('buttonPurple') buttonPurple!: ElementRef;
-
   constructor() {}
 
   ngOnInit(): void {}
-
-  ngAfterViewInit(): void {
-    if (this.buttonPurple) {
-      this.buttonPurple.nativeElement.disabled = this.buttonDisabled;
-    }
-  }
 
   clickButton(data: any): void {
     return this.emmiterClick.emit(data);

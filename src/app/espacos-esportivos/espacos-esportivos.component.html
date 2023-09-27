@@ -1,1 +1,69 @@
-<p>espacos-esportivos works!</p>
+<div class="mx-3 mt-4">
+  <h3 class="text-purple font-weight-bold">Espaços esportivos cadastrados</h3>
+
+  <div class="row justify-content-between mt-5">
+    <div class="col-12 col-md-5">
+      <form [formGroup]="formSearch">
+        <app-input-search
+          [formGroup]="formSearch"
+          controlName="searchValue"
+          placeholder="Pesquisar..."
+          (emitterSearch)="searchEspacoEsportivo()"
+        ></app-input-search>
+      </form>
+    </div>
+
+    <div class="col-12 col-md-3">
+      <app-btn-purple
+        textButton="Novo espaço esportivo"
+        [showIcon]="true"
+        [icone]="faPlus"
+        (emmiterClick)="navigate('novo-espaco')"
+      ></app-btn-purple>
+    </div>
+  </div>
+
+  <div class="table-content">
+    <div class="text-center">
+      <pagination-controls
+        (pageChange)="p = $event"
+        previousLabel="<"
+        nextLabel=">"
+      ></pagination-controls>
+    </div>
+
+    <div class="table-scroll">
+      <table class="table">
+        <thead>
+          <tr class="text-center">
+            <th scope="col">Nome</th>
+            <th scope="col">Localidade</th>
+            <th scope="col">Tipos de esporte</th>
+            <th scope="col">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="
+              let n of numeros | paginate : { itemsPerPage: 5, currentPage: p }
+            "
+            class="text-center"
+          >
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+              <div class="d-flex justify-content-center">
+                <a class="btn-acoes"><fa-icon [icon]="faEye"></fa-icon></a>
+                <a class="btn-acoes mx-2"
+                  ><fa-icon [icon]="faPencil"></fa-icon
+                ></a>
+                <button class="btn-acoes" (click)="openModalConfirmacao()"><fa-icon [icon]="faTrash"></fa-icon></button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

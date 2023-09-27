@@ -1,3 +1,4 @@
+import { AfterViewInit } from '@angular/core';
 import {
   Component,
   ElementRef,
@@ -21,18 +22,11 @@ export class BtnPurpleComponent implements OnInit {
   @Input() icone: any;
 
   @Output() emmiterClick = new EventEmitter();
-  
-  @ViewChild('buttonPurple') buttonPurple!: ElementRef;
+
 
   constructor() {}
 
   ngOnInit(): void {}
-
-  ngAfterViewInit(): void {
-    if (this.buttonPurple) {
-      this.buttonPurple.nativeElement.disabled = this.buttonDisabled;
-    }
-  }
 
   clickButton(data: any): void {
     return this.emmiterClick.emit(data);
