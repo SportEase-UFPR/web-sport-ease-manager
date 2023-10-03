@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { LocalStorageService } from './shared/services/local-storage/local-storage.service';
-import { UsuarioLs } from './shared/models/usuario-ls/usuario-ls.model';
+import { SessionStorageService } from './shared/services/session-storage/session-storage.service';
+import { UsuarioSs } from './shared/models/usuario-ss/usuario-ss.model';
 import { environment as env } from 'src/environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,7 @@ import { environment as env } from 'src/environments/environment';
 export class AppComponent implements OnInit {
   isNotLogado: boolean = true;
 
-  constructor(private lsService: LocalStorageService) {}
+  constructor(private ssService: SessionStorageService, private router: Router) {}
 
   ngOnInit(): void {
     window.onresize = () => {
@@ -39,11 +40,13 @@ export class AppComponent implements OnInit {
   }
 
   isLogado(): boolean {
-    const lsDados: UsuarioLs = this.lsService.get(env.ls_token);
+    const ssDados: UsuarioSs = this.ssService.get(env.ss_token);
     this.formatLayout();
 
-    if (lsDados) {
-      return lsDados.usuarioLogado!;
+    if (ssDados) {
+      return this.router.url.match('ativar-conta') != null
+        ? false
+        : ssDados.usuarioLogado!;
     } else {
       return false;
     }

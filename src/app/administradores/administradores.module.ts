@@ -11,15 +11,30 @@ import { SharedModule } from '../shared/shared.module';
 import { FormComponent } from './form/form.component';
 import { ModalConfirmacaoComponent } from './modal-confirmacao/modal-confirmacao.component';
 import { ModalDetalhesComponent } from './modal-detalhes/modal-detalhes.component';
+import { AdministradoresService } from './services/administradores.service';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { ToastrModule } from 'ngx-toastr';
+import { NgxUiLoaderConfig, NgxUiLoaderModule, POSITION, SPINNER } from 'ngx-ui-loader';
+import { AtivacaoContaComponent } from './ativacao-conta/ativacao-conta.component';
 
-
-
+const ngxUiLoaderConfig: NgxUiLoaderConfig = {
+  bgsColor: "#5d5fef",
+  bgsPosition: POSITION.centerCenter,
+  bgsSize: 40,
+  bgsType: SPINNER.ballSpinClockwise,
+  fgsType: SPINNER.ballSpin,
+  fgsColor: '#5d5fef',
+  blur: 10,
+  overlayColor: "rgba(255,255,255,0.5)",
+  hasProgressBar: false
+};
 @NgModule({
   declarations: [
     AdministradoresComponent,
     FormComponent,
     ModalConfirmacaoComponent,
-    ModalDetalhesComponent
+    ModalDetalhesComponent,
+    AtivacaoContaComponent
   ],
   imports: [
     CommonModule,
@@ -27,7 +42,12 @@ import { ModalDetalhesComponent } from './modal-detalhes/modal-detalhes.componen
     SharedModule,
     ReactiveFormsModule,
     NgxPaginationModule,
-    FontAwesomeModule
-  ]
+    FontAwesomeModule,
+    NgxMaskDirective,
+    NgxMaskPipe,
+    ToastrModule.forRoot(),
+    NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
+  ],
+  providers: [AdministradoresService, provideNgxMask()],
 })
-export class AdministradoresModule { }
+export class AdministradoresModule {}

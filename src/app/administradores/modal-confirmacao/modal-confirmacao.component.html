@@ -1,6 +1,9 @@
 <div class="modal-body">
   <div class="d-flex justify-content-between">
-    <h4 class="modal-title text-dark-blue text-center">Você realmente deseja remover {{ nomeGerente ? nomeGerente : 'este administrador' }}?</h4>
+    <h4 class="modal-title text-dark-blue text-center">
+      Você realmente deseja remover
+      {{ nomeGerente ? nomeGerente : "este administrador" }}?
+    </h4>
   </div>
 
   <div class="d-block d-md-flex mt-3 mb-2">
@@ -14,7 +17,7 @@
       ></app-btn-purple>
     </div>
 
-    <div class="col-12 col-md-6 pe-2 ">
+    <div class="col-12 col-md-6 pe-2">
       <app-btn-red
         [textButton]="'Cancelar'"
         [showIcon]="true"
@@ -23,6 +26,5 @@
         (emmiterClick)="activeModal.close()"
       ></app-btn-red>
     </div>
-
   </div>
 </div>

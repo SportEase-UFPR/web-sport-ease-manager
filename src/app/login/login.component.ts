@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     document.body.classList.add('display-centered');
 
-    this.activatedRoute.queryParams.subscribe((queryParams) => {
+    this.inscricaoRota = this.activatedRoute.queryParams.subscribe((queryParams) => {
       this.formLogin.get('email')?.setValue(queryParams?.['email']);
     });
   }

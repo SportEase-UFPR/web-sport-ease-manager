@@ -14,6 +14,9 @@ import { InputEmailComponent } from './components/inputs/input-email/input-email
 import { BtnBorderPurpleComponent } from './components/buttons/btn-border-purple/btn-border-purple.component';
 import { InputSearchComponent } from './components/inputs/input-search/input-search.component';
 import { BtnRedComponent } from './components/buttons/btn-red/btn-red.component';
+import { SessionStorageService } from './services/session-storage/session-storage.service';
+import { AdmService } from './services/adm/adm.service';
+
 @NgModule({
   declarations: [
     InputCheckboxComponent,
@@ -44,6 +47,6 @@ import { BtnRedComponent } from './components/buttons/btn-red/btn-red.component'
     InputSearchComponent,
     BtnRedComponent,
   ],
-  providers: [provideNgxMask()],
+  providers: [provideNgxMask(), SessionStorageService, AdmService],
 })
 export class SharedModule {}

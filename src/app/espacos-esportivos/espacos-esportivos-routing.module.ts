@@ -8,22 +8,25 @@ const routes: Routes = [
   {
     path: 'espacos-esportivos',
     component: EspacosEsportivosComponent,
-    //canActivate: [authGuard],
+    canActivate: [authGuard],
   },
 
   {
     path: 'novo-espaco',
     component: FormComponent,
+    canActivate: [authGuard],
   },
 
   {
     path: 'editar-espaco/:id',
     component: FormComponent,
+    canActivate: [authGuard],
   },
 
   {
     path: 'visualizar-espaco/:id',
     component: FormComponent,
+    canActivate: [authGuard],
   },
 ];
 

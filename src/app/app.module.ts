@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,16 +15,11 @@ import { ClientesModule } from './clientes/clientes.module';
 import { ComunicacaoClientesModule } from './comunicacao-clientes/comunicacao-clientes.module';
 import { EspacosEsportivosModule } from './espacos-esportivos/espacos-esportivos.module';
 import { RelatoriosModule } from './relatorios/relatorios.module';
-import { EdicaoPerfilComponent } from './edicao-perfil/edicao-perfil.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { EdicaoPerfilModule } from './edicao-perfil/edicao-perfil.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    CabecalhoComponent,
-    MenuComponent,
-    EdicaoPerfilComponent
-  ],
+  declarations: [AppComponent, CabecalhoComponent, MenuComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -39,8 +34,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     RelatoriosModule,
     FontAwesomeModule,
     ReactiveFormsModule,
+    EdicaoPerfilModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -3,24 +3,30 @@ import { RouterModule, Routes } from '@angular/router';
 import { authGuard } from '../guards/auth/auth.guard';
 import { FormComponent } from './form/form.component';
 import { AdministradoresComponent } from './administradores.component';
+import { AtivacaoContaComponent } from './ativacao-conta/ativacao-conta.component';
 
 const routes: Routes = [
   {
     path: 'administradores',
     component: AdministradoresComponent,
-    //canActivate: [authGuard]
+    canActivate: [authGuard],
   },
 
   {
     path: 'novo-administrador',
     component: FormComponent,
-    //canActivate: [authGuard],
+    canActivate: [authGuard],
   },
 
   {
     path: 'editar-administrador/:id',
     component: FormComponent,
-    //canActivate: [authGuard],
+    canActivate: [authGuard],
+  },
+
+  {
+    path: 'ativar-conta',
+    component: AtivacaoContaComponent,
   },
 ];
 

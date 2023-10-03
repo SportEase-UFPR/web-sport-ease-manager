@@ -8,6 +8,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { authGuard } from './guards/auth/auth.guard';
 import { EdicaoPerfilComponent } from './edicao-perfil/edicao-perfil.component';
+import { AtivacaoEmailComponent } from './edicao-perfil/ativacao-email/ativacao-email.component';
 
 const routes: Routes = [
   {
@@ -16,38 +17,43 @@ const routes: Routes = [
   },
 
   {
+    path: 'ativar-email',
+    component: AtivacaoEmailComponent,
+  },
+
+  {
     path: 'dashboard',
     component: DashboardComponent,
-    //canActivate: [authGuard]
+    canActivate: [authGuard]
   },
 
   {
     path: 'clientes',
     component: ClientesComponent,
-    //canActivate: [authGuard]
+    canActivate: [authGuard]
   },
 
   {
     path: 'comunicar-clientes',
     component: ComunicacaoClientesComponent,
-    //canActivate: [authGuard]
+    canActivate: [authGuard]
   },
 
   {
     path: 'relatorios',
     component: RelatoriosComponent,
-    //canActivate: [authGuard]
+    canActivate: [authGuard]
   },
 
   {
     path: 'editar-perfil',
     component: EdicaoPerfilComponent,
-    //canActivate: [authGuard]
+    canActivate: [authGuard]
   },
 
   {
     path: '',
-    redirectTo: 'login',
+    redirectTo: 'dashboard',
     pathMatch: 'full',
   },
 ];

@@ -1,5 +1,7 @@
+<ngx-ui-loader [loaderId]="'loader-01'"></ngx-ui-loader>
+
 <div class="mx-3 mt-4">
-  <h3 class="text-purple font-weight-bold mb-3">{{ isCadastro ? "Cadastrar administrador" : "Editar Administrador" }} </h3>
+  <h3 class="text-purple font-weight-bold mb-3">Cadastrar administrador</h3>
 
   <form [formGroup]="formAdministrador">
     <div class="row w-100">
@@ -26,9 +28,8 @@
           [formGroup]="formAdministrador"
           [label]="'CPF'"
           [controlName]="'cpf'"
-          [isDisabled]="!isCadastro"
           [validacaoInput]="true"
-          [mask]="isCadastro ? '000.000.000-00' : ''"
+          [mask]="'000.000.000-00'"
         ></app-input-text>
       </div>
 
@@ -79,9 +80,9 @@
       <div class="col-12 d-flex justify-content-end">
         <div>
           <app-btn-purple
-            [textButton]="isCadastro ? 'Cadastrar' : 'Salvar'"
+            [textButton]="'Cadastrar'"
             [buttonDisabled]="formAdministrador.invalid && senhasDiferentes"
-            (emmiterClick)="alterarDados()"
+            (emmiterClick)="cadastrarAdm()"
           ></app-btn-purple>
         </div>
 
