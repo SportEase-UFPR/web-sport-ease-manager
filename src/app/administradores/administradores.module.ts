@@ -9,7 +9,6 @@ import { AdministradoresComponent } from './administradores.component';
 import { AdministradoresRoutingModule } from './administradores-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { FormComponent } from './form/form.component';
-import { ModalConfirmacaoComponent } from './modal-confirmacao/modal-confirmacao.component';
 import { ModalDetalhesComponent } from './modal-detalhes/modal-detalhes.component';
 import { AdministradoresService } from './services/administradores.service';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
@@ -32,7 +31,6 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   declarations: [
     AdministradoresComponent,
     FormComponent,
-    ModalConfirmacaoComponent,
     ModalDetalhesComponent,
     AtivacaoContaComponent
   ],

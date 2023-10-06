@@ -2,9 +2,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { faEye, faTrashCan } from '@fortawesome/free-regular-svg-icons';
-import { faPencil, faPlus } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCheck,
+  faPencil,
+  faPlus,
+  faXmark,
+} from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalConfirmacaoComponent } from './modal-confirmacao/modal-confirmacao.component';
 import { ModalDetalhesComponent } from './modal-detalhes/modal-detalhes.component';
 import { AdministradoresService } from './services/administradores.service';
 import { Subscription } from 'rxjs';
@@ -14,6 +18,9 @@ import { environment as env } from 'src/environments/environment';
 import { Token } from '../shared/models/token/token.model';
 import jwt_decode from 'jwt-decode';
 import { UsuarioSs } from '../shared/models/usuario-ss/usuario-ss.model';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { ToastrService } from 'ngx-toastr';
+import { AdmExclusaoResponse } from '../shared/models/adm-exclusao-response/adm-exclusao-response';
 
 @Component({
   selector: 'app-administradores',
@@ -35,20 +42,28 @@ export class AdministradoresComponent implements OnInit, OnDestroy {
   faTrash = faTrashCan;
   faPencil = faPencil;
   faEye = faEye;
-  userId!: number
+  faClose = faXmark;
+  faConfirm = faCheck;
+  nomeGerenteDelete!: string;
+  idGerenteDelete!: number;
+  userId!: number;
 
   constructor(
     private router: Router,
     private modalService: NgbModal,
     private admsService: AdministradoresService,
-    private ssService: SessionStorageService
+    private ssService: SessionStorageService,
+    private toastrService: ToastrService,
+    private ngxLoaderService: NgxUiLoaderService
   ) {}
 
   ngOnInit(): void {
+    this.ngxLoaderService.startLoader('loader-01');
     const ssDados: UsuarioSs = this.ssService.get(env.ss_token);
     const token: Token = jwt_decode(ssDados.token!);
-    this.userId = Number(token.sub)
+    this.userId = Number(token.sub);
     this.populate();
+    this.ngxLoaderService.stopLoader('loader-01');
   }
 
   populate(): void {
@@ -65,7 +80,7 @@ export class AdministradoresComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {}
 
-  searchEspacoEsportivo(): void {
+  searchAdms(): void {
     this.admsFilter = this.adms;
 
     const valueSearch: string = this.formSearch.get('searchValue')?.value;
@@ -86,12 +101,34 @@ export class AdministradoresComponent implements OnInit, OnDestroy {
     modalRef.componentInstance.adm = adm;
   }
 
-  openModalConfirmacao(adm: Adm): void {
-    const modalRef = this.modalService.open(ModalConfirmacaoComponent, {
+  openModalConfirmacao(modal: any, id: number, nomeEE: string): void {
+    this.modalService.open(modal, {
       centered: true,
     });
+    this.nomeGerenteDelete = nomeEE;
+    this.idGerenteDelete = id;
+  }
 
-    modalRef.componentInstance.nomeGerente = adm.nome;
-    modalRef.componentInstance.idGerente = adm.id;
+  closeModal() {
+    this.modalService.dismissAll();
+  }
+
+  deletarEspacoEsportivo() {
+    this.ngxLoaderService.startLoader('loader-01');
+    this.admsService.deletarAdm(this.idGerenteDelete).subscribe({
+      next: (result: AdmExclusaoResponse) => {
+        this.ngxLoaderService.stopLoader('loader-01');
+        this.populate();
+        this.closeModal();
+        this.toastrService.success('Gerente removido', 'Sucesso!');
+      },
+      error: (err) => {
+        this.ngxLoaderService.stopLoader('loader-01');
+        this.toastrService.error(
+          'Por favor, tente novamente mais tarde',
+          'Falha ao remover gerente'
+        );
+      },
+    });
   }
 }

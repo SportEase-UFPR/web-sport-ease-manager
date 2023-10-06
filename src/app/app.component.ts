@@ -13,7 +13,10 @@ import { Router } from '@angular/router';
 export class AppComponent implements OnInit {
   isNotLogado: boolean = true;
 
-  constructor(private ssService: SessionStorageService, private router: Router) {}
+  constructor(
+    private ssService: SessionStorageService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     window.onresize = () => {
@@ -36,7 +39,10 @@ export class AppComponent implements OnInit {
       menu.style.overflowY = 'scroll';
     }
 
-    if (paginas) paginas.style.minHeight = `${alturaMaxima}px`;
+    if (paginas) {
+      paginas.style.height = `${alturaMaxima}px`;
+      paginas.style.overflowY = 'scroll';
+    }
   }
 
   isLogado(): boolean {

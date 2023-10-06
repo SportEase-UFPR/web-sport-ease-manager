@@ -1,0 +1,12 @@
+@import "/src/cores.scss";
+
+.btn-chip {
+  background-color: var(--verde-claro);
+  color: var(--verde-escuro);
+  box-shadow: 4px 4px 5px 0 var(--cinza-claro);
+  border: none;
+  border-radius: 50px;
+  height: 35px;
+  font-size: 18px;
+  padding: 8px 10px;
+}

@@ -1,0 +1,87 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { EspacoEsportivoExclusaoResponse as eeExclusaoResponse} from 'src/app/shared/models/espaco-esportivo-exclusao-response/espaco-esportivo-exclusao-response.model';
+import { EspacoEsportivoRequest as eeRequest } from 'src/app/shared/models/espaco-esportivo-request/espaco-esportivo-request.model';
+import { EspacoEsportivoResponse as eeResponse } from 'src/app/shared/models/espaco-esportivo-response/espaco-esportivo-response.model';
+import { EsporteExclusaoResponse } from 'src/app/shared/models/esporte-exclusao-response/esporte-exclusao-response.model';
+import { EsporteRequest } from 'src/app/shared/models/esporte-request/esporte-request';
+import { EsporteResponse } from 'src/app/shared/models/esporte-response/esporte-response';
+import { UsuarioSs } from 'src/app/shared/models/usuario-ss/usuario-ss.model';
+import { SessionStorageService } from 'src/app/shared/services/session-storage/session-storage.service';
+import { environment as env } from 'src/environments/environment';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class EspacosEsportivosService {
+  constructor(
+    private httpService: HttpClient,
+    private ssService: SessionStorageService
+  ) {}
+
+  public listarEsportes(): Observable<EsporteResponse[]> {
+    return this.httpService.get<EsporteResponse[]>(`${env.baseUrl}esportes`, {
+      headers: this.createHeraders(),
+    });
+  }
+
+  public criarEsporte(e: EsporteRequest): Observable<EsporteResponse> {
+    return this.httpService.post(`${env.baseUrl}esportes`, JSON.stringify(e), {
+      headers: this.createHeraders(),
+    });
+  }
+
+  public excluirEsporte(id: number): Observable<EsporteExclusaoResponse> {
+    return this.httpService.delete<EsporteExclusaoResponse>(
+      `${env.baseUrl}esportes/${id}`,
+      { headers: this.createHeraders() }
+    );
+  }
+
+  public cadastrarEE(ee: eeRequest): Observable<eeResponse> {
+    return this.httpService.post<eeResponse>(
+      `${env.baseUrl}espacos-esportivos`,
+      JSON.stringify(ee),
+      { headers: this.createHeraders() }
+    );
+  }
+
+  public editarEE(ee: eeRequest, idEE: number): Observable<eeResponse> {
+    return this.httpService.put<eeResponse>(
+      `${env.baseUrl}espacos-esportivos/${idEE}`,
+      JSON.stringify(ee),
+      { headers: this.createHeraders() }
+    );
+  }
+
+  public listarEE(): Observable<eeResponse[]> {
+    return this.httpService.get<eeResponse[]>(
+      `${env.baseUrl}espacos-esportivos`,
+      { headers: this.createHeraders() }
+    );
+  }
+
+  public pegarEE(id: number): Observable<eeResponse> {
+    return this.httpService.get<eeResponse>(
+      `${env.baseUrl}espacos-esportivos/${id}`,
+      { headers: this.createHeraders() }
+    );
+  }
+
+  public excluirEE(id: number): Observable<eeExclusaoResponse> {
+    return this.httpService.delete<eeExclusaoResponse>(
+      `${env.baseUrl}espacos-esportivos/${id}`,
+      { headers: this.createHeraders() }
+    );
+  }
+
+  private createHeraders(): HttpHeaders {
+    const ssDados: UsuarioSs = this.ssService.get(env.ss_token);
+
+    return new HttpHeaders({
+      'Content-Type': 'application/json; charset=utf-8',
+      Authorization: ssDados.token!,
+    });
+  }
+}

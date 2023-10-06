@@ -16,6 +16,9 @@ import { InputSearchComponent } from './components/inputs/input-search/input-sea
 import { BtnRedComponent } from './components/buttons/btn-red/btn-red.component';
 import { SessionStorageService } from './services/session-storage/session-storage.service';
 import { AdmService } from './services/adm/adm.service';
+import { InputTextareaComponent } from './components/inputs/input-textarea/input-textarea.component';
+import { InputSelectOptionComponent } from './components/inputs/input-select-option/input-select-option.component';
+import { InputNumberComponent } from './components/inputs/input-number/input-number.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +31,9 @@ import { AdmService } from './services/adm/adm.service';
     BtnBorderPurpleComponent,
     InputSearchComponent,
     BtnRedComponent,
+    InputTextareaComponent,
+    InputSelectOptionComponent,
+    InputNumberComponent,
   ],
   imports: [
     CommonModule,
@@ -35,7 +41,7 @@ import { AdmService } from './services/adm/adm.service';
     ReactiveFormsModule,
     NgxMaskDirective,
     NgxMaskPipe,
-    FontAwesomeModule,
+    FontAwesomeModule
   ],
   exports: [
     InputCheckboxComponent,
@@ -46,6 +52,9 @@ import { AdmService } from './services/adm/adm.service';
     BtnBorderPurpleComponent,
     InputSearchComponent,
     BtnRedComponent,
+    InputTextareaComponent,
+    InputSelectOptionComponent,
+    InputNumberComponent,
   ],
   providers: [provideNgxMask(), SessionStorageService, AdmService],
 })

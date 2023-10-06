@@ -1,15 +1,20 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-} from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { faEye, faTrashCan } from '@fortawesome/free-regular-svg-icons';
-import { faPencil, faPlus } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCheck,
+  faPencil,
+  faPlus,
+  faXmark,
+} from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalConfirmacaoComponent } from './modal-confirmacao/modal-confirmacao.component';
+import { EspacosEsportivosService } from './services/espacos-esportivos.service';
+import { EspacoEsportivoResponse as eeResponse } from '../shared/models/espaco-esportivo-response/espaco-esportivo-response.model';
+import { ModalDetalhesComponent } from './modal-detalhes/modal-detalhes.component';
+import { EspacoEsportivoExclusaoResponse as eeExclusaoResponse } from '../shared/models/espaco-esportivo-exclusao-response/espaco-esportivo-exclusao-response.model';
+import { ToastrService } from 'ngx-toastr';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
 
 @Component({
   selector: 'app-espacos-esportivos',
@@ -18,10 +23,11 @@ import { ModalConfirmacaoComponent } from './modal-confirmacao/modal-confirmacao
 })
 export class EspacosEsportivosComponent implements OnInit {
   formSearch: FormGroup = new FormGroup({
-    searchValue: new FormControl(null),
+    searchValue: new FormControl(null, [Validators.required]),
   });
 
-  numeros: number[] = [1, 2, 3, 4, 5, 6];
+  ee: eeResponse[] = [];
+  eeFilter: eeResponse[] = [];
 
   p: number = 1;
   faPlus = faPlus;
@@ -29,21 +35,94 @@ export class EspacosEsportivosComponent implements OnInit {
   faPencil = faPencil;
   faEye = faEye;
 
-  constructor(private router: Router, private modalService: NgbModal) {}
+  faClose = faXmark;
+  faConfirm = faCheck;
 
-  ngOnInit(): void {}
+  nomeEEDelete!: string;
+  idEEDelete!: number;
+
+  constructor(
+    private router: Router,
+    private modalService: NgbModal,
+    private eeService: EspacosEsportivosService,
+    private toastrService: ToastrService,
+    private ngxLoaderService: NgxUiLoaderService
+  ) {}
+
+  ngOnInit(): void {
+    this.ngxLoaderService.startLoader('loader-01');
+    this.populate();
+    this.ngxLoaderService.stopLoader('loader-01');
+  }
+
+  populate(): void {
+    this.eeService.listarEE().subscribe({
+      next: (result: eeResponse[]) => {
+        this.ee = result;
+      },
+      error: (err) => {
+        this.ee = [];
+        console.error(err);
+      },
+    });
+  }
 
   searchEspacoEsportivo(): void {
-    console.log(this.formSearch.value);
+    this.eeFilter = this.ee;
+
+    const valueSearch: string = this.formSearch.get('searchValue')?.value;
+    this.eeFilter = this.eeFilter.filter((adm) => {
+      return adm.nome?.toUpperCase()?.includes(valueSearch.toUpperCase());
+    });
   }
 
   navigate(rota: string, parametro?: string) {
     this.router.navigateByUrl(parametro ? `${rota}/${parametro}` : rota);
   }
 
-  openModalConfirmacao(): void {
-    const modalRef = this.modalService.open(ModalConfirmacaoComponent, {
+  openModalConfirmacao(modal: any, id: number, nomeEE: string): void {
+    this.modalService.open(modal, {
       centered: true,
     });
+    this.nomeEEDelete = nomeEE;
+    this.idEEDelete = id;
+  }
+
+  closeModal() {
+    this.modalService.dismissAll();
+  }
+
+  deletarEspacoEsportivo() {
+    this.ngxLoaderService.startLoader('loader-01');
+    this.eeService.excluirEE(this.idEEDelete).subscribe({
+      next: (result: eeExclusaoResponse) => {
+        this.closeModal();
+        this.populate();
+        this.ngxLoaderService.stopLoader('loader-01');
+        this.toastrService.success('Espaço esportivo removido', 'Sucesso!');
+      },
+      error: (err) => {
+        this.closeModal();
+        console.error(err);
+        this.ngxLoaderService.stopLoader('loader-01');
+        this.toastrService.error(
+          'Por favor, tente novamente mais tarde',
+          'Erro ao remover espaço esportivo'
+        );
+      },
+    });
+  }
+
+  visualizarEE(ee: eeResponse): void {
+    const modalRef = this.modalService.open(ModalDetalhesComponent, {
+      centered: true,
+      size: 'lg',
+    });
+
+    modalRef.componentInstance.ee = ee;
+  }
+
+  editarEE(id: number): void {
+    this.router.navigateByUrl(`/editar-espaco/${id}`);
   }
 }

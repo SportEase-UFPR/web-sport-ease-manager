@@ -1,0 +1,75 @@
+<div class="modal-body">
+  <div class="text-end">
+    <button
+      class="btn-close-modal text-gray"
+      (click)="activeModal.close()"
+    >
+      <fa-icon [icon]="faClose"></fa-icon>
+    </button>
+  </div>
+
+  <div class="infos with-scrollbar">
+    <h3 class="modal-title text-purple text-center">{{ ee.nome }}</h3>
+
+    <p class="text-dark-blue mt-2 text-center">
+      {{ ee.descricao }}
+    </p>
+
+    <div class="text-center my-2">
+      <img
+        class="img-ee"
+        width="410px"
+        height="310px"
+        [src]="sanatizerImg(ee.imagemBase64!)"
+      />
+    </div>
+
+    <div class="infos-ee">
+      <p class="mt-2">
+        <strong class="text-purple">Status: </strong>
+        <span class="text-dark-blue">{{
+          ee.disponivel ? "Disponível para uso" : "Indisponível para uso"
+        }}</span>
+      </p>
+
+      <p class="mt-2">
+        <strong class="text-purple">Localidade: </strong>
+        <span class="text-dark-blue">{{ ee.localidade }}</span>
+      </p>
+
+      <p class="mt-2">
+        <strong class="text-purple">Capacidade: </strong>
+        <span class="text-dark-blue">{{ ee.capacidade + " pessoas" }}</span>
+      </p>
+
+      <p class="mt-2">
+        <strong class="text-purple">Piso: </strong>
+        <span class="text-dark-blue">{{ ee.piso }}</span>
+      </p>
+
+      <p class="mt-2">
+        <strong class="text-purple">Dimensões: </strong>
+        <span class="text-dark-blue">{{ ee.dimensoes }}</span>
+      </p>
+
+      <p class="mt-2">
+        <strong class="text-purple">Localidade: </strong>
+        <span class="text-dark-blue">{{ ee.localidade }}</span>
+      </p>
+    </div>
+
+    <div>
+      <p class="mt-2 text-center">
+        <strong class="text-purple">Esportes: </strong>
+        <span
+          *ngFor="let e of ee.listaEsportes; index as i"
+          class="text-dark-blue"
+          >{{
+            (e.nome | titlecase) +
+              (i + 1 == ee.listaEsportes?.length ? "." : ", ")
+          }}</span
+        >
+      </p>
+    </div>
+  </div>
+</div>

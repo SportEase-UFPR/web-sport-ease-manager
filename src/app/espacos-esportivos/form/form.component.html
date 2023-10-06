@@ -1,11 +1,221 @@
+<ng-template #modalCadastroEsporte let-modal>
+  <div class="modal-body">
+    <div>
+      <h4 class="modal-title text-purple text-center">Lista de Esporte</h4>
+    </div>
+
+    <div class="lista-esportes with-scrollbar p-4">
+      <table class="w-100">
+        <thead>
+          <tr>
+            <th>Esporte</th>
+            <th class="text-center">Ação</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let e of esportes">
+            <td>{{ e.label | titlecase }}</td>
+            <td>
+              <div class="w-50 mx-auto my-1">
+                <app-btn-red
+                  [showIcon]="true"
+                  [iconFirst]="true"
+                  [icone]="faTrash"
+                  (emmiterClick)="deletarEsporte(e.value!)"
+                ></app-btn-red>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr />
+
+    <div>
+      <h4 class="modal-title text-purple text-center">Cadastar Esporte</h4>
+    </div>
+
+    <div class="my-4">
+      <form [formGroup]="formEsporte">
+        <app-input-text
+          [formGroup]="formEsporte"
+          [controlName]="'nome'"
+          [label]="'Nome do esporte'"
+        ></app-input-text>
+      </form>
+    </div>
+
+    <div class="d-block d-md-flex mt-3 mb-2">
+      <div class="col-12 col-md-6 me-0 me-md-2 mb-2 mb-md-0 pe-2">
+        <app-btn-purple
+          [textButton]="'Confirmar'"
+          [showIcon]="true"
+          [iconFirst]="true"
+          [icone]="faConfirm"
+          (emmiterClick)="adiconarEsporte()"
+        ></app-btn-purple>
+      </div>
+
+      <div class="col-12 col-md-6 pe-2">
+        <app-btn-red
+          [textButton]="'Cancelar'"
+          [showIcon]="true"
+          [iconFirst]="true"
+          [icone]="faClose"
+          (emmiterClick)="closeModal()"
+        ></app-btn-red>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ngx-ui-loader [loaderId]="'loader-01'"></ngx-ui-loader>
+
 <div class="mx-3 mt-4">
   <h3 class="text-purple font-weight-bold">
-    {{
-      !isVisualizacao && !isEdicao
-        ? "Cadastrar espaço esportivo"
-        : isEdicao
-        ? "Editar espaço esportivo"
-        : "Visualizar espaço esportivo"
-    }}
+    {{ isEdicao ? "Editar espaço esportivo" : "Cadastrar espaço esportivo" }}
   </h3>
+
+  <form [formGroup]="formEspacoEsportivo" class="form-espaco-esportivo">
+    <div class="row w-100">
+      <div class="col-12 col-lg-5 mt-4 espaco-esportivo-img">
+        <div class="img-section" (click)="carregarImg()">
+          <p *ngIf="!imgPreviewUrl" class="text-gray my-2">Carregar imagem</p>
+
+          <img
+            *ngIf="imgPreviewUrl"
+            [src]="sanatizerImg(imgPreviewUrl)"
+            alt=""
+            id="img-preview"
+          />
+        </div>
+        <div *ngIf="imgPreviewUrl" class="my-1 w-100">
+          <button
+            type="button"
+            class="btn-delete-img text-purple"
+            (click)="removeImg()"
+          >
+            Remover Imagem
+          </button>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-7">
+        <div class="mb-3 d-flex align-items-center">
+          <input formControlName="ativo" type="checkbox" id="espaco-ativo" />
+
+          <label id="label-input-toogle" for="espaco-ativo"></label>
+
+          <label for="espaco-ativo" class="ms-1 text-gray label-input-toogle"
+            >Espaco Esportivo Ativo</label
+          >
+        </div>
+
+        <div>
+          <app-input-text
+            [formGroup]="formEspacoEsportivo"
+            [controlName]="'nome'"
+            [label]="'Nome'"
+            [validacaoInput]="true"
+          ></app-input-text>
+        </div>
+
+        <div>
+          <app-input-textarea
+            [formGroup]="formEspacoEsportivo"
+            [controlName]="'descricao'"
+            [label]="'Descrição'"
+            [validacaoInput]="true"
+          ></app-input-textarea>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <app-input-text
+          [formGroup]="formEspacoEsportivo"
+          [controlName]="'localidade'"
+          [label]="'Localidade'"
+          [validacaoInput]="true"
+        ></app-input-text>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <app-input-text
+          [formGroup]="formEspacoEsportivo"
+          [controlName]="'dimensoes'"
+          [label]="'Dimensões'"
+          [validacaoInput]="true"
+        ></app-input-text>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <div class="row align-items-center">
+          <div class="col-12 col-md-10 pe-1">
+            <app-input-select-option
+              [formGroup]="formEspacoEsportivo"
+              [controlName]="'esportes'"
+              [label]="'Tipos de esportes'"
+              [validacaoInput]="false"
+              [items]="esportes"
+              (emitterChange)="adiconaEsporte()"
+            ></app-input-select-option>
+          </div>
+
+          <div class="col-12 col-md-2 ps-0 mt-2">
+            <app-btn-purple
+              [showIcon]="true"
+              [iconFirst]="true"
+              [icone]="faAdd"
+              (emmiterClick)="opneModal(modalCadastroEsporte)"
+            ></app-btn-purple>
+          </div>
+        </div>
+
+        <div class="mb-3 mt-2 tipos-esportes">
+          <div *ngFor="let e of esportesOfEE">
+            <app-chip-esporte
+              [esporte]="e.nome!"
+              (emitterClick)="removerTipoEsporte(e.id!)"
+            ></app-chip-esporte>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <app-input-text
+          [formGroup]="formEspacoEsportivo"
+          [controlName]="'piso'"
+          [label]="'Piso'"
+          [validacaoInput]="true"
+        ></app-input-text>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <app-input-number
+          [formGroup]="formEspacoEsportivo"
+          [controlName]="'capacidade'"
+          [label]="'Capacidade'"
+          [validacaoInput]="true"
+        ></app-input-number>
+      </div>
+
+      <div class="col-12 d-block d-md-flex">
+        <div>
+          <app-btn-purple
+            [textButton]="'Salvar'"
+            (emmiterClick)="salvarEspacoEsportivo()"
+          ></app-btn-purple>
+        </div>
+
+        <div class="ms-0 ms-md-2 mt-2 mt-md-0">
+          <app-btn-border-purple
+            [textButton]="'Cancelar'"
+            (emmiterClick)="navigate()"
+          ></app-btn-border-purple>
+        </div>
+      </div>
+    </div>
+  </form>
 </div>

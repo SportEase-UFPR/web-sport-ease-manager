@@ -22,12 +22,6 @@ const routes: Routes = [
     component: FormComponent,
     canActivate: [authGuard],
   },
-
-  {
-    path: 'visualizar-espaco/:id',
-    component: FormComponent,
-    canActivate: [authGuard],
-  },
 ];
 
 @NgModule({
