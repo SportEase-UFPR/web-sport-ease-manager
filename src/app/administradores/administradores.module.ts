@@ -10,7 +10,6 @@ import { AdministradoresRoutingModule } from './administradores-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { FormComponent } from './form/form.component';
 import { ModalDetalhesComponent } from './modal-detalhes/modal-detalhes.component';
-import { AdministradoresService } from './services/administradores.service';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxUiLoaderConfig, NgxUiLoaderModule, POSITION, SPINNER } from 'ngx-ui-loader';
@@ -46,6 +45,6 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     ToastrModule.forRoot(),
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
   ],
-  providers: [AdministradoresService, provideNgxMask()],
+  providers: [provideNgxMask()],
 })
 export class AdministradoresModule {}

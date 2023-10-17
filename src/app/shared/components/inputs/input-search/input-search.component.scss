@@ -5,7 +5,7 @@
   border-radius: 10px;
 
   .input-search {
-    background-color: transparent;
+    background-color: var(--branco);
     border: none;
     border-radius: 10px 0 0 10px;
     height: 45px;
@@ -16,7 +16,7 @@
   }
 
   .btn-search {
-    background-color: transparent;
+    background-color: var(--branco);
     border: none;
     color: var(--cinza-claro);
     border-radius: 0 10px 10px 0;

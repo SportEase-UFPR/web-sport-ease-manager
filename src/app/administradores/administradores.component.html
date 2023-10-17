@@ -59,7 +59,10 @@
   </div>
 
   <div class="table-content">
-    <div class="text-center" *ngIf="adms?.length! > 5">
+    <div
+      class="text-center"
+      *ngIf="adms?.length! > 5 || admsFilter?.length! > 5"
+    >
       <pagination-controls
         (pageChange)="p = $event"
         previousLabel="<"
@@ -68,7 +71,12 @@
     </div>
 
     <div class="table-scroll">
-      <div *ngIf="adms.length == 0; else administradores">
+      <div
+        *ngIf="
+          adms?.length == 0 && admsFilter?.length == 0;
+          else administradores
+        "
+      >
         <h3 class="text-dark-blue text-center">
           Nenhum administrador(a) foi cadastrado até o momento :(
         </h3>
@@ -86,9 +94,8 @@
           <tbody>
             <tr
               *ngFor="
-                let a of formSearch.valid
-                  ? admsFilter
-                  : (adms | paginate : { itemsPerPage: 5, currentPage: p })
+                let a of (formSearch.valid ? admsFilter : adms)
+                  | paginate : { itemsPerPage: 5, currentPage: p }
               "
               class="text-center"
             >
@@ -108,7 +115,9 @@
 
                   <button
                     class="btn-acoes"
-                    (click)="openModalConfirmacao(modalExclusaoAdm, a.id!, a.nome!)"
+                    (click)="
+                      openModalConfirmacao(modalExclusaoAdm, a.id!, a.nome!)
+                    "
                     *ngIf="adms?.length! > 1 && userId !== a.idUsuario"
                   >
                     <fa-icon [icon]="faTrash"></fa-icon>

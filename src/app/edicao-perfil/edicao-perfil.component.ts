@@ -52,7 +52,6 @@ export class EdicaoPerfilComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.inscricaoAtualizacao = this.admService.getAdm().subscribe({
       next: (result: Adm) => {
-        console.log(result);
         this.adm = result;
         this.formAlteracaoPerfil.patchValue({
           nome: this.adm.nome,

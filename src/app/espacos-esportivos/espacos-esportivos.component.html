@@ -1,7 +1,10 @@
 <ng-template #modalExclusaoEsporte let-modal>
   <div class="modal-body">
     <div class="d-flex justify-content-between">
-      <h4 class="modal-title text-dark-blue text-center">Você realmente deseja remover {{ nomeEEDelete ? nomeEEDelete : 'este espaço esportivo' }}?</h4>
+      <h4 class="modal-title text-dark-blue text-center">
+        Você realmente deseja remover
+        {{ nomeEEDelete ? nomeEEDelete : "este espaço esportivo" }}?
+      </h4>
     </div>
 
     <div class="d-block d-md-flex mt-3 mb-2">
@@ -15,7 +18,7 @@
         ></app-btn-purple>
       </div>
 
-      <div class="col-12 col-md-6 pe-2 ">
+      <div class="col-12 col-md-6 pe-2">
         <app-btn-red
           [textButton]="'Cancelar'"
           [showIcon]="true"
@@ -24,7 +27,6 @@
           (emmiterClick)="closeModal()"
         ></app-btn-red>
       </div>
-
     </div>
   </div>
 </ng-template>
@@ -57,7 +59,7 @@
   </div>
 
   <div class="table-content">
-    <div class="text-center" *ngIf="ee?.length! > 5">
+    <div class="text-center" *ngIf="ee?.length! > 5 || eeFilter?.length! > 5">
       <pagination-controls
         (pageChange)="p = $event"
         previousLabel="<"
@@ -66,7 +68,7 @@
     </div>
 
     <div class="table-scroll">
-      <div *ngIf="ee.length == 0; else espacos">
+      <div *ngIf="ee?.length == 0 && eeFilter?.length == 0; else espacos">
         <h3 class="text-dark-blue text-center">
           Nenhum espaço esportivo foi cadastrado até o momento :(
         </h3>
@@ -85,9 +87,8 @@
           <tbody>
             <tr
               *ngFor="
-                let ee of formSearch.valid
-                  ? eeFilter
-                  : (ee | paginate : { itemsPerPage: 5, currentPage: p })
+                let ee of (formSearch.valid ? eeFilter : ee)
+                  | paginate : { itemsPerPage: 5, currentPage: p }
               "
               class="text-center"
             >
@@ -117,7 +118,16 @@
                     <fa-icon [icon]="faPencil"></fa-icon>
                   </button>
 
-                  <button class="btn-acoes" (click)="openModalConfirmacao(modalExclusaoEsporte, ee.id!, ee.nome!)">
+                  <button
+                    class="btn-acoes"
+                    (click)="
+                      openModalConfirmacao(
+                        modalExclusaoEsporte,
+                        ee.id!,
+                        ee.nome!
+                      )
+                    "
+                  >
                     <fa-icon [icon]="faTrash"></fa-icon>
                   </button>
                 </div>

@@ -8,7 +8,6 @@ import { CadastrarSenhaComponent } from './cadastrar-senha/cadastrar-senha.compo
 import { RecuperarSenhaComponent } from './recuperar-senha/recuperar-senha.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ToastrModule } from 'ngx-toastr';
-import { LoginService } from './services/login.service';
 import { NgxUiLoaderConfig, NgxUiLoaderModule, POSITION, SPINNER } from 'ngx-ui-loader';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -40,7 +39,6 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     FontAwesomeModule,
     ToastrModule.forRoot(),
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
-  ],
-  providers: [LoginService]
+  ]
 })
 export class LoginModule { }

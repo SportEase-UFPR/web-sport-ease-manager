@@ -8,7 +8,6 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { EspacosEsportivosRoutingModule } from './espacos-esportivos-routing.module';
 import { FormComponent } from './form/form.component';
-import { EspacosEsportivosService } from './services/espacos-esportivos.service';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxUiLoaderConfig, NgxUiLoaderModule, POSITION, SPINNER } from 'ngx-ui-loader';
 import { ChipEsporteComponent } from './chip-esporte/chip-esporte.component';
@@ -44,6 +43,6 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     ToastrModule.forRoot(),
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig)
   ],
-  providers: [EspacosEsportivosService, NgxImageCompressService]
+  providers: [NgxImageCompressService]
 })
 export class EspacosEsportivosModule { }

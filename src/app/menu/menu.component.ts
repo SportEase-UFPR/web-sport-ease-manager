@@ -30,127 +30,36 @@ export class MenuComponent implements OnInit, DoCheck {
 
   ngDoCheck(): void {
     const url = this.router.url;
-    this.paginaAtual(url.split('/')[1]);
+    this.paginaAtual(url.split('/')[1]?.split('?')[0]);
   }
 
   paginaAtual(url: string): void {
-    const inicio = document.getElementById('inicio')?.classList;
-    const administradores =
-      document.getElementById('administradores')?.classList;
-    const clientes = document.getElementById('clientes')?.classList;
-    const comunicarClientes =
-      document.getElementById('comunicar-clientes')?.classList;
-    const espacos = document.getElementById('espacos-esportivos')?.classList;
-    const relatorios = document.getElementById('relatorios')?.classList;
+    const menuList: { [key: string]: string } = {
+      dashboard: 'inicio',
+      administradores: 'administradores',
+      'novo-administrador': 'administradores',
+      'editar-administrador': 'administradores',
+      'comunicar-clientes': 'comunicar-clientes',
+      'espacos-esportivos': 'espacos-esportivos',
+      'novo-espaco': 'espacos-esportivos',
+      'editar-espaco': 'espacos-esportivos',
+      'visualizar-espaco': 'espacos-esportivos',
+      relatorios: 'relatorios',
+    };
 
-    switch (url) {
-      case 'dashboard':
-        inicio?.add('menu-actived');
-        administradores?.remove('menu-actived');
-        clientes?.remove('menu-actived');
-        comunicarClientes?.remove('menu-actived');
-        espacos?.remove('menu-actived');
-        relatorios?.remove('menu-actived');
-        break;
+    for (const item of Object.values(menuList)) {
+      const element = document.getElementById(item);
+      if (element) {
+        element.classList.remove('menu-actived');
+      }
+    }
 
-      case 'administradores':
-        administradores?.add('menu-actived');
-        inicio?.remove('menu-actived');
-        clientes?.remove('menu-actived');
-        comunicarClientes?.remove('menu-actived');
-        espacos?.remove('menu-actived');
-        relatorios?.remove('menu-actived');
-        break;
-
-      case 'novo-administrador':
-        administradores?.add('menu-actived');
-        inicio?.remove('menu-actived');
-        clientes?.remove('menu-actived');
-        comunicarClientes?.remove('menu-actived');
-        espacos?.remove('menu-actived');
-        relatorios?.remove('menu-actived');
-        break;
-
-      case 'editar-administrador':
-        administradores?.add('menu-actived');
-        inicio?.remove('menu-actived');
-        clientes?.remove('menu-actived');
-        comunicarClientes?.remove('menu-actived');
-        espacos?.remove('menu-actived');
-        relatorios?.remove('menu-actived');
-        break;
-
-      case 'clientes':
-        clientes?.add('menu-actived');
-        inicio?.remove('menu-actived');
-        administradores?.remove('menu-actived');
-        comunicarClientes?.remove('menu-actived');
-        espacos?.remove('menu-actived');
-        relatorios?.remove('menu-actived');
-        break;
-
-      case 'comunicar-clientes':
-        comunicarClientes?.add('menu-actived');
-        inicio?.remove('menu-actived');
-        clientes?.remove('menu-actived');
-        administradores?.remove('menu-actived');
-        espacos?.remove('menu-actived');
-        relatorios?.remove('menu-actived');
-        break;
-
-      case 'espacos-esportivos':
-        espacos?.add('menu-actived');
-        inicio?.remove('menu-actived');
-        administradores?.remove('menu-actived');
-        clientes?.remove('menu-actived');
-        comunicarClientes?.remove('menu-actived');
-        relatorios?.remove('menu-actived');
-        break;
-
-      case 'novo-espaco':
-        espacos?.add('menu-actived');
-        inicio?.remove('menu-actived');
-        administradores?.remove('menu-actived');
-        clientes?.remove('menu-actived');
-        comunicarClientes?.remove('menu-actived');
-        relatorios?.remove('menu-actived');
-        break;
-
-      case 'editar-espaco':
-        espacos?.add('menu-actived');
-        inicio?.remove('menu-actived');
-        administradores?.remove('menu-actived');
-        clientes?.remove('menu-actived');
-        comunicarClientes?.remove('menu-actived');
-        relatorios?.remove('menu-actived');
-        break;
-
-      case 'visualizar-espaco':
-        espacos?.add('menu-actived');
-        inicio?.remove('menu-actived');
-        administradores?.remove('menu-actived');
-        clientes?.remove('menu-actived');
-        comunicarClientes?.remove('menu-actived');
-        relatorios?.remove('menu-actived');
-        break;
-
-      case 'relatorios':
-        relatorios?.add('menu-actived');
-        inicio?.remove('menu-actived');
-        administradores?.remove('menu-actived');
-        clientes?.remove('menu-actived');
-        comunicarClientes?.remove('menu-actived');
-        espacos?.remove('menu-actived');
-        break;
-
-      default:
-        inicio?.remove('menu-actived');
-        administradores?.remove('menu-actived');
-        clientes?.remove('menu-actived');
-        comunicarClientes?.remove('menu-actived');
-        espacos?.remove('menu-actived');
-        relatorios?.remove('menu-actived');
-        break;
+    const menuItem = menuList?.[url];
+    if (menuItem) {
+      const element = document.getElementById(menuItem);
+      if (element) {
+        element.classList.add('menu-actived');
+      }
     }
   }
 

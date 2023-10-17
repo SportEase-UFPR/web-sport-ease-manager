@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ClientesComponent } from './clientes/clientes.component';
 import { ComunicacaoClientesComponent } from './comunicacao-clientes/comunicacao-clientes.component';
 import { RelatoriosComponent } from './relatorios/relatorios.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -24,12 +23,6 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
-    canActivate: [authGuard]
-  },
-
-  {
-    path: 'clientes',
-    component: ClientesComponent,
     canActivate: [authGuard]
   },
 

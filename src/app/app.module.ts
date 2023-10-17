@@ -11,7 +11,6 @@ import { MenuComponent } from './menu/menu.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { AdministradoresModule } from './administradores/administradores.module';
-import { ClientesModule } from './clientes/clientes.module';
 import { ComunicacaoClientesModule } from './comunicacao-clientes/comunicacao-clientes.module';
 import { EspacosEsportivosModule } from './espacos-esportivos/espacos-esportivos.module';
 import { RelatoriosModule } from './relatorios/relatorios.module';
@@ -28,7 +27,6 @@ import { EdicaoPerfilModule } from './edicao-perfil/edicao-perfil.module';
     LoginModule,
     DashboardModule,
     AdministradoresModule,
-    ClientesModule,
     ComunicacaoClientesModule,
     EspacosEsportivosModule,
     RelatoriosModule,

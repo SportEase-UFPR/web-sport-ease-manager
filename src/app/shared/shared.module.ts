@@ -14,8 +14,6 @@ import { InputEmailComponent } from './components/inputs/input-email/input-email
 import { BtnBorderPurpleComponent } from './components/buttons/btn-border-purple/btn-border-purple.component';
 import { InputSearchComponent } from './components/inputs/input-search/input-search.component';
 import { BtnRedComponent } from './components/buttons/btn-red/btn-red.component';
-import { SessionStorageService } from './services/session-storage/session-storage.service';
-import { AdmService } from './services/adm/adm.service';
 import { InputTextareaComponent } from './components/inputs/input-textarea/input-textarea.component';
 import { InputSelectOptionComponent } from './components/inputs/input-select-option/input-select-option.component';
 import { InputNumberComponent } from './components/inputs/input-number/input-number.component';
@@ -41,7 +39,7 @@ import { InputNumberComponent } from './components/inputs/input-number/input-num
     ReactiveFormsModule,
     NgxMaskDirective,
     NgxMaskPipe,
-    FontAwesomeModule
+    FontAwesomeModule,
   ],
   exports: [
     InputCheckboxComponent,
@@ -56,6 +54,6 @@ import { InputNumberComponent } from './components/inputs/input-number/input-num
     InputSelectOptionComponent,
     InputNumberComponent,
   ],
-  providers: [provideNgxMask(), SessionStorageService, AdmService],
+  providers: [provideNgxMask()],
 })
 export class SharedModule {}
