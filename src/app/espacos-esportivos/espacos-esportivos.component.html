@@ -68,7 +68,10 @@
     </div>
 
     <div class="table-scroll">
-      <div *ngIf="ee?.length == 0 && eeFilter?.length == 0; else espacos">
+      <div
+        class="d-flex justify-content-center align-items-center h-100"
+        *ngIf="ee?.length == 0 && eeFilter?.length == 0; else espacos"
+      >
         <h3 class="text-dark-blue text-center">
           Nenhum espaço esportivo foi cadastrado até o momento :(
         </h3>

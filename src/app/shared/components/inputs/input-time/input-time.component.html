@@ -2,18 +2,19 @@
   [formGroup]="formGroup"
   class="mb-3"
   [ngClass]="{
-    'is-invalid-input-textarea': inputValid()
+    'is-invalid-input': inputValid()
   }"
 >
   <app-label [idInput]="controlName" [textLabel]="label"></app-label>
   <div class="d-flex">
-    <textarea
-      class="input-textarea w-100"
+    <input
       formControlName="{{ controlName }}"
       id="{{ controlName }}"
+      type="time"
+      class="input-basic w-100"
       name="{{ controlName }}"
-      rows="8"
       placeholder="{{ placeholder }}"
-    ></textarea>
+      (change)="onChange()"
+    />
   </div>
 </div>

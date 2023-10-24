@@ -17,6 +17,7 @@ import { BtnRedComponent } from './components/buttons/btn-red/btn-red.component'
 import { InputTextareaComponent } from './components/inputs/input-textarea/input-textarea.component';
 import { InputSelectOptionComponent } from './components/inputs/input-select-option/input-select-option.component';
 import { InputNumberComponent } from './components/inputs/input-number/input-number.component';
+import { InputTimeComponent } from './components/inputs/input-time/input-time.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { InputNumberComponent } from './components/inputs/input-number/input-num
     InputTextareaComponent,
     InputSelectOptionComponent,
     InputNumberComponent,
+    InputTimeComponent,
   ],
   imports: [
     CommonModule,
@@ -53,6 +55,7 @@ import { InputNumberComponent } from './components/inputs/input-number/input-num
     InputTextareaComponent,
     InputSelectOptionComponent,
     InputNumberComponent,
+    InputTimeComponent,
   ],
   providers: [provideNgxMask()],
 })

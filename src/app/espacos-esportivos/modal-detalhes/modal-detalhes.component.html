@@ -1,9 +1,6 @@
 <div class="modal-body">
   <div class="text-end">
-    <button
-      class="btn-close-modal text-gray"
-      (click)="activeModal.close()"
-    >
+    <button class="btn-close-modal text-gray" (click)="activeModal.close()">
       <fa-icon [icon]="faClose"></fa-icon>
     </button>
   </div>
@@ -22,6 +19,13 @@
         height="310px"
         [src]="sanatizerImg(ee.imagemBase64!)"
       />
+    </div>
+
+    <div>
+      <p class="mt-2 text-center">
+        <strong class="text-purple">Locações por usuário no dia: </strong>
+        <span class="text-dark-blue">{{ ee.maxLocacaoDia }}</span>
+      </p>
     </div>
 
     <div class="infos-ee">
@@ -53,8 +57,24 @@
       </p>
 
       <p class="mt-2">
-        <strong class="text-purple">Localidade: </strong>
-        <span class="text-dark-blue">{{ ee.localidade }}</span>
+        <strong class="text-purple">Duração da locação: </strong>
+        <span class="text-dark-blue">{{
+          ee.periodoLocacao! | mask : "Hh:mm"
+        }}</span>
+      </p>
+
+      <p class="mt-2">
+        <strong class="text-purple">Abertura: </strong>
+        <span class="text-dark-blue">{{
+          ee.horaAbertura! | mask : "Hh:mm"
+        }}</span>
+      </p>
+
+      <p class="mt-2">
+        <strong class="text-purple">Fechamento: </strong>
+        <span class="text-dark-blue">{{
+          ee.horaFechamento! | mask : "Hh:mm"
+        }}</span>
       </p>
     </div>
 

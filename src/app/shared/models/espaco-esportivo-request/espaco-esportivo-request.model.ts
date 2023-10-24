@@ -10,6 +10,10 @@ export class EspacoEsportivoRequest {
     public capacidade?: number,
     public disponivel?: boolean,
     public listaEsportes?: EsporteResponse[],
-    public imagemBase64?: string
+    public imagemBase64?: string,
+    public horaAbertura?: string,
+    public horaFechamento?: string,
+    public periodoLocacao?: string,
+    public maxLocacaoDia?: number
   ) {}
 }

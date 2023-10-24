@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
+
 import {
   faCheck,
   faPlus,
@@ -19,7 +21,7 @@ import { NgxImageCompressService } from 'ngx-image-compress';
 import { EsporteExclusaoResponse } from 'src/app/shared/models/esporte-exclusao-response/esporte-exclusao-response.model';
 import { EspacoEsportivoRequest } from 'src/app/shared/models/espaco-esportivo-request/espaco-esportivo-request.model';
 import { EspacoEsportivoResponse as eeResponse } from './../../shared/models/espaco-esportivo-response/espaco-esportivo-response.model';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-form',
@@ -33,6 +35,10 @@ export class FormComponent implements OnInit, OnDestroy {
     descricao: new FormControl(null, [Validators.required]),
     localidade: new FormControl(null, [Validators.required]),
     dimensoes: new FormControl(null, [Validators.required]),
+    abertura: new FormControl(null, [Validators.required]),
+    fechamento: new FormControl(null, [Validators.required]),
+    periodo: new FormControl(null, [Validators.required]),
+    maxLocacao: new FormControl(null, [Validators.required, Validators.min(1)]),
     esportes: new FormControl(null),
     piso: new FormControl(null, [Validators.required]),
     capacidade: new FormControl(null, [Validators.required]),
@@ -93,6 +99,10 @@ export class FormComponent implements OnInit, OnDestroy {
               dimensoes: result.dimensoes,
               piso: result.piso,
               capacidade: result.capacidade,
+              abertura: result.horaAbertura,
+              fechamento: result.horaFechamento,
+              periodo: result.periodoLocacao,
+              maxLocacao: result.maxLocacaoDia,
             });
 
             this.esportesOfEE = result.listaEsportes!;
@@ -272,7 +282,11 @@ export class FormComponent implements OnInit, OnDestroy {
         Number(form.get('capacidade')?.value),
         form.get('ativo')?.value,
         this.esportesOfEE,
-        this.imgPreviewUrl
+        this.imgPreviewUrl,
+        form.get('abertura')?.value,
+        form.get('fechamento')?.value,
+        form.get('periodo')?.value,
+        Number(form.get('maxLocacao')?.value)
       );
 
       if (this.isEdicao) {
@@ -312,6 +326,89 @@ export class FormComponent implements OnInit, OnDestroy {
       this.toastrService.warning(
         'Por favor, preencha todos os campos do formulário',
         'Verificar os dados'
+      );
+    }
+  }
+
+  validHours() {
+    const form = this.formEspacoEsportivo;
+    let abertura = moment();
+    let fechamento = moment();
+    const horaAbertura = form.get('abertura')?.value;
+    const horaFechamento = form.get('fechamento')?.value;
+
+    if (horaAbertura) {
+      abertura
+        .hour(Number(horaAbertura?.split(':')[0]))
+        .minute(Number(horaAbertura?.split(':')[1]));
+    }
+
+    if (horaFechamento) {
+      fechamento
+        .hour(Number(horaFechamento?.split(':')[0]))
+        .minute(Number(horaFechamento?.split(':')[1]));
+    }
+
+    const showInfo = () => {
+      this.toastrService.warning(
+        'Por favor, informe um intervalo de horário válido',
+        'Horário de funcionamento inválido'
+      );
+
+      form.get('fechamento')?.patchValue(null);
+    };
+
+    if (horaAbertura && horaFechamento) {
+      if (abertura.hour() === fechamento.hour()) {
+        if (abertura.minute() > fechamento.minute()) {
+          showInfo();
+        }
+      } else {
+        if (abertura.hour() > fechamento.hour()) {
+          showInfo();
+        }
+      }
+    }
+  }
+
+  validPeriodo() {
+    const form = this.formEspacoEsportivo;
+    let abertura = moment();
+    let fechamento = moment();
+    const horaAbertura = form.get('abertura')?.value;
+    const horaFechamento = form.get('fechamento')?.value;
+    const periodo = form.get('periodo');
+
+    if (horaAbertura) {
+      abertura
+        .hour(Number(horaAbertura?.split(':')[0]))
+        .minute(Number(horaAbertura?.split(':')[1]));
+    }
+
+    if (horaFechamento) {
+      fechamento
+        .hour(Number(horaFechamento?.split(':')[0]))
+        .minute(Number(horaFechamento?.split(':')[1]));
+    }
+
+    if (horaAbertura && horaFechamento) {
+      if (
+        fechamento.diff(abertura, 'hours') <
+        Number(periodo?.value?.split(':')[0])
+      ) {
+        this.toastrService.warning(
+          'Por favor, informe uma duração de locação menor que o horário de funcionamento',
+          'Duração da locação inválida'
+        );
+
+        periodo?.patchValue(null);
+      }
+    } else {
+      periodo?.patchValue(null);
+      periodo?.reset();
+      this.toastrService.info(
+        'Por favor, primeiro informe o horário de funcionamento',
+        'Sem horário de funcionamento'
       );
     }
   }

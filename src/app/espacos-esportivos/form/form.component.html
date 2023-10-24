@@ -119,6 +119,7 @@
             [controlName]="'nome'"
             [label]="'Nome'"
             [validacaoInput]="true"
+            [placeholder]="'Ex.: Pista de Corrida'"
           ></app-input-text>
         </div>
 
@@ -128,29 +129,72 @@
             [controlName]="'descricao'"
             [label]="'Descrição'"
             [validacaoInput]="true"
+            [placeholder]="'Descreva brevemente o espaço esportivo...'"
           ></app-input-textarea>
         </div>
       </div>
 
-      <div class="col-12 col-md-6">
+      <div class="col-12 col-md-3">
         <app-input-text
           [formGroup]="formEspacoEsportivo"
           [controlName]="'localidade'"
           [label]="'Localidade'"
           [validacaoInput]="true"
+          [placeholder]="'Ex.: Centro Politécnico'"
         ></app-input-text>
       </div>
 
-      <div class="col-12 col-md-6">
+      <div class="col-12 col-md-5">
+        <app-input-number
+          [formGroup]="formEspacoEsportivo"
+          [controlName]="'maxLocacao'"
+          [label]="'Quantidade máxima de locações no dia por cliente'"
+          [placeholder]="'Ex.: 2'"
+          [validacaoInput]="true"
+        ></app-input-number>
+      </div>
+
+      <div class="col-12 col-md-4">
         <app-input-text
           [formGroup]="formEspacoEsportivo"
           [controlName]="'dimensoes'"
           [label]="'Dimensões'"
           [validacaoInput]="true"
+          [placeholder]="'Ex.: 40m x 20m'"
         ></app-input-text>
       </div>
 
       <div class="col-12 col-md-4">
+        <app-input-time
+          [formGroup]="formEspacoEsportivo"
+          [controlName]="'abertura'"
+          [label]="'Horário de abertura'"
+          [validacaoInput]="true"
+          (emitterChange)="validHours()"
+        ></app-input-time>
+      </div>
+
+      <div class="col-12 col-md-3">
+        <app-input-time
+          [formGroup]="formEspacoEsportivo"
+          [controlName]="'fechamento'"
+          [label]="'Horário de fechamento'"
+          [validacaoInput]="true"
+          (emitterChange)="validHours()"
+        ></app-input-time>
+      </div>
+
+      <div class="col-12 col-md-5">
+        <app-input-time
+          [formGroup]="formEspacoEsportivo"
+          [controlName]="'periodo'"
+          [label]="'Duração da locação'"
+          [validacaoInput]="true"
+          (emitterChange)="validPeriodo()"
+        ></app-input-time>
+      </div>
+
+      <div class="col-12 col-md-5">
         <div class="row align-items-center">
           <div class="col-12 col-md-10 pe-1">
             <app-input-select-option
@@ -189,15 +233,17 @@
           [controlName]="'piso'"
           [label]="'Piso'"
           [validacaoInput]="true"
+          [placeholder]="'Ex.: Madeira'"
         ></app-input-text>
       </div>
 
-      <div class="col-12 col-md-4">
+      <div class="col-12 col-md-3">
         <app-input-number
           [formGroup]="formEspacoEsportivo"
           [controlName]="'capacidade'"
           [label]="'Capacidade'"
           [validacaoInput]="true"
+          [placeholder]="'Ex.: 15'"
         ></app-input-number>
       </div>
 
