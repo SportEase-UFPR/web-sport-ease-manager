@@ -26,6 +26,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   overlayColor: "rgba(255,255,255,0.5)",
   hasProgressBar: false
 };
+
 @NgModule({
   declarations: [
     AdministradoresComponent,

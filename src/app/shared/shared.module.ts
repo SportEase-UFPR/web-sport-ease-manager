@@ -18,6 +18,7 @@ import { InputTextareaComponent } from './components/inputs/input-textarea/input
 import { InputSelectOptionComponent } from './components/inputs/input-select-option/input-select-option.component';
 import { InputNumberComponent } from './components/inputs/input-number/input-number.component';
 import { InputTimeComponent } from './components/inputs/input-time/input-time.component';
+import { BtnChipComponent } from './components/buttons/btn-chip/btn-chip.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { InputTimeComponent } from './components/inputs/input-time/input-time.co
     InputSelectOptionComponent,
     InputNumberComponent,
     InputTimeComponent,
+    BtnChipComponent,
   ],
   imports: [
     CommonModule,
@@ -56,6 +58,7 @@ import { InputTimeComponent } from './components/inputs/input-time/input-time.co
     InputSelectOptionComponent,
     InputNumberComponent,
     InputTimeComponent,
+    BtnChipComponent,
   ],
   providers: [provideNgxMask()],
 })

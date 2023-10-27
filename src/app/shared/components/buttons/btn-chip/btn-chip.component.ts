@@ -2,12 +2,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-  selector: 'app-chip-esporte',
-  templateUrl: './chip-esporte.component.html',
-  styleUrls: ['./chip-esporte.component.scss'],
+  selector: 'app-btn-chip',
+  templateUrl: './btn-chip.component.html',
+  styleUrls: ['./btn-chip.component.scss']
 })
-export class ChipEsporteComponent implements OnInit {
-  @Input() esporte: string = '';
+export class BtnChipComponent implements OnInit {
+  @Input() text: string = '';
 
   @Output() emitterClick = new EventEmitter()
 

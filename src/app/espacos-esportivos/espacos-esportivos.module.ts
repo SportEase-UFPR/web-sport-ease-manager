@@ -10,7 +10,6 @@ import { EspacosEsportivosRoutingModule } from './espacos-esportivos-routing.mod
 import { FormComponent } from './form/form.component';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxUiLoaderConfig, NgxUiLoaderModule, POSITION, SPINNER } from 'ngx-ui-loader';
-import { ChipEsporteComponent } from './chip-esporte/chip-esporte.component';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { ModalDetalhesComponent } from './modal-detalhes/modal-detalhes.component';
 import { NgxMaskPipe } from 'ngx-mask';
@@ -31,7 +30,6 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   declarations: [
     EspacosEsportivosComponent,
     FormComponent,
-    ChipEsporteComponent,
     ModalDetalhesComponent
   ],
   imports: [

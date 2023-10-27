@@ -173,7 +173,6 @@ body {
 }
 
 // Estilo para o ngx-pagination
-
 .ngx-pagination .pagination-previous a::before,
 .ngx-pagination .pagination-previous.disabled::before,
 .ngx-pagination .pagination-next a::after,
@@ -201,6 +200,39 @@ body {
     background-color: transparent !important;
     color: var(--azul-escuro) !important;
     border-bottom: 2px solid var(--roxo) !important;
+  }
+}
+
+// Estilo para o ngxEditor
+.editor {
+  border: none !important;
+  border-radius: 10px;
+  box-shadow: 4px 4px 5px 0 var(--cinza-claro);
+
+  .NgxEditor__MenuBar {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom: 1px solid var(--cinza-claro);
+  }
+
+  .NgxEditor,
+  .NgxEditor__Content {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border: none !important;
+    min-height: 200px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+
+  .CodeMirror {
+    border: 1px solid var(--cinza-claro);
+    height: auto;
+    margin-bottom: 0.7rem;
+
+    pre {
+      white-space: pre !important;
+    }
   }
 }
 

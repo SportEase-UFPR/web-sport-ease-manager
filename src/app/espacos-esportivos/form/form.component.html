@@ -219,10 +219,10 @@
 
         <div class="mb-3 mt-2 tipos-esportes">
           <div *ngFor="let e of esportesOfEE">
-            <app-chip-esporte
-              [esporte]="e.nome!"
+            <app-btn-chip
+              [text]="e.nome!"
               (emitterClick)="removerTipoEsporte(e.id!)"
-            ></app-chip-esporte>
+            ></app-btn-chip>
           </div>
         </div>
       </div>
