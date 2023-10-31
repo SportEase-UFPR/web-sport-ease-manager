@@ -6,7 +6,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgxPaginationModule } from 'ngx-pagination';
 
 import { AdministradoresComponent } from './administradores.component';
-import { AdministradoresRoutingModule } from './administradores-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { FormComponent } from './form/form.component';
 import { ModalDetalhesComponent } from './modal-detalhes/modal-detalhes.component';
@@ -36,7 +35,6 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   ],
   imports: [
     CommonModule,
-    AdministradoresRoutingModule,
     SharedModule,
     ReactiveFormsModule,
     NgxPaginationModule,

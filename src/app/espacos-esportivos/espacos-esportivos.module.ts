@@ -6,7 +6,6 @@ import { EspacosEsportivosComponent } from './espacos-esportivos.component';
 import { SharedModule } from '../shared/shared.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { EspacosEsportivosRoutingModule } from './espacos-esportivos-routing.module';
 import { FormComponent } from './form/form.component';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxUiLoaderConfig, NgxUiLoaderModule, POSITION, SPINNER } from 'ngx-ui-loader';
@@ -34,7 +33,6 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   ],
   imports: [
     CommonModule,
-    EspacosEsportivosRoutingModule,
     SharedModule,
     ReactiveFormsModule,
     NgxPaginationModule,
