@@ -16,9 +16,10 @@ import { EspacosEsportivosModule } from './espacos-esportivos/espacos-esportivos
 import { RelatoriosModule } from './relatorios/relatorios.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EdicaoPerfilModule } from './edicao-perfil/edicao-perfil.module';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
-  declarations: [AppComponent, CabecalhoComponent, MenuComponent],
+  declarations: [AppComponent, CabecalhoComponent, MenuComponent, PageNotFoundComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

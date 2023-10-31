@@ -61,8 +61,6 @@ export class ComunicacaoClientesComponent implements OnInit, OnDestroy {
   setSentToAll() {
     const form = this.formComunicacao;
 
-    console.log(form.get('sendToAll')?.value);
-
     if (form.get('sendToAll')?.value) {
       this.ngxLoaderService.startLoader('loader-01');
 
