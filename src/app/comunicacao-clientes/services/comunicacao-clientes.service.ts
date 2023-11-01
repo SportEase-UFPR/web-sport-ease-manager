@@ -4,10 +4,10 @@ import { UsuarioSs } from 'src/app/shared/models/usuario-ss/usuario-ss.model';
 import { SessionStorageService } from 'src/app/shared/services/session-storage/session-storage.service';
 import { environment as env } from 'src/environments/environment';
 import { Observable } from 'rxjs';
-import { EmailCliente } from 'src/app/shared/models/email-cliente/email-cliente.model';
-import { SendEmailResponse } from 'src/app/shared/models/send-email-response/send-email-response.model';
-import { SendEmailCliente } from 'src/app/shared/models/send-email-cliente/send-email-cliente.model';
-import { SendEmailAll } from 'src/app/shared/models/send-email-all/send-email-all.model';
+import { EmailCliente } from 'src/app/shared/models/cliente/email-cliente.model';
+import { SendEmailResponse } from 'src/app/shared/models/cliente/send-email-response.model';
+import { SendEmailCliente } from 'src/app/shared/models/cliente/send-email-cliente.model';
+import { SendEmailAll } from 'src/app/shared/models/cliente/send-email-all.model';
 
 @Injectable({
   providedIn: 'root',

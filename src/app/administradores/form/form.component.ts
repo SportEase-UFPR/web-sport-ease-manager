@@ -7,8 +7,8 @@ import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { ToastrService } from 'ngx-toastr';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Subscription } from 'rxjs';
-import { AdmCriacaoRequest } from 'src/app/shared/models/adm-criacao-request/adm-criacao-request';
-import { AdmCriacaoResponse } from 'src/app/shared/models/adm-criacao-response/adm-criacao-response';
+import { AdmCriacaoRequest } from 'src/app/shared/models/adm/adm-criacao-request';
+import { AdmCriacaoResponse } from 'src/app/shared/models/adm/adm-criacao-response';
 import { AdministradoresService } from '../services/administradores.service';
 
 @Component({

@@ -17,6 +17,7 @@ import {
 export class BtnPurpleComponent implements OnInit {
   @Input() buttonDisabled: boolean = false;
   @Input() textButton: string = '';
+  @Input() type: string = 'button';
   @Input() showIcon: boolean = false;
   @Input() iconFirst: boolean = true;
   @Input() icone: any;

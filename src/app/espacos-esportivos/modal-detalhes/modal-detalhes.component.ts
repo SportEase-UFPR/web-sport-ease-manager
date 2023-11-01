@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { EspacoEsportivoResponse as eeResponse } from 'src/app/shared/models/espaco-esportivo-response/espaco-esportivo-response.model';
+import { EspacoEsportivoResponse as eeResponse } from 'src/app/shared/models/espaco-esportivo/espaco-esportivo-response.model';
 
 @Component({
   selector: 'app-modal-detalhes',

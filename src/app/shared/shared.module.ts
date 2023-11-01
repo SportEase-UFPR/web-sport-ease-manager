@@ -19,6 +19,7 @@ import { InputSelectOptionComponent } from './components/inputs/input-select-opt
 import { InputNumberComponent } from './components/inputs/input-number/input-number.component';
 import { InputTimeComponent } from './components/inputs/input-time/input-time.component';
 import { BtnChipComponent } from './components/buttons/btn-chip/btn-chip.component';
+import { InputDateComponent } from './components/inputs/input-date/input-date.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { BtnChipComponent } from './components/buttons/btn-chip/btn-chip.compone
     InputNumberComponent,
     InputTimeComponent,
     BtnChipComponent,
+    InputDateComponent
   ],
   imports: [
     CommonModule,
@@ -59,6 +61,7 @@ import { BtnChipComponent } from './components/buttons/btn-chip/btn-chip.compone
     InputNumberComponent,
     InputTimeComponent,
     BtnChipComponent,
+    InputDateComponent
   ],
   providers: [provideNgxMask()],
 })

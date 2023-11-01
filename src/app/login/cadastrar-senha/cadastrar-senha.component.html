@@ -65,6 +65,7 @@
             <div>
               <app-btn-purple
                 [textButton]="'Atualizar Senha'"
+                [type]="'submit'"
                 [buttonDisabled]="formNovaSenha.invalid && senhasDiferentes"
                 (emmiterClick)="recuperarSenha()"
               ></app-btn-purple>

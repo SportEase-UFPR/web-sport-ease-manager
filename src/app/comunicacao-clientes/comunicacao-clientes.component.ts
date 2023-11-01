@@ -5,10 +5,10 @@ import { Item } from '../shared/components/inputs/input-select-option/model/item
 import { ComunicacaoClientesService } from './services/comunicacao-clientes.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { EmailCliente } from '../shared/models/email-cliente/email-cliente.model';
+import { EmailCliente } from '../shared/models/cliente/email-cliente.model';
 import { faEnvelopeCircleCheck } from '@fortawesome/free-solid-svg-icons';
-import { SendEmailAll } from '../shared/models/send-email-all/send-email-all.model';
-import { SendEmailCliente } from '../shared/models/send-email-cliente/send-email-cliente.model';
+import { SendEmailAll } from '../shared/models/cliente/send-email-all.model';
+import { SendEmailCliente } from '../shared/models/cliente/send-email-cliente.model';
 
 @Component({
   selector: 'app-comunicacao-clientes',

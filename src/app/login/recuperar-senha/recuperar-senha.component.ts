@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Subscription } from 'rxjs';
 import { LoginService } from '../services/login.service';
-import { InstrucoesRecuperacaoRequest } from 'src/app/shared/models/instrucoes-recuperacao-request/instrucoes-recuperacao-request.model';
+import { InstrucoesRecuperacaoRequest } from 'src/app/shared/models/adm/instrucoes-recuperacao-request.model';
 
 @Component({
   selector: 'app-recuperar-senha',

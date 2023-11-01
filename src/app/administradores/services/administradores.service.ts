@@ -1,11 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AdmCriacaoRequest } from 'src/app/shared/models/adm-criacao-request/adm-criacao-request';
-import { AdmCriacaoResponse } from 'src/app/shared/models/adm-criacao-response/adm-criacao-response';
-import { AdmExclusaoResponse } from 'src/app/shared/models/adm-exclusao-response/adm-exclusao-response';
+import { AdmCriacaoRequest } from 'src/app/shared/models/adm/adm-criacao-request';
+import { AdmCriacaoResponse } from 'src/app/shared/models/adm/adm-criacao-response';
+import { AdmExclusaoResponse } from 'src/app/shared/models/adm/adm-exclusao-response';
 import { Adm } from 'src/app/shared/models/adm/adm.model';
-import { AtivacaoConta } from 'src/app/shared/models/ativacao-conta/ativacao-conta.model';
+import { AtivacaoConta } from 'src/app/shared/models/adm/ativacao-conta.model';
 import { UsuarioSs } from 'src/app/shared/models/usuario-ss/usuario-ss.model';
 import { SessionStorageService } from 'src/app/shared/services/session-storage/session-storage.service';
 import { environment as env } from 'src/environments/environment';

@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { Subscription } from 'rxjs';
 import { LoginService } from '../services/login.service';
-import { CadastroSenhaRequest } from 'src/app/shared/models/cadastro-senha-request/cadastro-senha-request.model';
+import { CadastroSenhaRequest } from 'src/app/shared/models/adm/cadastro-senha-request.model';
 
 @Component({
   selector: 'app-cadastrar-senha',

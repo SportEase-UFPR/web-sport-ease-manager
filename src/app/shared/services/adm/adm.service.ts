@@ -6,10 +6,10 @@ import { Observable } from 'rxjs';
 import { Adm } from '../../models/adm/adm.model';
 import { environment as env } from 'src/environments/environment';
 import { UsuarioSs } from '../../models/usuario-ss/usuario-ss.model';
-import { EmailAtivacaoRequest } from '../../models/email-ativacao-request/email-ativacao-request.model';
-import { EmailAtivacaoResponse } from '../../models/email-ativacao-response/email-ativacao-response.model';
-import { AdmAlteracaoResponse } from '../../models/adm-alteracao-response/adm-alteracao-response.model';
-import { AdmAlteracaoRequest } from '../../models/adm-alteracao/adm-alteracao-request.model';
+import { EmailAtivacaoRequest } from '../../models/adm/email-ativacao-request.model';
+import { EmailAtivacaoResponse } from '../../models/adm/email-ativacao-response.model';
+import { AdmAlteracaoResponse } from '../../models/adm/adm-alteracao-response.model';
+import { AdmAlteracaoRequest } from '../../models/adm/adm-alteracao-request.model';
 
 @Injectable({
   providedIn: 'root',

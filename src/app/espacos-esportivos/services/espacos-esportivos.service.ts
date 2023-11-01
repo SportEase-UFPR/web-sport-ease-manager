@@ -1,12 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { EspacoEsportivoExclusaoResponse as eeExclusaoResponse} from 'src/app/shared/models/espaco-esportivo-exclusao-response/espaco-esportivo-exclusao-response.model';
-import { EspacoEsportivoRequest as eeRequest } from 'src/app/shared/models/espaco-esportivo-request/espaco-esportivo-request.model';
-import { EspacoEsportivoResponse as eeResponse } from 'src/app/shared/models/espaco-esportivo-response/espaco-esportivo-response.model';
-import { EsporteExclusaoResponse } from 'src/app/shared/models/esporte-exclusao-response/esporte-exclusao-response.model';
-import { EsporteRequest } from 'src/app/shared/models/esporte-request/esporte-request';
-import { EsporteResponse } from 'src/app/shared/models/esporte-response/esporte-response';
+import { EspacoEsportivoExclusaoResponse as eeExclusaoResponse} from 'src/app/shared/models/espaco-esportivo/espaco-esportivo-exclusao-response.model';
+import { EspacoEsportivoRequest as eeRequest } from 'src/app/shared/models/espaco-esportivo/espaco-esportivo-request.model';
+import { EspacoEsportivoResponse as eeResponse } from 'src/app/shared/models/espaco-esportivo/espaco-esportivo-response.model';
+import { EsporteExclusaoResponse } from 'src/app/shared/models/espaco-esportivo/esporte-exclusao-response.model';
+import { EsporteRequest } from 'src/app/shared/models/esporte/esporte-request';
+import { EsporteResponse } from 'src/app/shared/models/esporte/esporte-response';
 import { UsuarioSs } from 'src/app/shared/models/usuario-ss/usuario-ss.model';
 import { SessionStorageService } from 'src/app/shared/services/session-storage/session-storage.service';
 import { environment as env } from 'src/environments/environment';

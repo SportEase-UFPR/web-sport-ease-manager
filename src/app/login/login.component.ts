@@ -4,8 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { ToastrService } from 'ngx-toastr';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { LoginRequest } from '../shared/models/login-request/login-request.model';
-import { LoginResponse } from '../shared/models/login-response/login-response.model';
+import { LoginRequest } from '../shared/models/adm/login-request.model';
+import { LoginResponse } from '../shared/models/adm/login-response.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { LoginService } from './services/login.service';

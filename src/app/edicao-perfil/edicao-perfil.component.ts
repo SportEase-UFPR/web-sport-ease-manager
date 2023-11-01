@@ -8,8 +8,8 @@ import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AdmAlteracaoRequest } from '../shared/models/adm-alteracao/adm-alteracao-request.model';
-import { AdmAlteracaoResponse } from '../shared/models/adm-alteracao-response/adm-alteracao-response.model';
+import { AdmAlteracaoRequest } from '../shared/models/adm/adm-alteracao-request.model';
+import { AdmAlteracaoResponse } from '../shared/models/adm/adm-alteracao-response.model';
 import { ModalConfirmacaoComponent } from './modal-confirmacao/modal-confirmacao.component';
 
 @Component({

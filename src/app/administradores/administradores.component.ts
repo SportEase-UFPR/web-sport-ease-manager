@@ -20,7 +20,7 @@ import jwt_decode from 'jwt-decode';
 import { UsuarioSs } from '../shared/models/usuario-ss/usuario-ss.model';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ToastrService } from 'ngx-toastr';
-import { AdmExclusaoResponse } from '../shared/models/adm-exclusao-response/adm-exclusao-response';
+import { AdmExclusaoResponse } from '../shared/models/adm/adm-exclusao-response';
 
 @Component({
   selector: 'app-administradores',

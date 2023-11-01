@@ -10,9 +10,9 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { EspacosEsportivosService } from './services/espacos-esportivos.service';
-import { EspacoEsportivoResponse as eeResponse } from '../shared/models/espaco-esportivo-response/espaco-esportivo-response.model';
+import { EspacoEsportivoResponse as eeResponse } from '../shared/models/espaco-esportivo/espaco-esportivo-response.model';
 import { ModalDetalhesComponent } from './modal-detalhes/modal-detalhes.component';
-import { EspacoEsportivoExclusaoResponse as eeExclusaoResponse } from '../shared/models/espaco-esportivo-exclusao-response/espaco-esportivo-exclusao-response.model';
+import { EspacoEsportivoExclusaoResponse as eeExclusaoResponse } from '../shared/models/espaco-esportivo/espaco-esportivo-exclusao-response.model';
 import { ToastrService } from 'ngx-toastr';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 

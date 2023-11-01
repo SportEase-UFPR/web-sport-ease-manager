@@ -14,13 +14,13 @@ import { Subscription } from 'rxjs';
 import { EspacosEsportivosService } from '../services/espacos-esportivos.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { EsporteRequest } from 'src/app/shared/models/esporte-request/esporte-request';
-import { EsporteResponse } from 'src/app/shared/models/esporte-response/esporte-response';
+import { EsporteRequest } from 'src/app/shared/models/esporte/esporte-request';
+import { EsporteResponse } from 'src/app/shared/models/esporte/esporte-response';
 import { Item } from 'src/app/shared/components/inputs/input-select-option/model/item.model';
 import { NgxImageCompressService } from 'ngx-image-compress';
-import { EsporteExclusaoResponse } from 'src/app/shared/models/esporte-exclusao-response/esporte-exclusao-response.model';
-import { EspacoEsportivoRequest } from 'src/app/shared/models/espaco-esportivo-request/espaco-esportivo-request.model';
-import { EspacoEsportivoResponse as eeResponse } from './../../shared/models/espaco-esportivo-response/espaco-esportivo-response.model';
+import { EsporteExclusaoResponse } from 'src/app/shared/models/espaco-esportivo/esporte-exclusao-response.model';
+import { EspacoEsportivoRequest } from 'src/app/shared/models/espaco-esportivo/espaco-esportivo-request.model';
+import { EspacoEsportivoResponse as eeResponse } from '../../shared/models/espaco-esportivo/espaco-esportivo-response.model';
 import * as moment from 'moment';
 
 @Component({

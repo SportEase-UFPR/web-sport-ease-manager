@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { environment as env } from 'src/environments/environment';
-import { InstrucoesRecuperacaoResponse } from 'src/app/shared/models/instrucoes-recuperacao-response/instrucoes-recuperacao-response.model';
-import { CadastroSenhaResponse } from 'src/app/shared/models/cadastro-senha-response/cadastro-senha-response.model';
-import { InstrucoesRecuperacaoRequest } from 'src/app/shared/models/instrucoes-recuperacao-request/instrucoes-recuperacao-request.model';
-import { CadastroSenhaRequest } from 'src/app/shared/models/cadastro-senha-request/cadastro-senha-request.model';
-import { LoginResponse } from 'src/app/shared/models/login-response/login-response.model';
-import { LoginRequest } from 'src/app/shared/models/login-request/login-request.model';
+import { InstrucoesRecuperacaoResponse } from 'src/app/shared/models/adm/instrucoes-recuperacao-response.model';
+import { CadastroSenhaResponse } from 'src/app/shared/models/adm/cadastro-senha-response.model';
+import { InstrucoesRecuperacaoRequest } from 'src/app/shared/models/adm/instrucoes-recuperacao-request.model';
+import { CadastroSenhaRequest } from 'src/app/shared/models/adm/cadastro-senha-request.model';
+import { LoginResponse } from 'src/app/shared/models/adm/login-response.model';
+import { LoginRequest } from 'src/app/shared/models/adm/login-request.model';
 import { SessionStorageService } from 'src/app/shared/services/session-storage/session-storage.service';
 import { UsuarioSs } from 'src/app/shared/models/usuario-ss/usuario-ss.model';
 

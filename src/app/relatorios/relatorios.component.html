@@ -1,1 +1,158 @@
-<p>relatorios works!</p>
+<ngx-ui-loader [loaderId]="'loader-01'"></ngx-ui-loader>
+
+<div class="mx-3 mt-4">
+  <h3 class="text-purple font-weight-bold">
+    Relatórios de espaços esportivos alugados
+  </h3>
+
+  <div>
+    <div class="text-end mb-2">
+      <span
+        (click)="motivoReserva.toggle()"
+        [attr.aria-expanded]="!motivoReservaCollapsed"
+        aria-controls="collapseExample"
+        class="filtros-collapse text-dark-blue"
+      >
+        <strong>
+          Filtros
+          <span>
+            <fa-icon [icon]="changeIcon(motivoReservaCollapsed)"></fa-icon>
+          </span>
+        </strong>
+      </span>
+    </div>
+
+    <div #motivoReserva="ngbCollapse" [(ngbCollapse)]="motivoReservaCollapsed">
+      <div>
+        <form [formGroup]="formFiltros">
+          <div class="row w-100">
+            <div class="col-12 col-md-2">
+              <app-input-date
+                [formGroup]="formFiltros"
+                [controlName]="'dataInicial'"
+                [label]="'Início Locação'"
+                (emitterChange)="filterHistorico()"
+              ></app-input-date>
+            </div>
+
+            <div class="col-12 col-md-2">
+              <app-input-date
+                [formGroup]="formFiltros"
+                [controlName]="'dataFinal'"
+                [label]="'Fim Locação'"
+                (emitterChange)="filterHistorico()"
+              ></app-input-date>
+            </div>
+
+            <div class="col-12 col-md-2">
+              <app-input-select-option
+                [formGroup]="formFiltros"
+                [controlName]="'solicitante'"
+                [label]="'Solicitante'"
+                (emitterChange)="filterHistorico()"
+              ></app-input-select-option>
+            </div>
+
+            <div class="col-12 col-md-2">
+              <app-input-select-option
+                [formGroup]="formFiltros"
+                [controlName]="'local'"
+                [label]="'Local'"
+                (emitterChange)="filterHistorico()"
+              ></app-input-select-option>
+            </div>
+
+            <div class="col-12 col-md-2">
+              <app-input-select-option
+                [formGroup]="formFiltros"
+                [controlName]="'status'"
+                [label]="'Status das reserva'"
+                (emitterChange)="filterHistorico()"
+              ></app-input-select-option>
+            </div>
+
+            <div class="col-12 col-md-2 mt-4" *ngIf="historicoFiltered">
+              <app-btn-purple
+                [textButton]="'Limpar filtros'"
+                [showIcon]="true"
+                [icone]="faFilterRemove"
+                (emmiterClick)="limparFiltros()"
+              ></app-btn-purple>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-content">
+    <div
+      class="text-center"
+      *ngIf="historico?.length! > 5 || historicoFiltered?.length! > 5"
+    >
+      <pagination-controls
+        (pageChange)="p = $event"
+        previousLabel="<"
+        nextLabel=">"
+      ></pagination-controls>
+    </div>
+
+    <div class="table-scroll">
+      <!-- historico?.length == 0 && historicoFiltered?.length == 0; -->
+      <div
+        *ngIf="false; else relatorios"
+        class="h-100 d-flex justify-content-center align-items-center"
+      >
+        <h3 class="text-gray text-center">Nenhum histórico encontrado :(</h3>
+      </div>
+
+      <ng-template #relatorios>
+        <table class="table">
+          <thead>
+            <tr class="text-center">
+              <th scope="col">Solicitante</th>
+              <th scope="col">Espaço alugado</th>
+              <th scope="col">Data / Hora Solicitação</th>
+              <th scope="col">Data / Hora Locação</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="
+                let h of (historicoFiltered ? historicoFiltered! : historico!)
+                  | paginate : { itemsPerPage: 5, currentPage: p }
+              "
+              class="text-center reserva-table-row" (click)="openModalDetalhes(h)"
+            >
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+
+            <tr class="text-center reserva-table-row" (click)="openModalDetalhes('a')">
+              <td>
+                <span> Matheus Kerscher </span>
+              </td>
+              <td>
+                <span> Pista </span>
+              </td>
+              <td>
+                <span>12/12/2023 - 10:15</span>
+              </td>
+              <td>
+                <div>14/12/2023</div>
+                <div>10:00 - 11:30</div>
+              </td>
+              <td>
+                <span> Cancelada </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </ng-template>
+    </div>
+  </div>
+</div>
