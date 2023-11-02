@@ -10,12 +10,13 @@ import { EdicaoPerfilComponent } from './edicao-perfil/edicao-perfil.component';
 import { AtivacaoEmailComponent } from './edicao-perfil/ativacao-email/ativacao-email.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AdministradoresComponent } from './administradores/administradores.component';
-import { FormComponent as FormAdm} from './administradores/form/form.component';
+import { FormComponent as FormAdm } from './administradores/form/form.component';
 import { AtivacaoContaComponent } from './administradores/ativacao-conta/ativacao-conta.component';
 import { EspacosEsportivosComponent } from './espacos-esportivos/espacos-esportivos.component';
 import { FormComponent } from './espacos-esportivos/form/form.component';
 import { RecuperarSenhaComponent } from './login/recuperar-senha/recuperar-senha.component';
 import { CadastrarSenhaComponent } from './login/cadastrar-senha/cadastrar-senha.component';
+import { FeedbacksComponent } from './feedbacks/feedbacks.component';
 
 const routes: Routes = [
   {
@@ -31,25 +32,25 @@ const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardComponent,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
   },
 
   {
     path: 'comunicar-clientes',
     component: ComunicacaoClientesComponent,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
   },
 
   {
     path: 'relatorios',
     component: RelatoriosComponent,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
   },
 
   {
     path: 'editar-perfil',
     component: EdicaoPerfilComponent,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
   },
 
   {
@@ -76,6 +77,12 @@ const routes: Routes = [
   },
 
   {
+    path: 'feedbacks',
+    component: FeedbacksComponent,
+    canActivate: [authGuard],
+  },
+
+  {
     path: 'espacos-esportivos',
     component: EspacosEsportivosComponent,
     canActivate: [authGuard],
@@ -95,17 +102,17 @@ const routes: Routes = [
 
   {
     path: 'recuperar-senha',
-    component: RecuperarSenhaComponent
+    component: RecuperarSenhaComponent,
   },
 
   {
     path: 'cadastrar-senha',
-    component: CadastrarSenhaComponent
+    component: CadastrarSenhaComponent,
   },
 
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'login',
     pathMatch: 'full',
   },
 

@@ -11,6 +11,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AdmAlteracaoRequest } from '../shared/models/adm/adm-alteracao-request.model';
 import { AdmAlteracaoResponse } from '../shared/models/adm/adm-alteracao-response.model';
 import { ModalConfirmacaoComponent } from './modal-confirmacao/modal-confirmacao.component';
+import { ValidacoesForm } from '../utils/validacoes-form';
 
 @Component({
   selector: 'app-edicao-perfil',
@@ -21,7 +22,9 @@ export class EdicaoPerfilComponent implements OnInit, OnDestroy {
   public formAlteracaoPerfil: FormGroup = new FormGroup({
     nome: new FormControl(null, [Validators.required]),
     email: new FormControl(null, [Validators.required, Validators.email]),
-    cpf: new FormControl(null, [Validators.required]),
+    cpf: new FormControl({ value: null, disabled: true }, [
+      Validators.required,
+    ]),
     senha: new FormControl(null, [
       Validators.required,
       Validators.minLength(6),
@@ -34,7 +37,7 @@ export class EdicaoPerfilComponent implements OnInit, OnDestroy {
 
   faInvalid = faXmark;
   faValid = faCheck;
-  senhasDiferentes: boolean = false;
+  senhasDiferentes: boolean = true;
   passwordChecklist: boolean = false;
   focusPasswordType?: string;
   adm!: Adm;
@@ -56,39 +59,31 @@ export class EdicaoPerfilComponent implements OnInit, OnDestroy {
         this.formAlteracaoPerfil.patchValue({
           nome: this.adm.nome,
           email: this.adm.email,
-          cpf: this.maskCpf(this.adm.cpf!),
+          cpf: this.adm.cpf,
         });
       },
       error: (err) => {
         console.error(err);
       },
     });
+
+    this.formAlteracaoPerfil
+      .get('senha')
+      ?.valueChanges.subscribe(() => this.verificarSenhas());
+
+    this.formAlteracaoPerfil
+      .get('confirmacaoSenha')
+      ?.valueChanges.subscribe(() => this.verificarSenhas());
   }
 
-  ngAfterContentChecked(): void {
-    const senha = this.formAlteracaoPerfil.get('senha');
-    const confirmacaoSenha = this.formAlteracaoPerfil.get('confirmacaoSenha');
-
-    if (
-      senha?.value === confirmacaoSenha?.value &&
-      senha?.value !== null &&
-      confirmacaoSenha?.value !== null &&
-      senha?.value !== '' &&
-      confirmacaoSenha?.value !== ''
-    ) {
-      this.senhasDiferentes = false;
-      if (senha?.valid && confirmacaoSenha?.valid) {
-        this.passwordChecklist = false;
-      }
-    } else {
-      this.senhasDiferentes = true;
-      if (
-        !this.passwordChecklist &&
-        (senha?.touched || confirmacaoSenha?.touched)
-      ) {
-        this.passwordChecklist = true;
-      }
-    }
+  verificarSenhas() {
+    const result = ValidacoesForm.senhasValid(
+      this.formAlteracaoPerfil.get('senha')!,
+      this.formAlteracaoPerfil.get('confirmacaoSenha')!,
+      this.passwordChecklist
+    );
+    this.passwordChecklist = result;
+    this.senhasDiferentes = result;
   }
 
   ngOnDestroy(): void {
@@ -112,18 +107,6 @@ export class EdicaoPerfilComponent implements OnInit, OnDestroy {
 
   navigate(): void {
     this.router.navigateByUrl('/dashboard');
-  }
-
-  maskCpf(cpf: string): string {
-    return (
-      cpf.slice(0, 3) +
-      '.' +
-      cpf.slice(3, 6) +
-      '.' +
-      cpf.slice(6, 9) +
-      '-' +
-      cpf.slice(9)
-    );
   }
 
   alterarDados(): void {

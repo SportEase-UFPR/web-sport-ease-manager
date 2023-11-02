@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import { AdmCriacaoRequest } from 'src/app/shared/models/adm/adm-criacao-request';
 import { AdmCriacaoResponse } from 'src/app/shared/models/adm/adm-criacao-response';
 import { AdministradoresService } from '../services/administradores.service';
+import { ValidacoesForm } from 'src/app/utils/validacoes-form';
 
 @Component({
   selector: 'app-form',
@@ -33,7 +34,7 @@ export class FormComponent implements OnInit, OnDestroy {
 
   faInvalid = faXmark;
   faValid = faCheck;
-  senhasDiferentes: boolean = false;
+  senhasDiferentes: boolean = true;
   passwordChecklist: boolean = false;
   focusPasswordType?: string;
 
@@ -46,33 +47,28 @@ export class FormComponent implements OnInit, OnDestroy {
     private admsService: AdministradoresService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.formAdministrador
+      .get('senha')
+      ?.valueChanges.subscribe(() => this.verificarSenhas());
+
+    this.formAdministrador
+      .get('confirmacaoSenha')
+      ?.valueChanges.subscribe(() => this.verificarSenhas());
+  }
 
   ngOnDestroy(): void {
     this.inscricaoAdm?.unsubscribe();
   }
 
-  ngAfterContentChecked(): void {
-    const senha = this.formAdministrador.get('senha');
-    const confirmacaoSenha = this.formAdministrador.get('confirmacaoSenha');
-
-    if (
-      senha?.value === confirmacaoSenha?.value &&
-      senha?.value !== null &&
-      confirmacaoSenha?.value !== null &&
-      senha?.value !== '' &&
-      confirmacaoSenha?.value !== ''
-    ) {
-      this.senhasDiferentes = false;
-      if (senha?.valid && confirmacaoSenha?.valid) {
-        this.passwordChecklist = false;
-      }
-    } else {
-      this.senhasDiferentes = true;
-      if (!this.passwordChecklist) {
-        this.passwordChecklist = true;
-      }
-    }
+  verificarSenhas() {
+    const result = ValidacoesForm.senhasValid(
+      this.formAdministrador.get('senha')!,
+      this.formAdministrador.get('confirmacaoSenha')!,
+      this.passwordChecklist
+    );
+    this.passwordChecklist = result;
+    this.senhasDiferentes = result;
   }
 
   focusPassword() {
@@ -98,7 +94,7 @@ export class FormComponent implements OnInit, OnDestroy {
         form.get('nome')?.value,
         form.get('email')?.value,
         form.get('cpf')?.value,
-        form.get('senha')?.value,
+        form.get('senha')?.value
       );
       this.inscricaoAdm = this.admsService.cadastrarAdm(dados).subscribe({
         next: (result: AdmCriacaoResponse) => {

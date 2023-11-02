@@ -17,6 +17,7 @@ import { RelatoriosModule } from './relatorios/relatorios.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EdicaoPerfilModule } from './edicao-perfil/edicao-perfil.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { FeedbacksModule } from './feedbacks/feedbacks.module';
 
 @NgModule({
   declarations: [AppComponent, CabecalhoComponent, MenuComponent, PageNotFoundComponent],
@@ -34,6 +35,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     FontAwesomeModule,
     ReactiveFormsModule,
     EdicaoPerfilModule,
+    FeedbacksModule
   ],
   providers: [],
   bootstrap: [AppComponent],

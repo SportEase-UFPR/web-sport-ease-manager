@@ -27,21 +27,23 @@
         <form [formGroup]="formFiltros">
           <div class="row w-100">
             <div class="col-12 col-md-2">
-              <app-input-date
+              <app-input-field
                 [formGroup]="formFiltros"
                 [controlName]="'dataInicial'"
                 [label]="'Início Locação'"
+                [inputType]="'date'"
                 (emitterChange)="filterHistorico()"
-              ></app-input-date>
+              ></app-input-field>
             </div>
 
             <div class="col-12 col-md-2">
-              <app-input-date
+              <app-input-field
                 [formGroup]="formFiltros"
                 [controlName]="'dataFinal'"
                 [label]="'Fim Locação'"
+                [inputType]="'date'"
                 (emitterChange)="filterHistorico()"
-              ></app-input-date>
+              ></app-input-field>
             </div>
 
             <div class="col-12 col-md-2">
@@ -123,7 +125,8 @@
                 let h of (historicoFiltered ? historicoFiltered! : historico!)
                   | paginate : { itemsPerPage: 5, currentPage: p }
               "
-              class="text-center reserva-table-row" (click)="openModalDetalhes(h)"
+              class="text-center reserva-table-row"
+              (click)="openModalDetalhes(h)"
             >
               <td></td>
               <td></td>
@@ -132,7 +135,10 @@
               <td></td>
             </tr>
 
-            <tr class="text-center reserva-table-row" (click)="openModalDetalhes('a')">
+            <tr
+              class="text-center reserva-table-row"
+              (click)="openModalDetalhes('a')"
+            >
               <td>
                 <span> Matheus Kerscher </span>
               </td>

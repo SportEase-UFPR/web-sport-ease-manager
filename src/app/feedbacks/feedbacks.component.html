@@ -1,0 +1,36 @@
+<ngx-ui-loader [loaderId]="'loader-01'"></ngx-ui-loader>
+
+<div class="mx-3 mt-4">
+  <h3 class="text-purple font-weight-bold">Comentários do espaço esportivo</h3>
+
+  <div class="d-flex">
+    <form [formGroup]="formComentarios">
+      <app-input-select-option
+        [label]="'Selecione o espaço esportivo'"
+        [formGroup]="formComentarios"
+        [controlName]="'espacoEsportivo'"
+        [items]="espacos"
+        (emitterChange)="buscarComentarios()"
+      ></app-input-select-option>
+    </form>
+  </div>
+
+  <div class="text-center" *ngIf="comentarios.length > 9">
+    <pagination-controls
+      (pageChange)="p = $event"
+      previousLabel="<"
+      nextLabel=">"
+    ></pagination-controls>
+  </div>
+
+  <div class="mt-2 row w-100">
+    <div
+      class="col-12 col-md-6 col-lg-4 mb-3"
+      *ngFor="
+        let c of comentarios | paginate : { itemsPerPage: 9, currentPage: p }
+      "
+    >
+      <app-card-comentario></app-card-comentario>
+    </div>
+  </div>
+</div>

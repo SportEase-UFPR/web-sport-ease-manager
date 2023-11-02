@@ -1,0 +1,28 @@
+@import "/src/cores.scss";
+
+.card-comentario {
+  background-color: var(--branco);
+  box-shadow: 2px 2px 4px 0 var(--cinza-claro);
+  padding: 10px;
+  border-radius: 10px;
+  transition: 0.2s ease-in-out;
+
+  .card-cabecalho {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    .autor {
+      color: var(--roxo);
+    }
+
+    .data {
+      color: var(--cinza-claro);
+    }
+  }
+
+  &:hover {
+    transition: 0.2s ease-in-out;
+    transform: scale(1.04);
+  }
+}

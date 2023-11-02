@@ -1,6 +1,6 @@
 import { Component, DoCheck, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
+import { faComments, faEnvelope } from '@fortawesome/free-regular-svg-icons';
 import {
   faArrowRightFromBracket,
   faChartSimple,
@@ -21,6 +21,7 @@ export class MenuComponent implements OnInit, DoCheck {
   faUsers = faUserGroup;
   faEmail = faEnvelope;
   faDumbbell = faDumbbell;
+  faComments = faComments;
   faChart = faChartSimple;
   faExit = faArrowRightFromBracket;
 
@@ -45,6 +46,7 @@ export class MenuComponent implements OnInit, DoCheck {
       'editar-espaco': 'espacos-esportivos',
       'visualizar-espaco': 'espacos-esportivos',
       relatorios: 'relatorios',
+      feedbacks: 'feedbacks',
     };
 
     for (const item of Object.values(menuList)) {

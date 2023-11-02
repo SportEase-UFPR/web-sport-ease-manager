@@ -39,11 +39,12 @@
 
     <div class="my-4">
       <form [formGroup]="formEsporte">
-        <app-input-text
+        <app-input-field
           [formGroup]="formEsporte"
           [controlName]="'nome'"
           [label]="'Nome do esporte'"
-        ></app-input-text>
+          [validacaoInput]="true"
+        ></app-input-field>
       </form>
     </div>
 
@@ -103,24 +104,20 @@
       </div>
 
       <div class="col-12 col-lg-7">
-        <div class="mb-3 d-flex align-items-center">
-          <input formControlName="ativo" type="checkbox" id="espaco-ativo" />
-
-          <label id="label-input-toogle" for="espaco-ativo"></label>
-
-          <label for="espaco-ativo" class="ms-1 text-gray label-input-toogle"
-            >Espaco Esportivo Ativo</label
-          >
-        </div>
-
+        <app-input-toogle
+          [formGroup]="formEspacoEsportivo"
+          [controlName]="'ativo'"
+          [label]="'Espaco Esportivo Ativo'"
+        ></app-input-toogle>
+       
         <div>
-          <app-input-text
+          <app-input-field
             [formGroup]="formEspacoEsportivo"
             [controlName]="'nome'"
             [label]="'Nome'"
             [validacaoInput]="true"
             [placeholder]="'Ex.: Pista de Corrida'"
-          ></app-input-text>
+          ></app-input-field>
         </div>
 
         <div>
@@ -135,63 +132,66 @@
       </div>
 
       <div class="col-12 col-md-3">
-        <app-input-text
+        <app-input-field
           [formGroup]="formEspacoEsportivo"
           [controlName]="'localidade'"
           [label]="'Localidade'"
           [validacaoInput]="true"
           [placeholder]="'Ex.: Centro Politécnico'"
-        ></app-input-text>
+        ></app-input-field>
       </div>
 
       <div class="col-12 col-md-5">
-        <app-input-number
+        <app-input-field
           [formGroup]="formEspacoEsportivo"
           [controlName]="'maxLocacao'"
           [label]="'Quantidade máxima de locações no dia por cliente'"
           [placeholder]="'Ex.: 2'"
           [validacaoInput]="true"
-        ></app-input-number>
+        ></app-input-field>
       </div>
 
       <div class="col-12 col-md-4">
-        <app-input-text
+        <app-input-field
           [formGroup]="formEspacoEsportivo"
           [controlName]="'dimensoes'"
           [label]="'Dimensões'"
           [validacaoInput]="true"
           [placeholder]="'Ex.: 40m x 20m'"
-        ></app-input-text>
+        ></app-input-field>
       </div>
 
       <div class="col-12 col-md-4">
-        <app-input-time
+        <app-input-field
           [formGroup]="formEspacoEsportivo"
           [controlName]="'abertura'"
           [label]="'Horário de abertura'"
           [validacaoInput]="true"
+          [inputType]="'time'"
           (emitterChange)="validHours()"
-        ></app-input-time>
+        ></app-input-field>
       </div>
 
       <div class="col-12 col-md-3">
-        <app-input-time
+        <app-input-field
           [formGroup]="formEspacoEsportivo"
           [controlName]="'fechamento'"
           [label]="'Horário de fechamento'"
           [validacaoInput]="true"
+          [inputType]="'time'"
           (emitterChange)="validHours()"
-        ></app-input-time>
+        ></app-input-field>
       </div>
 
       <div class="col-12 col-md-5">
-        <app-input-time
+        <app-input-field
           [formGroup]="formEspacoEsportivo"
           [controlName]="'periodo'"
           [label]="'Duração da locação'"
           [validacaoInput]="true"
+          [inputType]="'time'"
           (emitterChange)="validPeriodo()"
-        ></app-input-time>
+        ></app-input-field>
       </div>
 
       <div class="col-12 col-md-5">
@@ -228,23 +228,23 @@
       </div>
 
       <div class="col-12 col-md-4">
-        <app-input-text
+        <app-input-field
           [formGroup]="formEspacoEsportivo"
           [controlName]="'piso'"
           [label]="'Piso'"
           [validacaoInput]="true"
           [placeholder]="'Ex.: Madeira'"
-        ></app-input-text>
+        ></app-input-field>
       </div>
 
       <div class="col-12 col-md-3">
-        <app-input-number
+        <app-input-field
           [formGroup]="formEspacoEsportivo"
           [controlName]="'capacidade'"
           [label]="'Capacidade'"
           [validacaoInput]="true"
           [placeholder]="'Ex.: 15'"
-        ></app-input-number>
+        ></app-input-field>
       </div>
 
       <div class="col-12 d-block d-md-flex">

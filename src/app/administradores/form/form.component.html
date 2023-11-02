@@ -6,31 +6,32 @@
   <form [formGroup]="formAdministrador">
     <div class="row w-100">
       <div class="col-12">
-        <app-input-text
+        <app-input-field
           [formGroup]="formAdministrador"
           [label]="'Nome Completo'"
           [controlName]="'nome'"
           [validacaoInput]="true"
-        ></app-input-text>
+        ></app-input-field>
       </div>
 
       <div class="col-12">
-        <app-input-email
+        <app-input-field
           [formGroup]="formAdministrador"
           [label]="'E-mail'"
           [controlName]="'email'"
           [validacaoInput]="true"
-        ></app-input-email>
+          [inputType]="'email'"
+        ></app-input-field>
       </div>
 
       <div class="col-12">
-        <app-input-text
+        <app-input-field
           [formGroup]="formAdministrador"
           [label]="'CPF'"
           [controlName]="'cpf'"
           [validacaoInput]="true"
           [mask]="'000.000.000-00'"
-        ></app-input-text>
+        ></app-input-field>
       </div>
 
       <div class="col-12 col-md-6">
@@ -56,25 +57,10 @@
       </div>
 
       <ng-container *ngIf="passwordChecklist">
-        <div class="checklist">
-          <ul class="password-checklist">
-            <li [ngClass]="passwordValid('senha') ? 'tem-erros' : 'sem-erros'">
-              <fa-icon
-                [icon]="passwordValid('senha') ? faInvalid : faValid"
-              ></fa-icon>
-
-              A senha deve ter pelo menos <strong> 6 dígitos </strong>
-            </li>
-
-            <li [ngClass]="senhasDiferentes ? 'tem-erros' : 'sem-erros'">
-              <fa-icon
-                [icon]="senhasDiferentes ? faInvalid : faValid"
-              ></fa-icon>
-
-              As senhas devem ser <strong> iguais </strong>
-            </li>
-          </ul>
-        </div>
+        <app-password-checklist
+          [control]="formAdministrador.get('senha')!"
+          [senhasDiferentes]="senhasDiferentes"
+        ></app-password-checklist>
       </ng-container>
 
       <div class="col-12 d-flex justify-content-end">

@@ -1,0 +1,49 @@
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { FeedbacksService } from './services/feedbacks.service';
+import { Item } from '../shared/components/inputs/input-select-option/model/item.model';
+import { ToastrService } from 'ngx-toastr';
+import { NgxUiLoaderService } from 'ngx-ui-loader';
+
+@Component({
+  selector: 'app-feedbacks',
+  templateUrl: './feedbacks.component.html',
+  styleUrls: ['./feedbacks.component.scss'],
+})
+export class FeedbacksComponent implements OnInit {
+  formComentarios: FormGroup = new FormGroup({
+    espacoEsportivo: new FormControl(null),
+  });
+
+  p: number = 1;
+  comentarios: any[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  espacos: Item[] = [];
+
+  constructor(
+    private feedbacksService: FeedbacksService,
+    private toastrService: ToastrService,
+    private ngxLoaderService: NgxUiLoaderService
+  ) {}
+
+  ngOnInit(): void {
+    this.ngxLoaderService.startLoader('loader-01');
+    this.populate();
+    this.ngxLoaderService.stopLoader('loader-01');
+  }
+
+  populate() {
+    this.feedbacksService.listarEE().subscribe({
+      next: (result) => {
+        this.espacos = result.map((r) => new Item(r.id, r.nome));
+      },
+      error: (err) => {
+        this.toastrService.error(
+          'Por favor, tente novamente mais tarde',
+          'Erro ao buscar espaços esportivos'
+        );
+      },
+    });
+  }
+
+  buscarComentarios() {}
+}
