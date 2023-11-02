@@ -83,26 +83,6 @@ export class CadastrarSenhaComponent implements OnInit, OnDestroy {
     this.passwordChecklist = true;
   }
 
-  blurPassword() {
-    if (
-      this.formNovaSenha.get('senha')?.valid &&
-      this.formNovaSenha.get('confirmacaoSenha')?.valid &&
-      !this.senhasDiferentes
-    ) {
-      this.passwordChecklist = false;
-    }
-  }
-
-  passwordValid(campo: string): boolean {
-    if (
-      this.formNovaSenha.controls[campo].hasError('required') ||
-      this.formNovaSenha.controls[campo].hasError('minlength')
-    ) {
-      return true;
-    }
-    return false;
-  }
-
   recuperarSenha() {
     this.ngxService.startLoader('loader-01');
     const form = this.formNovaSenha;

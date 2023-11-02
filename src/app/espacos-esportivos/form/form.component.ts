@@ -21,7 +21,7 @@ import { NgxImageCompressService } from 'ngx-image-compress';
 import { EsporteExclusaoResponse } from 'src/app/shared/models/espaco-esportivo/esporte-exclusao-response.model';
 import { EspacoEsportivoRequest } from 'src/app/shared/models/espaco-esportivo/espaco-esportivo-request.model';
 import { EspacoEsportivoResponse as eeResponse } from '../../shared/models/espaco-esportivo/espaco-esportivo-response.model';
-import * as moment from 'moment';
+const moment = require('moment');
 
 @Component({
   selector: 'app-form',

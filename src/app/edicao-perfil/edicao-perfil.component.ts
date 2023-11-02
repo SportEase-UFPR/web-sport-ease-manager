@@ -95,16 +95,6 @@ export class EdicaoPerfilComponent implements OnInit, OnDestroy {
     this.passwordChecklist = true;
   }
 
-  passwordValid(campo: string): boolean {
-    if (
-      this.formAlteracaoPerfil.controls[campo].hasError('required') ||
-      this.formAlteracaoPerfil.controls[campo].hasError('minlength')
-    ) {
-      return true;
-    }
-    return false;
-  }
-
   navigate(): void {
     this.router.navigateByUrl('/dashboard');
   }

@@ -75,16 +75,6 @@ export class FormComponent implements OnInit, OnDestroy {
     this.passwordChecklist = true;
   }
 
-  passwordValid(campo: string): boolean {
-    if (
-      this.formAdministrador.controls[campo].hasError('required') ||
-      this.formAdministrador.controls[campo].hasError('minlength')
-    ) {
-      return true;
-    }
-    return false;
-  }
-
   cadastrarAdm(): void {
     this.ngxLoaderService.startLoader('loader-01');
 

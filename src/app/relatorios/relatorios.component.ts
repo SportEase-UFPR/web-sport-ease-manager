@@ -5,7 +5,7 @@ import {
   faAngleUp,
   faFilterCircleXmark,
 } from '@fortawesome/free-solid-svg-icons';
-import * as moment from 'moment';
+const moment = require('moment');
 import { ToastrService } from 'ngx-toastr';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ModalDetalhesComponent } from './modal-detalhes/modal-detalhes.component';
