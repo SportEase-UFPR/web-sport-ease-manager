@@ -22,21 +22,13 @@
   height: 400px;
   overflow-y: auto;
 
-  .img-ee {
-    border-radius: 10px;
-  }
+  .historico-body {
+    .info-title {
+      font-weight: 500;
+    }
 
-  .infos-ee {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    justify-items: center;
-  }
-
-  .modal-title {
-    font-weight: 500;
-  }
-
-  span {
-    font-weight: 400;
+    .motivo-reserva-collapse {
+      cursor: pointer;
+    }
   }
 }

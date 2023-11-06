@@ -4,6 +4,7 @@ import { FeedbacksService } from './services/feedbacks.service';
 import { Item } from '../shared/components/inputs/input-select-option/model/item.model';
 import { ToastrService } from 'ngx-toastr';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { FeedbackReserva } from '../shared/models/reserva/feedback-reserva.model';
 
 @Component({
   selector: 'app-feedbacks',
@@ -16,7 +17,7 @@ export class FeedbacksComponent implements OnInit {
   });
 
   p: number = 1;
-  comentarios: any[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  comentarios: FeedbackReserva[] = [];
   espacos: Item[] = [];
 
   constructor(
@@ -45,5 +46,20 @@ export class FeedbacksComponent implements OnInit {
     });
   }
 
-  buscarComentarios() {}
+  buscarComentarios() {
+    this.ngxLoaderService.startLoader('loader-01');
+    // this.feedbacksService
+    //   .buscarComentarios(
+    //     Number(this.formComentarios.get('espacoEsportivo')?.value)
+    //   )
+    //   .subscribe({
+    //     next: (result) => {
+    //       this.comentarios = result;
+    //     },
+    //     error: (err) => {
+    //       console.log(err);
+    //     },
+    //   });
+    this.ngxLoaderService.stopLoader('loader-01');
+  }
 }

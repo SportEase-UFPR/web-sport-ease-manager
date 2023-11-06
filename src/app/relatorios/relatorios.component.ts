@@ -10,6 +10,10 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ModalDetalhesComponent } from './modal-detalhes/modal-detalhes.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { RelatoriosService } from './services/relatorios.service';
+import { Reserva } from '../shared/models/reserva/reserva.model';
+import { Item } from '../shared/components/inputs/input-select-option/model/item.model';
+import { StatusLocacao } from '../shared/models/enums/status-locacao';
 
 @Component({
   selector: 'app-relatorios',
@@ -28,8 +32,12 @@ export class RelatoriosComponent implements OnInit {
   faFilterRemove = faFilterCircleXmark;
   motivoReservaCollapsed: boolean = true;
 
-  historico?: any[];
-  historicoFiltered?: any[];
+  historico?: Reserva[];
+  historicoFiltered?: Reserva[];
+
+  filtroClientes: Item[] = [];
+  filtroLocal: Item[] = [];
+  filtroStatus: Item[] = [];
 
   p: number = 1;
 
@@ -37,9 +45,26 @@ export class RelatoriosComponent implements OnInit {
     private toastrService: ToastrService,
     private ngxLoaderService: NgxUiLoaderService,
     private modalService: NgbModal,
+    private relatoriosService: RelatoriosService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.ngxLoaderService.startLoader('loader-01');
+    this.relatoriosService.buscarRelatorios().subscribe({
+      next: (result) => {
+        this.historico = result;
+        this.montarFiltros();
+      },
+      error: (erro) => {
+        this.historico = undefined;
+        this.toastrService.error(
+          'Por favor, tente novamnete mais tarde',
+          'Erro ao trazer histórico das reservas'
+        );
+      },
+    });
+    this.ngxLoaderService.stopLoader('loader-01');
+  }
 
   filterHistorico(): void {
     const form = this.formFiltros;
@@ -78,7 +103,7 @@ export class RelatoriosComponent implements OnInit {
     if (solicitante) {
       this.ngxLoaderService.startLoader('loader-01');
       filteredHistorico = filteredHistorico?.filter(
-        (h) => h.solicitante === solicitante
+        (h) => h.informacoesComplementaresLocacao?.nomeCliente === solicitante
       );
       this.ngxLoaderService.stopLoader('loader-01');
     }
@@ -86,7 +111,9 @@ export class RelatoriosComponent implements OnInit {
     if (localFilter) {
       this.ngxLoaderService.startLoader('loader-01');
       filteredHistorico = filteredHistorico?.filter(
-        (h) => h.idEspacoEsportivo === Number(localFilter)
+        (h) =>
+          h.informacoesComplementaresLocacao?.idEspacoEsportivo ===
+          Number(localFilter)
       );
       this.ngxLoaderService.stopLoader('loader-01');
     }
@@ -113,7 +140,7 @@ export class RelatoriosComponent implements OnInit {
     return isCollapsed ? faAngleDown : faAngleUp;
   }
 
-  openModalDetalhes(reserva: any): void {
+  openModalDetalhes(reserva: Reserva): void {
     const modalRef = this.modalService.open(ModalDetalhesComponent, {
       centered: true,
     });
@@ -121,4 +148,45 @@ export class RelatoriosComponent implements OnInit {
     modalRef.componentInstance.reserva = reserva;
   }
 
+  montarFiltros() {
+    this.historico?.forEach((h) => {
+      this.adicionarItemUnico(
+        this.filtroClientes,
+        h.informacoesComplementaresLocacao?.nomeCliente!
+      );
+
+      this.adicionarItemUnico(
+        this.filtroLocal,
+        h.informacoesComplementaresLocacao?.nomeEspacoEsportivo!
+      );
+
+      this.adicionarItemUnico(this.filtroStatus, h.status!);
+    });
+  }
+
+  adicionarItemUnico(filtroArray: Item[], value: string) {
+    if (
+      filtroArray.length === 0 ||
+      !filtroArray.some((f) => f.value === value)
+    ) {
+      filtroArray.push(new Item(value, value));
+
+      filtroArray.sort((a, b) => {
+        if (
+          a.value?.toString().toUpperCase()! >
+          b.value?.toString().toUpperCase()!
+        ) {
+          return 1;
+        }
+        if (
+          a.value?.toString().toUpperCase()! <
+          b.value?.toString().toUpperCase()!
+        ) {
+          return -1;
+        }
+
+        return 0;
+      });
+    }
+  }
 }

@@ -7,5 +7,141 @@
 
   <div class="infos with-scrollbar">
     <h3 class="modal-title text-purple text-center">Detalhes da reserva</h3>
+
+    <div class="historico-body mt-2">
+      <div class="row w-100">
+        <div class="col-12 col-md-4">
+          <p>
+            <span class="info-title text-purple">Reserva Nº: </span>
+            <span>{{ reserva.id }}</span>
+          </p>
+        </div>
+
+        <div class="col-12 col-md-8">
+          <p>
+            <span class="info-title text-purple">Data solicitação: </span>
+            <span>
+              {{ reserva.dataHoraSolicitacao | date : "dd/MM/yyyy - HH:mm" }}
+            </span>
+          </p>
+        </div>
+
+        <div class="col-12">
+          <p>
+            <span class="info-title text-purple">Status da solicitação: </span>
+            <span>{{ reserva.status | titlecase }}</span>
+          </p>
+        </div>
+
+        <div class="col-12">
+          <p>
+            <span class="info-title text-purple">Solicitante: </span>
+            <span>{{
+              reserva.informacoesComplementaresLocacao?.nomeCliente
+            }}</span>
+          </p>
+        </div>
+
+        <div class="col-12">
+          <p>
+            <span class="info-title text-purple">E-mail: </span>
+            <span>{{
+              reserva.informacoesComplementaresLocacao?.emailCliente
+            }}</span>
+          </p>
+        </div>
+
+        <div
+          class="col-12"
+          [ngClass]="{
+            'col-md-6': !reserva.informacoesComplementaresLocacao?.alunoUFPR
+          }"
+        >
+          <p>
+            <span class="info-title text-purple">CPF: </span>
+            <span>{{
+              reserva.informacoesComplementaresLocacao?.cpfCliente!
+                | mask : "000.000.000-00"
+            }}</span>
+          </p>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <p>
+            <span class="info-title text-purple">Estudante UFPR: </span>
+            <span>{{
+              reserva.informacoesComplementaresLocacao?.alunoUFPR
+                ? "Sim"
+                : "Não"
+            }}</span>
+          </p>
+        </div>
+
+        <div
+          class="col-12 col-md-6"
+          *ngIf="reserva.informacoesComplementaresLocacao?.alunoUFPR"
+        >
+          <p>
+            <span class="info-title text-purple">GRR: </span>
+            <span>{{ reserva.informacoesComplementaresLocacao?.grr! }}</span>
+          </p>
+        </div>
+
+        <div class="col-12">
+          <p>
+            <span class="info-title text-purple">Período: </span>
+            <span
+              >{{
+                reserva.dataHoraInicioReserva | date : "dd/MM/yyyy - HH:mm"
+              }}
+              às {{ reserva.dataHoraFimReserva | date : "HH:mm" }}</span
+            >
+          </p>
+        </div>
+
+        <div class="col-12 col-md-5">
+          <p>
+            <span class="info-title text-purple">Espaço: </span>
+            <span>{{
+              reserva.informacoesComplementaresLocacao?.nomeEspacoEsportivo
+            }}</span>
+          </p>
+        </div>
+
+        <div class="col-12 col-md-7">
+          <p>
+            <span class="info-title text-purple">Local: </span>
+            <span>{{
+              reserva.informacoesComplementaresLocacao
+                ?.localidadeEspacoEsportivo
+            }}</span>
+          </p>
+        </div>
+
+        <div class="col-12">
+          <p>
+            <span class="info-title text-purple">Participantes: </span>
+            <span
+              >{{ reserva.qtdParticipantes }}
+              {{ reserva.qtdParticipantes! > 1 ? "Pessoas" : "Pessoa" }}</span
+            >
+          </p>
+        </div>
+
+        <div class="col-12">
+          <p>
+            <span class="info-title text-purple"> Motivo da reserva: </span>
+            <span>{{ reserva.motivoSolicitacao }}</span>
+          </p>
+        </div>
+
+        <div class="col-12" *ngIf="reserva.motivoCancelamento">
+          <p>
+            <span class="info-title text-purple"> Motivo da negação: </span>
+            <span>{{ reserva.motivoCancelamento }}</span>
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

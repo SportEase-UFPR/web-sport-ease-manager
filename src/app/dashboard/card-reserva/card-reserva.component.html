@@ -1,33 +1,81 @@
 <div class="card-reserva">
   <div class="reserva-header">
-    <h4>Reserva 001</h4>
-    <p>19/10/2023</p>
+    <h4 class="text-purple">Reserva {{ reserva.id }}</h4>
+    <p class="text-gray">
+      {{ reserva.dataHoraSolicitacao | date : "dd/MM/yyyy" }}
+    </p>
   </div>
+
+  <hr class="mt-1 mb-2" />
 
   <div class="reserva-body">
     <div class="row w-100">
-      <div class="col-12 col-md-6">
-        <p><strong>Solicitante:</strong> <span></span></p>
+      <div class="col-12">
+        <p>
+          <span class="info-title text-purple">Solicitante: </span>
+          <span>{{
+            reserva.informacoesComplementaresLocacao?.nomeCliente
+          }}</span>
+        </p>
+      </div>
+
+      <div class="col-12">
+        <p>
+          <span class="info-title text-purple">E-mail: </span>
+          <span>{{
+            reserva.informacoesComplementaresLocacao?.emailCliente
+          }}</span>
+        </p>
       </div>
 
       <div class="col-12 col-md-6">
-        <p><strong>CPF:</strong> <span></span></p>
+        <p>
+          <span class="info-title text-purple">CPF: </span>
+          <span>{{
+            reserva.informacoesComplementaresLocacao?.cpfCliente!
+              | mask : "000.000.000-00"
+          }}</span>
+        </p>
       </div>
 
       <div class="col-12 col-md-6">
-        <p><strong>Vínculo com a UFPR:</strong> <span></span></p>
+        <p>
+          <span class="info-title text-purple">Estudante UFPR: </span>
+          <span>{{
+            reserva.informacoesComplementaresLocacao?.alunoUFPR ? "Sim" : "Não"
+          }}</span>
+        </p>
+      </div>
+
+      <div class="col-12">
+        <p>
+          <span class="info-title text-purple">Período: </span>
+          <span
+            >{{
+              reserva.dataHoraInicioReserva | date : "dd/MM/yyyy - HH:mm"
+            }}
+            às {{ reserva.dataHoraFimReserva | date : "HH:mm" }}</span
+          >
+        </p>
       </div>
 
       <div class="col-12 col-md-6">
-        <p><strong>Período:</strong> <span></span></p>
+        <p>
+          <span class="info-title text-purple">Local: </span>
+          <span>{{
+            reserva.informacoesComplementaresLocacao?.nomeEspacoEsportivo
+          }}</span>
+        </p>
       </div>
 
       <div class="col-12 col-md-6">
-        <p><strong>Local:</strong> <span></span></p>
-      </div>
-
-      <div class="col-12 col-md-6">
-        <p><strong>Participantes:</strong> <span></span></p>
+        <p>
+          <span class="info-title text-purple">Participantes: </span>
+          <span
+            >{{ reserva.qtdParticipantes }}
+            {{ reserva.qtdParticipantes! > 1 ? "Pessoas" : "Pessoa" }}</span
+          >
+        </p>
       </div>
     </div>
 
@@ -38,12 +86,12 @@
         aria-controls="collapseExample"
         class="motivo-reserva-collapse mb-1"
       >
-        <strong>
+        <span class="info-title text-purple">
           Motivo da reserva
           <span>
             <fa-icon [icon]="changeIcon(motivoReservaCollapsed)"></fa-icon>
           </span>
-        </strong>
+        </span>
       </p>
 
       <div
@@ -51,7 +99,7 @@
         [(ngbCollapse)]="motivoReservaCollapsed"
       >
         <div>
-          <p>Aqui vai a justificativa</p>
+          <p>{{ reserva.motivoSolicitacao }}</p>
         </div>
       </div>
     </div>

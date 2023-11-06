@@ -1,16 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, isEmpty } from 'rxjs';
+import { Observable } from 'rxjs';
+import { Reserva } from 'src/app/shared/models/reserva/reserva.model';
 import { UsuarioSs } from 'src/app/shared/models/usuario-ss/usuario-ss.model';
 import { SessionStorageService } from 'src/app/shared/services/session-storage/session-storage.service';
 import { environment as env } from 'src/environments/environment';
-import { EspacoEsportivoResponse as eeResponse } from 'src/app/shared/models/espaco-esportivo/espaco-esportivo-response.model';
-import { FeedbackReserva } from 'src/app/shared/models/reserva/feedback-reserva.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class FeedbacksService {
+export class RelatoriosService {
   constructor(
     private httpService: HttpClient,
     private ssService: SessionStorageService
@@ -25,16 +24,9 @@ export class FeedbacksService {
     });
   }
 
-  public listarEE(): Observable<eeResponse[]> {
-    return this.httpService.get<eeResponse[]>(
-      `${env.baseUrl}espacos-esportivos`,
-      { headers: this.createHeaders() }
-    );
-  }
-
-  public buscarComentarios(idEspaco: number): Observable<FeedbackReserva[]> {
-    return this.httpService.get<FeedbackReserva[]>(
-      `${env.baseUrl}locacoes/comentarios/${idEspaco}`,
+  public buscarRelatorios(): Observable<Reserva[]> {
+    return this.httpService.get<Reserva[]>(
+      `${env.baseUrl}locacoes/relatorio-reservas`,
       { headers: this.createHeaders() }
     );
   }

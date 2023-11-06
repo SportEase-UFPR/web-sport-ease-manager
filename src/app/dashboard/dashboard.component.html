@@ -75,16 +75,38 @@
 <ngx-ui-loader [loaderId]="'loader-01'"></ngx-ui-loader>
 
 <div class="mx-3 mt-4">
-  <h3 class="text-green font-weight-bold mb-3">
-    Solicitações de reserva em andamento
-  </h3>
+  <div class="d-flex justify-content-between">
+    <h3 class="text-purple font-weight-bold mb-3">
+      Solicitações de reserva em andamento
+    </h3>
 
-  <div class="row w-100 justify-content-center">
-    <div class="col-12 col-md-6">
+    <div *ngIf="reservas.length > 1">
+      <form [formGroup]="formFiltro">
+        <app-input-select-option
+          [formGroup]="formFiltro"
+          [controlName]="'tempoSolicitacao'"
+          [label]="'Exibir reservas'"
+          [items]="opcFiltroSolicitacoes"
+          (emitterChange)="ordenarReservas()"
+        ></app-input-select-option>
+      </form>
+    </div>
+  </div>
+
+  <div
+    class="row w-100 justify-content-center"
+    *ngIf="reservas.length > 0; else semReservas"
+  >
+    <div class="col-12 col-md-6 my-2" *ngFor="let r of reservas">
       <app-card-reserva
-        (aprovarReserva)="openModalConfirmacao(modalAprovarReserva)"
-        (negarReserva)="openModalConfirmacao(modalNegarReserva)"
+        [reserva]="r"
+        (aprovarReserva)="openModalConfirmacao(r.id!, modalAprovarReserva)"
+        (negarReserva)="openModalConfirmacao(r.id!, modalNegarReserva)"
       ></app-card-reserva>
     </div>
   </div>
+
+  <ng-template #semReservas>
+    <p class="text-gray text-center mt-4">Nenhuma reserva foi encontrada :(</p>
+  </ng-template>
 </div>

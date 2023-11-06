@@ -230,7 +230,7 @@ export class FormComponent implements OnInit, OnDestroy {
         });
 
         if (!jaExiste) {
-          this.esportesOfEE.push(new EsporteResponse(e.value, e.label));
+          this.esportesOfEE.push(new EsporteResponse(Number(e.value), e.label));
         }
       }
     });
@@ -244,13 +244,13 @@ export class FormComponent implements OnInit, OnDestroy {
     });
   }
 
-  deletarEsporte(id: number): void {
+  deletarEsporte(id: number | string): void {
     this.ngxLoaderService.startLoader('loader-01');
     this.inscricaoExclusaoEsporte = this.eeService
-      .excluirEsporte(id)
+      .excluirEsporte(Number(id))
       .subscribe({
         next: (result: EsporteExclusaoResponse) => {
-          this.removerTipoEsporte(id);
+          this.removerTipoEsporte(Number(id));
           this.populate();
           this.ngxLoaderService.stopLoader('loader-01');
         },

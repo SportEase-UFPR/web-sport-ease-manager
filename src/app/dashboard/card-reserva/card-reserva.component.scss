@@ -9,6 +9,7 @@
   .reserva-header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     .reserva-aprovada {
       color: var(--verde);
@@ -24,12 +25,12 @@
   }
 
   .reserva-body {
+    .info-title {
+      font-weight: 500;
+    }
+
     .motivo-reserva-collapse {
       cursor: pointer;
-
-      span {
-        font-size: 18px;
-      }
     }
   }
 

@@ -22,20 +22,20 @@ export class EspacosEsportivosService {
 
   public listarEsportes(): Observable<EsporteResponse[]> {
     return this.httpService.get<EsporteResponse[]>(`${env.baseUrl}esportes`, {
-      headers: this.createHeraders(),
+      headers: this.createHeaders(),
     });
   }
 
   public criarEsporte(e: EsporteRequest): Observable<EsporteResponse> {
     return this.httpService.post(`${env.baseUrl}esportes`, JSON.stringify(e), {
-      headers: this.createHeraders(),
+      headers: this.createHeaders(),
     });
   }
 
   public excluirEsporte(id: number): Observable<EsporteExclusaoResponse> {
     return this.httpService.delete<EsporteExclusaoResponse>(
       `${env.baseUrl}esportes/${id}`,
-      { headers: this.createHeraders() }
+      { headers: this.createHeaders() }
     );
   }
 
@@ -43,7 +43,7 @@ export class EspacosEsportivosService {
     return this.httpService.post<eeResponse>(
       `${env.baseUrl}espacos-esportivos`,
       JSON.stringify(ee),
-      { headers: this.createHeraders() }
+      { headers: this.createHeaders() }
     );
   }
 
@@ -51,32 +51,32 @@ export class EspacosEsportivosService {
     return this.httpService.put<eeResponse>(
       `${env.baseUrl}espacos-esportivos/${idEE}`,
       JSON.stringify(ee),
-      { headers: this.createHeraders() }
+      { headers: this.createHeaders() }
     );
   }
 
   public listarEE(): Observable<eeResponse[]> {
     return this.httpService.get<eeResponse[]>(
       `${env.baseUrl}espacos-esportivos`,
-      { headers: this.createHeraders() }
+      { headers: this.createHeaders() }
     );
   }
 
   public pegarEE(id: number): Observable<eeResponse> {
     return this.httpService.get<eeResponse>(
       `${env.baseUrl}espacos-esportivos/${id}`,
-      { headers: this.createHeraders() }
+      { headers: this.createHeaders() }
     );
   }
 
   public excluirEE(id: number): Observable<eeExclusaoResponse> {
     return this.httpService.delete<eeExclusaoResponse>(
       `${env.baseUrl}espacos-esportivos/${id}`,
-      { headers: this.createHeraders() }
+      { headers: this.createHeaders() }
     );
   }
 
-  private createHeraders(): HttpHeaders {
+  private createHeaders(): HttpHeaders {
     const ssDados: UsuarioSs = this.ssService.get(env.ss_token);
 
     return new HttpHeaders({

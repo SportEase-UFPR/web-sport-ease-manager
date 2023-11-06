@@ -25,7 +25,7 @@ export class AdministradoresService {
 
   getAdministradores(): Observable<Adm[]> {
     return this.httpService.get<Adm[]>(`${env.baseUrl}adm`, {
-      headers: this.createHeraders(),
+      headers: this.createHeaders(),
     });
   }
 
@@ -33,7 +33,7 @@ export class AdministradoresService {
     return this.httpService.post<AdmCriacaoResponse>(
       `${env.baseUrl}adm`,
       JSON.stringify(adm),
-      { headers: this.createHeraders() }
+      { headers: this.createHeaders() }
     );
   }
 
@@ -49,11 +49,11 @@ export class AdministradoresService {
   deletarAdm(idAdm: number): Observable<AdmExclusaoResponse> {
     return this.httpService.delete<AdmExclusaoResponse>(
       `${env.baseUrl}adm/${idAdm}`,
-      { headers: this.createHeraders() }
+      { headers: this.createHeaders() }
     );
   }
 
-  private createHeraders(): HttpHeaders {
+  private createHeaders(): HttpHeaders {
     const ssDados: UsuarioSs = this.ssService.get(env.ss_token);
 
     return new HttpHeaders({

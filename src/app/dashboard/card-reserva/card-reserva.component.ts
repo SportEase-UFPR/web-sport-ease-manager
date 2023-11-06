@@ -1,10 +1,11 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   faAngleDown,
   faAngleUp,
   faCheck,
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
+import { Reserva } from 'src/app/shared/models/reserva/reserva.model';
 
 @Component({
   selector: 'app-card-reserva',
@@ -12,14 +13,15 @@ import {
   styleUrls: ['./card-reserva.component.scss'],
 })
 export class CardReservaComponent implements OnInit {
+  @Input() reserva: Reserva = new Reserva();
+
+  @Output() aprovarReserva = new EventEmitter();
+  @Output() negarReserva = new EventEmitter();
+
   faConfirm = faCheck;
   faCancel = faXmark;
 
   motivoReservaCollapsed = false;
-  justificativaReservaCollapsed = false;
-
-  @Output() aprovarReserva = new EventEmitter();
-  @Output() negarReserva = new EventEmitter();
 
   constructor() {}
 

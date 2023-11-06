@@ -14,6 +14,7 @@ import { SharedModule } from '../shared/shared.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalDetalhesComponent } from './modal-detalhes/modal-detalhes.component';
+import { NgxMaskPipe } from 'ngx-mask';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: '#5d5fef',
@@ -38,6 +39,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     NgbCollapseModule,
     ToastrModule.forRoot(),
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
+    NgxMaskPipe
   ],
 })
 export class RelatoriosModule {}

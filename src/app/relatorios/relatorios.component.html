@@ -51,6 +51,7 @@
                 [formGroup]="formFiltros"
                 [controlName]="'solicitante'"
                 [label]="'Solicitante'"
+                [items]="filtroClientes"
                 (emitterChange)="filterHistorico()"
               ></app-input-select-option>
             </div>
@@ -60,6 +61,7 @@
                 [formGroup]="formFiltros"
                 [controlName]="'local'"
                 [label]="'Local'"
+                [items]="filtroLocal"
                 (emitterChange)="filterHistorico()"
               ></app-input-select-option>
             </div>
@@ -69,6 +71,7 @@
                 [formGroup]="formFiltros"
                 [controlName]="'status'"
                 [label]="'Status das reserva'"
+                [items]="filtroStatus"
                 (emitterChange)="filterHistorico()"
               ></app-input-select-option>
             </div>
@@ -90,7 +93,11 @@
   <div class="table-content">
     <div
       class="text-center"
-      *ngIf="historico?.length! > 5 || historicoFiltered?.length! > 5"
+      *ngIf="
+        historicoFiltered
+          ? historicoFiltered?.length! > 5
+          : historico?.length! > 5
+      "
     >
       <pagination-controls
         (pageChange)="p = $event"
@@ -100,9 +107,13 @@
     </div>
 
     <div class="table-scroll">
-      <!-- historico?.length == 0 && historicoFiltered?.length == 0; -->
       <div
-        *ngIf="false; else relatorios"
+        *ngIf="
+          historicoFiltered
+            ? historicoFiltered?.length == 0
+            : historico?.length == 0;
+          else relatorios
+        "
         class="h-100 d-flex justify-content-center align-items-center"
       >
         <h3 class="text-gray text-center">Nenhum histórico encontrado :(</h3>
@@ -128,33 +139,23 @@
               class="text-center reserva-table-row"
               (click)="openModalDetalhes(h)"
             >
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-
-            <tr
-              class="text-center reserva-table-row"
-              (click)="openModalDetalhes('a')"
-            >
               <td>
-                <span> Matheus Kerscher </span>
+                {{
+                  h.informacoesComplementaresLocacao?.nomeCliente | titlecase
+                }}
               </td>
               <td>
-                <span> Pista </span>
+                {{ h.informacoesComplementaresLocacao?.nomeEspacoEsportivo }}
               </td>
+              <td>{{ h.dataHoraSolicitacao | date : "dd/MM/yyyy - HH:mm" }}</td>
               <td>
-                <span>12/12/2023 - 10:15</span>
+                <div>{{ h.dataHoraInicioReserva | date : "dd/MM/yyyy" }}</div>
+                <div>
+                  {{ h.dataHoraInicioReserva | date : "HH:mm" }} -
+                  {{ h.dataHoraFimReserva | date : "HH:mm" }}
+                </div>
               </td>
-              <td>
-                <div>14/12/2023</div>
-                <div>10:00 - 11:30</div>
-              </td>
-              <td>
-                <span> Cancelada </span>
-              </td>
+              <td>{{ h.status | titlecase }}</td>
             </tr>
           </tbody>
         </table>

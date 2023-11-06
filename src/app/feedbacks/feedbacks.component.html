@@ -23,7 +23,10 @@
     ></pagination-controls>
   </div>
 
-  <div class="mt-2 row w-100">
+  <div
+    class="mt-2 row w-100"
+    *ngIf="comentarios.length > 0; else semComentarios"
+  >
     <div
       class="col-12 col-md-6 col-lg-4 mb-3"
       *ngFor="
@@ -33,4 +36,10 @@
       <app-card-comentario></app-card-comentario>
     </div>
   </div>
+
+  <ng-template #semComentarios>
+    <p class="mt-4 text-gray text-center">
+      Nenhum comentário foi encontrado :(
+    </p>
+  </ng-template>
 </div>
