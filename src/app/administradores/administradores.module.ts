@@ -13,6 +13,7 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxUiLoaderConfig, NgxUiLoaderModule, POSITION, SPINNER } from 'ngx-ui-loader';
 import { AtivacaoContaComponent } from './ativacao-conta/ativacao-conta.component';
+import { RouterModule } from '@angular/router';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: "#5d5fef",
@@ -35,6 +36,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   ],
   imports: [
     CommonModule,
+    RouterModule,
     SharedModule,
     ReactiveFormsModule,
     NgxPaginationModule,
