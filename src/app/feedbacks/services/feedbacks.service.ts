@@ -34,7 +34,7 @@ export class FeedbacksService {
 
   public buscarComentarios(idEspaco: number): Observable<FeedbackReserva[]> {
     return this.httpService.get<FeedbackReserva[]>(
-      `${env.baseUrl}locacoes/comentarios/${idEspaco}`,
+      `${env.baseUrl}espacos-esportivos/comentarios/${idEspaco}`,
       { headers: this.createHeaders() }
     );
   }

@@ -48,18 +48,18 @@ export class FeedbacksComponent implements OnInit {
 
   buscarComentarios() {
     this.ngxLoaderService.startLoader('loader-01');
-    // this.feedbacksService
-    //   .buscarComentarios(
-    //     Number(this.formComentarios.get('espacoEsportivo')?.value)
-    //   )
-    //   .subscribe({
-    //     next: (result) => {
-    //       this.comentarios = result;
-    //     },
-    //     error: (err) => {
-    //       console.log(err);
-    //     },
-    //   });
+    this.feedbacksService
+      .buscarComentarios(
+        Number(this.formComentarios.get('espacoEsportivo')?.value)
+      )
+      .subscribe({
+        next: (result) => {
+          this.comentarios = result.filter((c) => c.comentario !== null);
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
     this.ngxLoaderService.stopLoader('loader-01');
   }
 }

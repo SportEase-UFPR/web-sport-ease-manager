@@ -1,5 +1,5 @@
-import { StatusLocacao } from "../enums/status-locacao";
-import { InformacoesComplementaresLocacao } from "./Informacoes-complementares-locacao.model";
+import { StatusLocacao } from '../enums/status-locacao';
+import { InformacoesComplementaresLocacao } from './Informacoes-complementares-locacao.model';
 
 export class Reserva {
   constructor(
@@ -11,6 +11,8 @@ export class Reserva {
     public dataHoraFimReserva?: Date | string,
     public status?: StatusLocacao,
     public motivoCancelamento?: string,
-    public informacoesComplementaresLocacao?: InformacoesComplementaresLocacao
+    public informacoesComplementaresLocacao?: InformacoesComplementaresLocacao,
+    public comentario?: string,
+    public avaliacao?: number
   ) {}
 }

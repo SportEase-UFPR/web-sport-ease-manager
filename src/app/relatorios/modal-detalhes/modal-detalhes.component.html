@@ -141,6 +141,21 @@
             <span>{{ reserva.motivoCancelamento }}</span>
           </p>
         </div>
+
+        <div class="col-12" *ngIf="reserva?.avaliacao">
+          <p>
+            <span class="info-title text-purple"> Nota para reserva: </span>
+            <span>{{ reserva.avaliacao }} de 5</span>
+          </p>
+        </div>
+        <div class="col-12" *ngIf="reserva?.comentario">
+          <p>
+            <span class="info-title text-purple">
+              Comentário sobre a reserva:
+            </span>
+            <span>{{ reserva.comentario }}</span>
+          </p>
+        </div>
       </div>
     </div>
   </div>

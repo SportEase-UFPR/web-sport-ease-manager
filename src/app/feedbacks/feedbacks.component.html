@@ -33,7 +33,7 @@
         let c of comentarios | paginate : { itemsPerPage: 9, currentPage: p }
       "
     >
-      <app-card-comentario></app-card-comentario>
+      <app-card-comentario [comentario]="c"></app-card-comentario>
     </div>
   </div>
 
