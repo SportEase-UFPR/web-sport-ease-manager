@@ -28,7 +28,7 @@
         </p>
       </div>
 
-      <div class="col-12 col-md-6">
+      <div class="col-12" [ngClass]="{'col-md-6': !reserva.informacoesComplementaresLocacao?.alunoUFPR}">
         <p>
           <span class="info-title text-purple">CPF: </span>
           <span>{{
@@ -40,10 +40,17 @@
 
       <div class="col-12 col-md-6">
         <p>
-          <span class="info-title text-purple">Estudante UFPR: </span>
+          <span class="info-title text-purple">Aluno UFPR: </span>
           <span>{{
             reserva.informacoesComplementaresLocacao?.alunoUFPR ? "Sim" : "Não"
           }}</span>
+        </p>
+      </div>
+
+      <div class="col-12 col-md-6" *ngIf="reserva.informacoesComplementaresLocacao?.alunoUFPR">
+        <p>
+          <span class="info-title text-purple">GRR: </span>
+          <span>{{ reserva.informacoesComplementaresLocacao?.grr }}</span>
         </p>
       </div>
 

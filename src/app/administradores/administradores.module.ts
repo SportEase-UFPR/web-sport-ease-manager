@@ -8,7 +8,6 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { AdministradoresComponent } from './administradores.component';
 import { SharedModule } from '../shared/shared.module';
 import { FormComponent } from './form/form.component';
-import { ModalDetalhesComponent } from './modal-detalhes/modal-detalhes.component';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxUiLoaderConfig, NgxUiLoaderModule, POSITION, SPINNER } from 'ngx-ui-loader';
@@ -31,7 +30,6 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   declarations: [
     AdministradoresComponent,
     FormComponent,
-    ModalDetalhesComponent,
     AtivacaoContaComponent
   ],
   imports: [

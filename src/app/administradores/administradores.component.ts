@@ -9,7 +9,6 @@ import {
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ModalDetalhesComponent } from './modal-detalhes/modal-detalhes.component';
 import { AdministradoresService } from './services/administradores.service';
 import { Subscription } from 'rxjs';
 import { Adm } from '../shared/models/adm/adm.model';
@@ -91,14 +90,6 @@ export class AdministradoresComponent implements OnInit, OnDestroy {
 
   navigate(rota: string, parametro?: string) {
     this.router.navigateByUrl(parametro ? `${rota}/${parametro}` : rota);
-  }
-
-  openModalDetalhes(adm: Adm): void {
-    const modalRef = this.modalService.open(ModalDetalhesComponent, {
-      centered: true,
-    });
-
-    modalRef.componentInstance.adm = adm;
   }
 
   openModalConfirmacao(modal: any, id: number, nomeEE: string): void {

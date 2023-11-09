@@ -89,7 +89,8 @@
             <tr class="text-center">
               <th scope="col">Nome</th>
               <th scope="col">E-mail</th>
-              <th scope="col">Ações</th>
+              <th scope="col">CPF</th>
+              <th *ngIf="adms?.length! > 1" scope="col">Ações</th>
             </tr>
           </thead>
           <tbody>
@@ -109,17 +110,17 @@
               </td>
 
               <td>
-                <div class="d-flex justify-content-center">
-                  <button class="btn-acoes me-2" (click)="openModalDetalhes(a)">
-                    <fa-icon [icon]="faEye"></fa-icon>
-                  </button>
+                <p class="mb-0 mt-2">{{ a.cpf! | mask : "000.000.000-00" }}</p>
+              </td>
 
+              <td *ngIf="adms?.length! > 1">
+                <div class="d-flex justify-content-center">
                   <button
+                    *ngIf="userId !== a.idUsuario"
                     class="btn-acoes"
                     (click)="
                       openModalConfirmacao(modalExclusaoAdm, a.id!, a.nome!)
                     "
-                    *ngIf="adms?.length! > 1 && userId !== a.idUsuario"
                   >
                     <fa-icon [icon]="faTrash"></fa-icon>
                   </button>
