@@ -109,7 +109,7 @@
           [controlName]="'ativo'"
           [label]="'Espaco Esportivo Ativo'"
         ></app-input-toogle>
-       
+
         <div>
           <app-input-field
             [formGroup]="formEspacoEsportivo"
@@ -194,6 +194,36 @@
         ></app-input-field>
       </div>
 
+      <div class="col-12 col-md-6">
+        <app-input-field
+          [formGroup]="formEspacoEsportivo"
+          [controlName]="'capacidadeMin'"
+          [label]="'Quantidade mínima de participantes'"
+          [validacaoInput]="true"
+          [placeholder]="'Ex.: 15'"
+        ></app-input-field>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <app-input-field
+          [formGroup]="formEspacoEsportivo"
+          [controlName]="'capacidadeMax'"
+          [label]="'Quantidade máxima de participantes'"
+          [validacaoInput]="true"
+          [placeholder]="'Ex.: 15'"
+        ></app-input-field>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <app-input-field
+          [formGroup]="formEspacoEsportivo"
+          [controlName]="'piso'"
+          [label]="'Piso'"
+          [validacaoInput]="true"
+          [placeholder]="'Ex.: Madeira'"
+        ></app-input-field>
+      </div>
+
       <div class="col-12 col-md-5">
         <div class="row align-items-center">
           <div class="col-12 col-md-10 pe-1">
@@ -225,26 +255,6 @@
             ></app-btn-chip>
           </div>
         </div>
-      </div>
-
-      <div class="col-12 col-md-4">
-        <app-input-field
-          [formGroup]="formEspacoEsportivo"
-          [controlName]="'piso'"
-          [label]="'Piso'"
-          [validacaoInput]="true"
-          [placeholder]="'Ex.: Madeira'"
-        ></app-input-field>
-      </div>
-
-      <div class="col-12 col-md-3">
-        <app-input-field
-          [formGroup]="formEspacoEsportivo"
-          [controlName]="'capacidade'"
-          [label]="'Capacidade'"
-          [validacaoInput]="true"
-          [placeholder]="'Ex.: 15'"
-        ></app-input-field>
       </div>
 
       <div class="col-12 d-block d-md-flex">

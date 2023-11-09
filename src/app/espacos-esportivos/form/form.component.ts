@@ -41,7 +41,8 @@ export class FormComponent implements OnInit, OnDestroy {
     maxLocacao: new FormControl(null, [Validators.required, Validators.min(1)]),
     esportes: new FormControl(null),
     piso: new FormControl(null, [Validators.required]),
-    capacidade: new FormControl(null, [Validators.required]),
+    capacidadeMin: new FormControl(null, [Validators.required]),
+    capacidadeMax: new FormControl(null, [Validators.required]),
   });
 
   formEsporte: FormGroup = new FormGroup({
@@ -98,7 +99,8 @@ export class FormComponent implements OnInit, OnDestroy {
               localidade: result.localidade,
               dimensoes: result.dimensoes,
               piso: result.piso,
-              capacidade: result.capacidade,
+              capacidadeMin: result.capacidade,
+              capacidadeMax: result.capacidade,
               abertura: result.horaAbertura,
               fechamento: result.horaFechamento,
               periodo: result.periodoLocacao,
@@ -279,7 +281,7 @@ export class FormComponent implements OnInit, OnDestroy {
         form.get('localidade')?.value,
         form.get('piso')?.value,
         form.get('dimensoes')?.value,
-        Number(form.get('capacidade')?.value),
+        Number(form.get('capacidadeMax')?.value),
         form.get('ativo')?.value,
         this.esportesOfEE,
         this.imgPreviewUrl,

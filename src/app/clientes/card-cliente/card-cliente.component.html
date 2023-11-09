@@ -1,0 +1,114 @@
+<div class="card-reserva">
+  <div class="reserva-header">
+    <h4 class="text-purple">Cliente</h4>
+  </div>
+
+  <hr class="mt-1 mb-2" />
+
+  <div class="reserva-body">
+    <div class="row w-100">
+      <div class="col-12">
+        <p>
+          <span class="info-title text-purple">E-mail: </span>
+          <span></span>
+        </p>
+      </div>
+
+      <div class="col-12">
+        <p>
+          <span class="info-title text-purple">CPF: </span>
+          <span></span>
+        </p>
+      </div>
+
+      <div class="col-12 col-md-5">
+        <p>
+          <span class="info-title text-purple">Aluno UFPR: </span>
+          <span></span>
+        </p>
+      </div>
+
+      <div class="col-12 col-md-7">
+        <p>
+          <span class="info-title text-purple">GRR: </span>
+          <span></span>
+        </p>
+      </div>
+
+      <div class="col-12">
+        <p>
+          <span class="info-title text-purple"
+            >Quantidade total de reservas:
+          </span>
+          <span></span>
+        </p>
+      </div>
+
+      <div class="col-12">
+        <p class="info-title text-purple">Quantidade de reservas por status:</p>
+      </div>
+
+      <div class="col-12 d-flex justify-content-center">
+        <p>
+          <span class="info-title text-purple"
+            >{{ statusReserva.ABANDONADA | titlecase }}:
+          </span>
+          <span></span>
+        </p>
+
+        <p class="mx-3">
+          <span class="info-title text-purple"
+            >{{ statusReserva.APROVADA | titlecase }}:
+          </span>
+          <span></span>
+        </p>
+
+        <p>
+          <span class="info-title text-purple"
+            >{{ statusReserva.CANCELADA | titlecase }}:
+          </span>
+          <span></span>
+        </p>
+      </div>
+
+      <div class="col-12 d-flex justify-content-center">
+        <p>
+          <span class="info-title text-purple"
+            >{{ statusReserva.FINALIZADA | titlecase }}:
+          </span>
+          <span></span>
+        </p>
+
+        <p class="mx-3">
+          <span class="info-title text-purple"
+            >{{ statusReserva.NEGADA | titlecase }}:
+          </span>
+          <span></span>
+        </p>
+
+        <p>
+          <span class="info-title text-purple"
+            >{{ statusReserva.SOLICITADA | titlecase }}:
+          </span>
+          <span></span>
+        </p>
+      </div>
+    </div>
+
+    <div class="reserva-footer">
+      <app-btn-purple
+        [showIcon]="true"
+        [icone]="faCircleCheck"
+        [textButton]="'Ativar conta'"
+        (emmiterClick)="ativarConta()"
+      ></app-btn-purple>
+
+      <app-btn-red
+        [showIcon]="true"
+        [icone]="faBan"
+        [textButton]="'Desativar Conta'"
+        (emmiterClick)="desativarConta()"
+      ></app-btn-red>
+    </div>
+  </div>
+</div>

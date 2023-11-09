@@ -57,6 +57,7 @@ export class FeedbacksComponent implements OnInit {
           this.comentarios = result.filter((c) => c.comentario !== null);
         },
         error: (err) => {
+          this.comentarios = [];
           console.log(err);
         },
       });

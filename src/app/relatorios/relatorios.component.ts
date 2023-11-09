@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   faAngleDown,
   faAngleUp,
+  faBan,
+  faCheck,
   faFilterCircleXmark,
+  faXmark,
 } from '@fortawesome/free-solid-svg-icons';
-const moment = require('moment');
 import { ToastrService } from 'ngx-toastr';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ModalDetalhesComponent } from './modal-detalhes/modal-detalhes.component';
@@ -13,7 +15,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { RelatoriosService } from './services/relatorios.service';
 import { Reserva } from '../shared/models/reserva/reserva.model';
 import { Item } from '../shared/components/inputs/input-select-option/model/item.model';
-import { StatusLocacao } from '../shared/models/enums/status-locacao';
+import { NegarReserva } from '../shared/models/reserva/negar-reserva.model';
+import { faEye } from '@fortawesome/free-regular-svg-icons';
+const moment = require('moment');
 
 @Component({
   selector: 'app-relatorios',
@@ -29,7 +33,16 @@ export class RelatoriosComponent implements OnInit {
     status: new FormControl(null),
   });
 
+  formJustificativa: FormGroup = new FormGroup({
+    justificativa: new FormControl(null, [Validators.required]),
+  });
+
   faFilterRemove = faFilterCircleXmark;
+  faClose = faXmark;
+  faConfirm = faCheck;
+  faEye = faEye;
+  faBan = faBan;
+
   motivoReservaCollapsed: boolean = true;
 
   historico?: Reserva[];
@@ -40,6 +53,7 @@ export class RelatoriosComponent implements OnInit {
   filtroStatus: Item[] = [];
 
   p: number = 1;
+  private idReserva?: number;
 
   constructor(
     private toastrService: ToastrService,
@@ -50,6 +64,11 @@ export class RelatoriosComponent implements OnInit {
 
   ngOnInit(): void {
     this.ngxLoaderService.startLoader('loader-01');
+    this.populate();
+    this.ngxLoaderService.stopLoader('loader-01');
+  }
+
+  populate() {
     this.relatoriosService.buscarRelatorios().subscribe({
       next: (result) => {
         this.historico = result;
@@ -63,7 +82,6 @@ export class RelatoriosComponent implements OnInit {
         );
       },
     });
-    this.ngxLoaderService.stopLoader('loader-01');
   }
 
   filterHistorico(): void {
@@ -149,6 +167,11 @@ export class RelatoriosComponent implements OnInit {
   }
 
   montarFiltros() {
+    this.filtroClientes = [];
+    this.filtroLocal = [];
+    this.filtroStatus = [];
+    this.motivoReservaCollapsed = false;
+
     this.historico?.forEach((h) => {
       this.adicionarItemUnico(
         this.filtroClientes,
@@ -188,5 +211,91 @@ export class RelatoriosComponent implements OnInit {
         return 0;
       });
     }
+  }
+
+  openModalConfirmacao(id: number, modal: any): void {
+    this.idReserva = id;
+
+    this.modalService.open(modal, {
+      centered: true,
+    });
+  }
+
+  closeModal() {
+    this.modalService.dismissAll();
+  }
+
+  aprovarReserva() {
+    this.ngxLoaderService.startLoader('loader-01');
+    this.relatoriosService.aprovarReserva(this.idReserva!).subscribe({
+      next: (result) => {
+        this.populate();
+        this.formJustificativa.reset();
+        this.closeModal();
+        this.toastrService.success(
+          `Reserva ${this.idReserva} aprovada com sucesso`,
+          'Sucesso!'
+        );
+      },
+      error: (err) => {
+        this.toastrService.error(
+          'Por favor, tente novamente mais tarde',
+          `Erro ao aprovar reserva ${this.idReserva}`
+        );
+      },
+    });
+    this.ngxLoaderService.stopLoader('loader-01');
+  }
+
+  negarReserva() {
+    this.ngxLoaderService.startLoader('loader-01');
+    const motivo = this.formJustificativa.get('justificativa');
+    if (motivo?.valid) {
+      this.relatoriosService
+        .negarReserva(this.idReserva!, new NegarReserva(motivo.value))
+        .subscribe({
+          next: (result) => {
+            this.populate();
+            this.formJustificativa.reset();
+            this.closeModal();
+            this.toastrService.success(
+              `Reserva ${this.idReserva} negada com sucesso`,
+              'Sucesso!'
+            );
+          },
+          error: (err) => {
+            this.toastrService.error(
+              'Por favor, tente novamente mais tarde',
+              `Erro ao negar reserva ${this.idReserva}`
+            );
+          },
+        });
+    } else {
+      this.toastrService.error(
+        'Por favor, informe o motivo da negação da reserva',
+        `Erro ao negar reserva ${this.idReserva}`
+      );
+    }
+    this.ngxLoaderService.stopLoader('loader-01');
+  }
+
+  encerrarReserva() {}
+
+  showEncerrarStatus(hora: Date | string): boolean {
+    const horaAtual = moment();
+    const horaReserva = moment(hora);
+    return horaAtual.diff(horaReserva, 'hours') >= 24;
+  }
+
+  showAprovarReserva(hora: Date | string): boolean {
+    const horaAtual = moment();
+    const horaReserva = moment(hora);
+    return horaAtual.diff(horaReserva, 'minutes') <= -15;
+  }
+
+  showNegarReserva(hora: Date | string): boolean {
+    const horaAtual = moment();
+    const horaReserva = moment(hora);
+    return horaAtual.diff(horaReserva, 'minutes') <= 0;
   }
 }

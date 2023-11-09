@@ -18,9 +18,16 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { EdicaoPerfilModule } from './edicao-perfil/edicao-perfil.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { FeedbacksModule } from './feedbacks/feedbacks.module';
+import { ClientesComponent } from './clientes/clientes.component';
+import { ClientesModule } from './clientes/clientes.module';
 
 @NgModule({
-  declarations: [AppComponent, CabecalhoComponent, MenuComponent, PageNotFoundComponent],
+  declarations: [
+    AppComponent,
+    CabecalhoComponent,
+    MenuComponent,
+    PageNotFoundComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -35,7 +42,8 @@ import { FeedbacksModule } from './feedbacks/feedbacks.module';
     FontAwesomeModule,
     ReactiveFormsModule,
     EdicaoPerfilModule,
-    FeedbacksModule
+    FeedbacksModule,
+    ClientesModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

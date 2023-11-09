@@ -17,6 +17,7 @@ import { FormComponent } from './espacos-esportivos/form/form.component';
 import { RecuperarSenhaComponent } from './login/recuperar-senha/recuperar-senha.component';
 import { CadastrarSenhaComponent } from './login/cadastrar-senha/cadastrar-senha.component';
 import { FeedbacksComponent } from './feedbacks/feedbacks.component';
+import { ClientesComponent } from './clientes/clientes.component';
 
 const routes: Routes = [
   {
@@ -97,6 +98,12 @@ const routes: Routes = [
   {
     path: 'editar-espaco/:id',
     component: FormComponent,
+    canActivate: [authGuard],
+  },
+
+  {
+    path: 'clientes',
+    component: ClientesComponent,
     canActivate: [authGuard],
   },
 

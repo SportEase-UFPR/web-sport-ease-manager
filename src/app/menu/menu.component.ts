@@ -8,6 +8,7 @@ import {
   faHouse,
   faPlusSquare,
   faUserGroup,
+  faUsers,
 } from '@fortawesome/free-solid-svg-icons';
 import { LoginService } from '../login/services/login.service';
 
@@ -19,6 +20,7 @@ import { LoginService } from '../login/services/login.service';
 export class MenuComponent implements OnInit, DoCheck {
   faHouse = faHouse;
   faUsers = faUserGroup;
+  faUsersGroup = faUsers;
   faEmail = faEnvelope;
   faDumbbell = faDumbbell;
   faComments = faComments;
@@ -45,6 +47,7 @@ export class MenuComponent implements OnInit, DoCheck {
       'novo-espaco': 'espacos-esportivos',
       'editar-espaco': 'espacos-esportivos',
       'visualizar-espaco': 'espacos-esportivos',
+      clientes: 'clientes',
       relatorios: 'relatorios',
       feedbacks: 'feedbacks',
     };
