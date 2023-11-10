@@ -17,7 +17,7 @@ export class FeedbacksComponent implements OnInit {
   });
 
   p: number = 1;
-  comentarios: FeedbackReserva[] = [];
+  comentarios?: FeedbackReserva[] = [];
   espacos: Item[] = [];
 
   constructor(
@@ -47,7 +47,7 @@ export class FeedbacksComponent implements OnInit {
   }
 
   buscarComentarios() {
-    this.ngxLoaderService.startLoader('loader-01');
+    this.comentarios = undefined;
     this.feedbacksService
       .buscarComentarios(
         Number(this.formComentarios.get('espacoEsportivo')?.value)
@@ -61,6 +61,5 @@ export class FeedbacksComponent implements OnInit {
           console.log(err);
         },
       });
-    this.ngxLoaderService.stopLoader('loader-01');
   }
 }

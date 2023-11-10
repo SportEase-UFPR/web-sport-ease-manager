@@ -28,7 +28,7 @@ export class DashboardComponent implements OnInit {
   faClose = faXmark;
   faConfirm = faCheck;
 
-  reservas: Reserva[] = [];
+  reservas?: Reserva[];
   opcFiltroSolicitacoes: Item[] = [
     new Item(0, 'Antigas primeiro'),
     new Item(1, 'Recentes primeiro'),
@@ -44,9 +44,7 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.ngxLoaderService.startLoader('loader-01');
     this.populate();
-    this.ngxLoaderService.stopLoader('loader-01');
   }
 
   populate() {
@@ -89,11 +87,11 @@ export class DashboardComponent implements OnInit {
 
   ordenarReservas() {
     if (Number(this.formFiltro.get('tempoSolicitacao')?.value) === 0) {
-      this.reservas = this.reservas.sort(
+      this.reservas = this.reservas?.sort(
         (a, b) => moment(a.dataHoraSolicitacao) - moment(b.dataHoraSolicitacao)
       );
     } else {
-      this.reservas = this.reservas.sort(
+      this.reservas = this.reservas?.sort(
         (a, b) => moment(b.dataHoraSolicitacao) - moment(a.dataHoraSolicitacao)
       );
     }

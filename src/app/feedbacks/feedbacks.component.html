@@ -15,31 +15,61 @@
     </form>
   </div>
 
-  <div class="text-center" *ngIf="comentarios.length > 9">
-    <pagination-controls
-      (pageChange)="p = $event"
-      previousLabel="<"
-      nextLabel=">"
-    ></pagination-controls>
-  </div>
+  <ng-container *ngIf="comentarios == undefined; else noSkeleton">
+    <div class="row w-100">
+      <div class="col-4 mt-4" *ngFor="let i of [0, 1, 2, 3, 4, 5]">
+        <ngx-skeleton-loader
+          count="1"
+          appearance="line"
+          [theme]="{ background: '#73779144' }"
+        ></ngx-skeleton-loader>
 
-  <div
-    class="mt-2 row w-100 justify-content-center"
-    *ngIf="comentarios.length > 0; else semComentarios"
-  >
-    <div
-      class="col-12 col-md-6 col-lg-4 mb-3"
-      *ngFor="
-        let c of comentarios | paginate : { itemsPerPage: 9, currentPage: p }
-      "
-    >
-      <app-card-comentario [comentario]="c"></app-card-comentario>
+        <div class="my-2"></div>
+
+        <ngx-skeleton-loader
+          count="1"
+          appearance="line"
+          [theme]="{ background: '#73779144' }"
+        ></ngx-skeleton-loader>
+
+        <div class="w-50">
+          <ngx-skeleton-loader
+            count="1"
+            appearance="line"
+            [theme]="{ background: '#73779144' }"
+          ></ngx-skeleton-loader>
+        </div>
+      </div>
     </div>
-  </div>
+  </ng-container>
 
-  <ng-template #semComentarios>
-    <p class="mt-4 text-gray text-center">
-      Nenhum comentário foi encontrado :(
-    </p>
+  <ng-template #noSkeleton>
+    <div class="text-center" *ngIf="comentarios?.length! > 9">
+      <pagination-controls
+        (pageChange)="p = $event"
+        previousLabel="<"
+        nextLabel=">"
+      ></pagination-controls>
+    </div>
+
+    <div
+      class="mt-2 row w-100 justify-content-center"
+      *ngIf="comentarios?.length! > 0; else semComentarios"
+    >
+      <div
+        class="col-12 col-md-6 col-lg-4 mb-3"
+        *ngFor="
+          let c of comentarios! | paginate : { itemsPerPage: 9, currentPage: p }
+        "
+      >
+        <app-card-comentario [comentario]="c"></app-card-comentario>
+      </div>
+    </div>
+
+    <ng-template #semComentarios>
+      <p class="mt-4 text-gray text-center">
+        Nenhum comentário foi encontrado :(
+      </p>
+    </ng-template>
   </ng-template>
 </div>

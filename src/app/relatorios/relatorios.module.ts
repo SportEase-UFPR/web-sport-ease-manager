@@ -15,6 +15,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalDetalhesComponent } from './modal-detalhes/modal-detalhes.component';
 import { NgxMaskPipe } from 'ngx-mask';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: '#5d5fef',
@@ -39,7 +40,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     NgbCollapseModule,
     ToastrModule.forRoot(),
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
-    NgxMaskPipe
+    NgxMaskPipe,
+    NgxSkeletonLoaderModule
   ],
 })
 export class RelatoriosModule {}

@@ -33,7 +33,7 @@ export class AdministradoresComponent implements OnInit, OnDestroy {
 
   inscricaoAdms!: Subscription;
 
-  adms: Adm[] = [];
+  adms?: Adm[];
   admsFilter: Adm[] = [];
 
   p: number = 1;
@@ -57,12 +57,10 @@ export class AdministradoresComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.ngxLoaderService.startLoader('loader-01');
     const ssDados: UsuarioSs = this.ssService.get(env.ss_token);
     const token: Token = jwt_decode(ssDados.token!);
     this.userId = Number(token.sub);
     this.populate();
-    this.ngxLoaderService.stopLoader('loader-01');
   }
 
   populate(): void {
@@ -72,6 +70,7 @@ export class AdministradoresComponent implements OnInit, OnDestroy {
         this.admsFilter = result;
       },
       error: (err) => {
+        this.adms = [];
         console.error(err);
       },
     });
@@ -80,7 +79,7 @@ export class AdministradoresComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {}
 
   searchAdms(): void {
-    this.admsFilter = this.adms;
+    this.admsFilter = this.adms!;
 
     const valueSearch: string = this.formSearch.get('searchValue')?.value;
     this.admsFilter = this.admsFilter.filter((adm) => {

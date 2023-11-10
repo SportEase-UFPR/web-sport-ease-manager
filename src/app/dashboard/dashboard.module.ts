@@ -9,6 +9,7 @@ import { NgxUiLoaderConfig, NgxUiLoaderModule, POSITION, SPINNER } from 'ngx-ui-
 import { CardReservaComponent } from './card-reserva/card-reserva.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskPipe } from 'ngx-mask';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: "#5d5fef",
@@ -36,7 +37,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     FontAwesomeModule,
     ToastrModule.forRoot(),
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
-    NgxMaskPipe
+    NgxMaskPipe,
+    NgxSkeletonLoaderModule
   ]
 })
 export class DashboardModule { }

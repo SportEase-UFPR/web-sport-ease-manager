@@ -80,7 +80,7 @@
       Solicitações de reserva em andamento
     </h3>
 
-    <div *ngIf="reservas.length > 1">
+    <div *ngIf="reservas?.length! > 1">
       <form [formGroup]="formFiltro">
         <app-input-select-option
           [formGroup]="formFiltro"
@@ -93,20 +93,53 @@
     </div>
   </div>
 
-  <div
-    class="row w-100 justify-content-center"
-    *ngIf="reservas.length > 0; else semReservas"
-  >
-    <div class="col-12 col-md-6 my-2" *ngFor="let r of reservas">
-      <app-card-reserva
-        [reserva]="r"
-        (aprovarReserva)="openModalConfirmacao(r.id!, modalAprovarReserva)"
-        (negarReserva)="openModalConfirmacao(r.id!, modalNegarReserva)"
-      ></app-card-reserva>
-    </div>
-  </div>
+  <ng-container *ngIf="reservas == undefined; else noSkeleton">
+    <div class="row w-100 justify-content-center">
+      <div class="col-12 col-md-6 mt-3" *ngFor="let i of [0, 1]">
+        <ngx-skeleton-loader
+          count="1"
+          appearance="line"
+          [theme]="{ background: '#73779144' }"
+        ></ngx-skeleton-loader>
+        <hr class="mt-1 mb-3" />
+        <ngx-skeleton-loader
+          count="3"
+          appearance="line"
+          [theme]="{ background: '#73779144' }"
+        ></ngx-skeleton-loader>
+        <div class="my-3"></div>
 
-  <ng-template #semReservas>
-    <p class="text-gray text-center mt-4">Nenhuma reserva foi encontrada :(</p>
+        <div class="d-flex justify-content-end">
+          <div class="w-50">
+            <ngx-skeleton-loader
+              count="1"
+              appearance="line"
+              [theme]="{ background: '#73779144' }"
+            ></ngx-skeleton-loader>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #noSkeleton>
+    <div
+      class="row w-100 justify-content-center"
+      *ngIf="reservas?.length! > 0; else semReservas"
+    >
+      <div class="col-12 col-md-6 my-2" *ngFor="let r of reservas">
+        <app-card-reserva
+          [reserva]="r"
+          (aprovarReserva)="openModalConfirmacao(r.id!, modalAprovarReserva)"
+          (negarReserva)="openModalConfirmacao(r.id!, modalNegarReserva)"
+        ></app-card-reserva>
+      </div>
+    </div>
+
+    <ng-template #semReservas>
+      <p class="text-gray text-center mt-4">
+        Nenhuma reserva foi encontrada :(
+      </p>
+    </ng-template>
   </ng-template>
 </div>

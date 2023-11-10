@@ -13,6 +13,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgxUiLoaderConfig, NgxUiLoaderModule, POSITION, SPINNER } from 'ngx-ui-loader';
 import { AtivacaoContaComponent } from './ativacao-conta/ativacao-conta.component';
 import { RouterModule } from '@angular/router';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: "#5d5fef",
@@ -43,6 +44,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     NgxMaskPipe,
     ToastrModule.forRoot(),
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
+    NgxSkeletonLoaderModule
   ],
   providers: [provideNgxMask()],
 })

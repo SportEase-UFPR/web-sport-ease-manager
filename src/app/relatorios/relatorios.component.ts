@@ -63,9 +63,7 @@ export class RelatoriosComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.ngxLoaderService.startLoader('loader-01');
     this.populate();
-    this.ngxLoaderService.stopLoader('loader-01');
   }
 
   populate() {
@@ -75,7 +73,7 @@ export class RelatoriosComponent implements OnInit {
         this.montarFiltros();
       },
       error: (erro) => {
-        this.historico = undefined;
+        this.historico = [];
         this.toastrService.error(
           'Por favor, tente novamnete mais tarde',
           'Erro ao trazer histórico das reservas'
@@ -180,19 +178,28 @@ export class RelatoriosComponent implements OnInit {
 
       this.adicionarItemUnico(
         this.filtroLocal,
-        h.informacoesComplementaresLocacao?.nomeEspacoEsportivo!
+        h.informacoesComplementaresLocacao?.idEspacoEsportivo!,
+        h.informacoesComplementaresLocacao?.nomeEspacoEsportivo
       );
 
       this.adicionarItemUnico(this.filtroStatus, h.status!);
     });
   }
 
-  adicionarItemUnico(filtroArray: Item[], value: string) {
+  adicionarItemUnico(
+    filtroArray: Item[],
+    value: string | number,
+    label?: string
+  ) {
     if (
       filtroArray.length === 0 ||
       !filtroArray.some((f) => f.value === value)
     ) {
-      filtroArray.push(new Item(value, value));
+      if (label) {
+        filtroArray.push(new Item(value, label));
+      } else {
+        filtroArray.push(new Item(value, value.toString()));
+      }
 
       filtroArray.sort((a, b) => {
         if (

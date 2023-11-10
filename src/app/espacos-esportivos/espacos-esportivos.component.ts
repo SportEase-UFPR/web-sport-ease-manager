@@ -26,7 +26,7 @@ export class EspacosEsportivosComponent implements OnInit {
     searchValue: new FormControl(null, [Validators.required]),
   });
 
-  ee: eeResponse[] = [];
+  ee?: eeResponse[];
   eeFilter: eeResponse[] = [];
 
   p: number = 1;
@@ -50,9 +50,7 @@ export class EspacosEsportivosComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.ngxLoaderService.startLoader('loader-01');
     this.populate();
-    this.ngxLoaderService.stopLoader('loader-01');
   }
 
   populate(): void {
@@ -68,7 +66,7 @@ export class EspacosEsportivosComponent implements OnInit {
   }
 
   searchEspacoEsportivo(): void {
-    this.eeFilter = this.ee;
+    this.eeFilter = this.ee!;
 
     const valueSearch: string = this.formSearch.get('searchValue')?.value;
     this.eeFilter = this.eeFilter.filter((adm) => {

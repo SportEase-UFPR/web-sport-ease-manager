@@ -6,6 +6,7 @@ import { NgxUiLoaderConfig, POSITION, SPINNER, NgxUiLoaderModule } from 'ngx-ui-
 import { SharedModule } from '../shared/shared.module';
 import { ClientesComponent } from './clientes.component';
 import { CardClienteComponent } from './card-cliente/card-cliente.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: '#5d5fef',
@@ -30,6 +31,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     SharedModule,
     ToastrModule.forRoot(),
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
+    NgxSkeletonLoaderModule
   ]
 })
 export class ClientesModule { }

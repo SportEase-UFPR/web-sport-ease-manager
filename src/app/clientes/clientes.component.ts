@@ -24,6 +24,8 @@ export class ClientesComponent implements OnInit {
 
   nomeClienteModify: string = '';
 
+  clientes?: any[]
+
   constructor(
     private modalService: NgbModal,
     private toastrService: ToastrService,

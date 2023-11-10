@@ -7,6 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { SharedModule } from '../shared/shared.module';
 import { CardComentarioComponent } from './card-comentario/card-comentario.component';
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: "#5d5fef",
@@ -34,6 +35,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     NgxPaginationModule,
     ToastrModule.forRoot(),
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
+    NgxSkeletonLoaderModule
   ]
 })
 export class FeedbacksModule { }
