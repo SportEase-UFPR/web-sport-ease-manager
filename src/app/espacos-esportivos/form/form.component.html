@@ -55,7 +55,7 @@
           [showIcon]="true"
           [iconFirst]="true"
           [icone]="faConfirm"
-          (emmiterClick)="adiconarEsporte()"
+          (emmiterClick)="cadastrarEsporte()"
         ></app-btn-purple>
       </div>
 
@@ -261,7 +261,7 @@
               [label]="'Tipos de esportes'"
               [validacaoInput]="false"
               [items]="esportes"
-              (emitterChange)="adiconaEsporte()"
+              (emitterChange)="adicionaEsporte()"
             ></app-input-select-option>
           </div>
 
@@ -274,14 +274,14 @@
             ></app-btn-purple>
           </div>
         </div>
+      </div>
 
-        <div class="mb-3 mt-2 tipos-esportes">
-          <div *ngFor="let e of esportesOfEE">
-            <app-btn-chip
-              [text]="e.nome!"
-              (emitterClick)="removerTipoEsporte(e.id!)"
-            ></app-btn-chip>
-          </div>
+      <div class="col-12 col-md-7 tipos-esportes">
+        <div *ngFor="let e of esportesOfEE">
+          <app-btn-chip
+            [text]="e.nome!"
+            (emitterClick)="removerTipoEsporte(e.id!)"
+          ></app-btn-chip>
         </div>
       </div>
 

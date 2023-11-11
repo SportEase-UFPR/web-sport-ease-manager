@@ -5,6 +5,7 @@ import { Item } from '../shared/components/inputs/input-select-option/model/item
 import { ToastrService } from 'ngx-toastr';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { FeedbackReserva } from '../shared/models/reserva/feedback-reserva.model';
+import { BuildFilter } from '../utils/build-filter';
 
 @Component({
   selector: 'app-feedbacks',
@@ -16,9 +17,15 @@ export class FeedbacksComponent implements OnInit {
     espacoEsportivo: new FormControl(null),
   });
 
+  formRating: FormGroup = new FormGroup({
+    rating: new FormControl(-1),
+  });
+
   p: number = 1;
   comentarios?: FeedbackReserva[] = [];
+  comentariosFiltered?: FeedbackReserva[];
   espacos: Item[] = [];
+  filterRating: Item[] = [];
 
   constructor(
     private feedbacksService: FeedbacksService,
@@ -54,12 +61,35 @@ export class FeedbacksComponent implements OnInit {
       )
       .subscribe({
         next: (result) => {
+          this.formRating.reset();
           this.comentarios = result.filter((c) => c.comentario !== null);
+          BuildFilter.adicionarItem(this.filterRating, -1, 'Todos');
+          this.comentarios.forEach((c) =>
+            BuildFilter.adicionarItem(
+              this.filterRating,
+              c.avaliacao!,
+              `${c.avaliacao} ${c.avaliacao == 1 ? ' estrela' : ' estrelas'}`
+            )
+          );
         },
         error: (err) => {
           this.comentarios = [];
           console.log(err);
         },
       });
+  }
+
+  filtrarComentarios() {
+    this.ngxLoaderService.startLoader('loader-01');
+    const value = Number(this.formRating.get('rating')?.value);
+
+    if (value == -1) {
+      this.comentariosFiltered = undefined;
+    } else {
+      this.comentariosFiltered = this.comentarios?.filter(
+        (c) => c.avaliacao == Number(this.formRating.get('rating')?.value)
+      );
+    }
+    this.ngxLoaderService.stopLoader('loader-01');
   }
 }

@@ -1,6 +1,7 @@
 @import "/src/cores.scss";
 
 .card-comentario {
+  cursor: default;
   background-color: var(--branco);
   box-shadow: 2px 2px 4px 0 var(--cinza-claro);
   padding: 10px;
@@ -21,8 +22,7 @@
     }
   }
 
-  &:hover {
-    transition: 0.2s ease-in-out;
-    transform: scale(1.04);
+  .comentario {
+    font-style: italic;
   }
 }

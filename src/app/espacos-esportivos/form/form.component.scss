@@ -112,7 +112,9 @@
 
   .tipos-esportes {
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: auto auto auto auto;
+    align-content: center;
+    justify-content: flex-start;
   }
 
   .chipDayOfWeek {

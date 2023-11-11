@@ -17,6 +17,7 @@ import { Reserva } from '../shared/models/reserva/reserva.model';
 import { Item } from '../shared/components/inputs/input-select-option/model/item.model';
 import { NegarReserva } from '../shared/models/reserva/negar-reserva.model';
 import { faEye } from '@fortawesome/free-regular-svg-icons';
+import { BuildFilter } from '../utils/build-filter';
 const moment = require('moment');
 
 @Component({
@@ -171,53 +172,19 @@ export class RelatoriosComponent implements OnInit {
     this.motivoReservaCollapsed = false;
 
     this.historico?.forEach((h) => {
-      this.adicionarItemUnico(
+      BuildFilter.adicionarItem(
         this.filtroClientes,
         h.informacoesComplementaresLocacao?.nomeCliente!
       );
 
-      this.adicionarItemUnico(
+      BuildFilter.adicionarItem(
         this.filtroLocal,
         h.informacoesComplementaresLocacao?.idEspacoEsportivo!,
         h.informacoesComplementaresLocacao?.nomeEspacoEsportivo
       );
 
-      this.adicionarItemUnico(this.filtroStatus, h.status!);
+      BuildFilter.adicionarItem(this.filtroStatus, h.status!);
     });
-  }
-
-  adicionarItemUnico(
-    filtroArray: Item[],
-    value: string | number,
-    label?: string
-  ) {
-    if (
-      filtroArray.length === 0 ||
-      !filtroArray.some((f) => f.value === value)
-    ) {
-      if (label) {
-        filtroArray.push(new Item(value, label));
-      } else {
-        filtroArray.push(new Item(value, value.toString()));
-      }
-
-      filtroArray.sort((a, b) => {
-        if (
-          a.value?.toString().toUpperCase()! >
-          b.value?.toString().toUpperCase()!
-        ) {
-          return 1;
-        }
-        if (
-          a.value?.toString().toUpperCase()! <
-          b.value?.toString().toUpperCase()!
-        ) {
-          return -1;
-        }
-
-        return 0;
-      });
-    }
   }
 
   openModalConfirmacao(id: number, modal: any): void {

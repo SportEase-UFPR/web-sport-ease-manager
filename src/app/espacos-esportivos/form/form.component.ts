@@ -225,7 +225,7 @@ export class FormComponent implements OnInit, OnDestroy {
     this.formEsporte.patchValue({ nome: null });
   }
 
-  adiconarEsporte(): void {
+  cadastrarEsporte(): void {
     const formEsporte = this.formEsporte;
 
     if (formEsporte.valid) {
@@ -241,7 +241,12 @@ export class FormComponent implements OnInit, OnDestroy {
         .subscribe({
           next: (result: EsporteResponse) => {
             this.ngxLoaderService.stopLoader('loader-01');
+            this.adicionarEsporteArray(
+              result.id!,
+              new Item(result.id, result.nome)
+            );
             this.populate();
+            this.formEsporte.reset();
             this.closeModal();
           },
           error: (err) => {
@@ -261,25 +266,26 @@ export class FormComponent implements OnInit, OnDestroy {
     }
   }
 
-  adiconaEsporte(): void {
+  adicionaEsporte(): void {
     const esporte = this.formEspacoEsportivo.get('esportes');
     const idEsporte = Number(esporte?.value);
     this.esportes.forEach((e) => {
       if (e.value == idEsporte) {
-        let jaExiste = false;
-        this.esportesOfEE?.forEach((eq) => {
-          if (eq.id == idEsporte) {
-            jaExiste = true;
-          }
-        });
-
-        if (!jaExiste) {
-          this.esportesOfEE.push(new EsporteResponse(Number(e.value), e.label));
-        }
+        this.adicionarEsporteArray(idEsporte, e);
       }
     });
 
     esporte?.patchValue(null);
+  }
+
+  adicionarEsporteArray(idEsporte: number, item: Item) {
+    const jaExiste = this.esportesOfEE?.some((eq) => eq.id === idEsporte);
+
+    if (!jaExiste) {
+      this.esportesOfEE.push(
+        new EsporteResponse(Number(item.value), item.label)
+      );
+    }
   }
 
   removerTipoEsporte(id: number): void {
