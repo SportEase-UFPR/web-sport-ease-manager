@@ -7,18 +7,33 @@ import { EspacoEsportivoResponse as eeResponse } from 'src/app/shared/models/esp
 @Component({
   selector: 'app-modal-detalhes',
   templateUrl: './modal-detalhes.component.html',
-  styleUrls: ['./modal-detalhes.component.scss']
+  styleUrls: ['./modal-detalhes.component.scss'],
 })
 export class ModalDetalhesComponent implements OnInit {
   @Input() ee!: eeResponse;
 
   faClose = faXmark;
 
-  constructor(public activeModal: NgbActiveModal, private sanatizer: DomSanitizer) {}
+  daysOfweek: string[] = [
+    'Domingo',
+    'Segunda',
+    'Terça',
+    'Quarta',
+    'Quinta',
+    'Sexta',
+    'Sábado',
+  ];
+
+  constructor(
+    public activeModal: NgbActiveModal,
+    private sanatizer: DomSanitizer
+  ) {}
 
   ngOnInit(): void {}
 
   sanatizerImg(imgUrl: string) {
-    return this.sanatizer.bypassSecurityTrustResourceUrl(`data:image/jpeg;base64,${imgUrl}`)
+    return this.sanatizer.bypassSecurityTrustResourceUrl(
+      `data:image/jpeg;base64,${imgUrl}`
+    );
   }
 }

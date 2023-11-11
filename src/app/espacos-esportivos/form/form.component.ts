@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -21,6 +21,7 @@ import { NgxImageCompressService } from 'ngx-image-compress';
 import { EsporteExclusaoResponse } from 'src/app/shared/models/espaco-esportivo/esporte-exclusao-response.model';
 import { EspacoEsportivoRequest } from 'src/app/shared/models/espaco-esportivo/espaco-esportivo-request.model';
 import { EspacoEsportivoResponse as eeResponse } from '../../shared/models/espaco-esportivo/espaco-esportivo-response.model';
+import { FormEspacoValidation } from './form-espaco-validation';
 const moment = require('moment');
 
 @Component({
@@ -43,6 +44,18 @@ export class FormComponent implements OnInit, OnDestroy {
     piso: new FormControl(null, [Validators.required]),
     capacidadeMin: new FormControl(null, [Validators.required]),
     capacidadeMax: new FormControl(null, [Validators.required]),
+    funcionamento: new FormArray(
+      [
+        new FormControl(false),
+        new FormControl(false),
+        new FormControl(false),
+        new FormControl(false),
+        new FormControl(false),
+        new FormControl(false),
+        new FormControl(false),
+      ],
+      FormEspacoValidation.requiredMinCheckbox(1)
+    ),
   });
 
   formEsporte: FormGroup = new FormGroup({
@@ -55,6 +68,7 @@ export class FormComponent implements OnInit, OnDestroy {
   faTrash = faTrash;
 
   imgPreviewUrl: string = '';
+  diasFuncionamento: number[] = [];
 
   isEdicao: boolean = false;
   idEEEdicao?: number;
@@ -66,6 +80,16 @@ export class FormComponent implements OnInit, OnDestroy {
   inscricaoCriacaoEsporte!: Subscription;
   inscricaoExclusaoEsporte!: Subscription;
   inscricaoCriacaoEE!: Subscription;
+
+  daysOfWeek: string[] = [
+    'domingo',
+    'segunda',
+    'terça',
+    'quarta',
+    'quinta',
+    'sexta',
+    'sábado',
+  ];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -90,6 +114,19 @@ export class FormComponent implements OnInit, OnDestroy {
           next: (result: eeResponse) => {
             this.ngxLoaderService.stopLoader('loader-01');
 
+            const diasFuncionamento: boolean[] = [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+            ];
+            result.diasFuncionamento?.forEach(
+              (d) => (diasFuncionamento[d] = true)
+            );
+
             this.idEEEdicao = result.id;
 
             this.formEspacoEsportivo.patchValue({
@@ -99,12 +136,13 @@ export class FormComponent implements OnInit, OnDestroy {
               localidade: result.localidade,
               dimensoes: result.dimensoes,
               piso: result.piso,
-              capacidadeMin: result.capacidade,
-              capacidadeMax: result.capacidade,
               abertura: result.horaAbertura,
               fechamento: result.horaFechamento,
               periodo: result.periodoLocacao,
               maxLocacao: result.maxLocacaoDia,
+              capacidadeMin: result.capacidadeMin,
+              capacidadeMax: result.capacidadeMax,
+              funcionamento: diasFuncionamento,
             });
 
             this.esportesOfEE = result.listaEsportes!;
@@ -124,6 +162,10 @@ export class FormComponent implements OnInit, OnDestroy {
         this.isEdicao = false;
       }
     });
+
+    this.formEspacoEsportivo
+      .get('funcionamento')
+      ?.valueChanges.subscribe((v) => this.setDiasFuncionamento(v));
   }
 
   ngOnDestroy(): void {
@@ -281,14 +323,16 @@ export class FormComponent implements OnInit, OnDestroy {
         form.get('localidade')?.value,
         form.get('piso')?.value,
         form.get('dimensoes')?.value,
-        Number(form.get('capacidadeMax')?.value),
         form.get('ativo')?.value,
         this.esportesOfEE,
         this.imgPreviewUrl,
         form.get('abertura')?.value,
         form.get('fechamento')?.value,
         form.get('periodo')?.value,
-        Number(form.get('maxLocacao')?.value)
+        Number(form.get('maxLocacao')?.value),
+        Number(form.get('capacidadeMax')?.value),
+        Number(form.get('capacidadeMin')?.value),
+        this.diasFuncionamento
       );
 
       if (this.isEdicao) {
@@ -413,5 +457,14 @@ export class FormComponent implements OnInit, OnDestroy {
         'Sem horário de funcionamento'
       );
     }
+  }
+
+  setDiasFuncionamento(array: boolean[]) {
+    this.diasFuncionamento = [];
+    array.forEach((a, i) => {
+      if (a) {
+        this.diasFuncionamento.push(i);
+      }
+    });
   }
 }

@@ -194,6 +194,44 @@
         ></app-input-field>
       </div>
 
+      <div class="col-12 col-md-7">
+        <p class="text-gray mb-0">Dias de funcionamento</p>
+
+        <div class="daysOfWeek d-flex justify-content-between">
+          <div
+            formArrayName="funcionamento"
+            class="chipDayOfWeek"
+            *ngFor="let d of daysOfWeek; index as i"
+          >
+            <label class="chipLabel text-center" for="{{ d }}">
+              <input
+                formControlName="{{ i }}"
+                type="checkbox"
+                class="chipInput"
+                name="{{ d }}"
+                id="{{ d }}"
+                value="{{ i + 1 }}"
+              />
+              <div class="chipConteudo">
+                <p class="mb-0 text-center text-lg-start">
+                  {{ d | titlecase }}
+                </p>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-5">
+        <app-input-field
+          [formGroup]="formEspacoEsportivo"
+          [controlName]="'piso'"
+          [label]="'Piso'"
+          [validacaoInput]="true"
+          [placeholder]="'Ex.: Madeira'"
+        ></app-input-field>
+      </div>
+
       <div class="col-12 col-md-6">
         <app-input-field
           [formGroup]="formEspacoEsportivo"
@@ -211,16 +249,6 @@
           [label]="'Quantidade máxima de participantes'"
           [validacaoInput]="true"
           [placeholder]="'Ex.: 24'"
-        ></app-input-field>
-      </div>
-
-      <div class="col-12 col-md-4">
-        <app-input-field
-          [formGroup]="formEspacoEsportivo"
-          [controlName]="'piso'"
-          [label]="'Piso'"
-          [validacaoInput]="true"
-          [placeholder]="'Ex.: Madeira'"
         ></app-input-field>
       </div>
 

@@ -114,4 +114,34 @@
     display: grid;
     grid-template-columns: auto auto auto;
   }
+
+  .chipDayOfWeek {
+    .chipLabel {
+      cursor: pointer;
+
+      .chipInput {
+        display: none;
+        transition: 0.2s ease-in-out;
+
+        &:checked ~ .chipConteudo {
+          transition: 0.2s ease-in-out;
+          background-color: var(--roxo) !important;
+          color: var(--branco) !important;
+        }
+      }
+
+      .chipConteudo {
+        position: relative;
+        display: inline-block;
+        background-color: var(--branco);
+        border: none;
+        padding: 10px;
+        color: var(--cinza-claro);
+        box-shadow: 4px 4px 5px 0 var(--cinza-claro);
+        border-radius: 10px;
+        transition: 0.2s;
+        overflow: hidden;
+      }
+    }
+  }
 }

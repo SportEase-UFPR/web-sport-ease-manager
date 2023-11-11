@@ -42,8 +42,13 @@
       </p>
 
       <p class="mt-2">
-        <strong class="text-purple">Capacidade: </strong>
-        <span class="text-dark-blue">{{ ee.capacidade + " pessoas" }}</span>
+        <strong class="text-purple">Capacidade mínima: </strong>
+        <span class="text-dark-blue">{{ ee.capacidadeMin + " pessoas" }}</span>
+      </p>
+
+      <p class="mt-2">
+        <strong class="text-purple">Capacidade máxima: </strong>
+        <span class="text-dark-blue">{{ ee.capacidadeMax + " pessoas" }}</span>
       </p>
 
       <p class="mt-2">
@@ -54,6 +59,17 @@
       <p class="mt-2">
         <strong class="text-purple">Dimensões: </strong>
         <span class="text-dark-blue">{{ ee.dimensoes }}</span>
+      </p>
+
+      <p class="mt-2 text-center">
+        <strong class="text-purple">Dias de funcionamento: </strong>
+        <span
+          class="text-dark-blue"
+          *ngFor="let d of ee.diasFuncionamento; index as i"
+          >{{
+            daysOfweek[d] + (i + 1 == ee.diasFuncionamento?.length ? "." : ", ")
+          }}</span
+        >
       </p>
 
       <p class="mt-2">
