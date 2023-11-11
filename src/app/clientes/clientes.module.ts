@@ -2,11 +2,17 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
-import { NgxUiLoaderConfig, POSITION, SPINNER, NgxUiLoaderModule } from 'ngx-ui-loader';
+import {
+  NgxUiLoaderConfig,
+  POSITION,
+  SPINNER,
+  NgxUiLoaderModule,
+} from 'ngx-ui-loader';
 import { SharedModule } from '../shared/shared.module';
 import { ClientesComponent } from './clientes.component';
 import { CardClienteComponent } from './card-cliente/card-cliente.component';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { NgxMaskPipe } from 'ngx-mask';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: '#5d5fef',
@@ -21,17 +27,15 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
 };
 
 @NgModule({
-  declarations: [
-    ClientesComponent,
-    CardClienteComponent
-  ],
+  declarations: [ClientesComponent, CardClienteComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     SharedModule,
     ToastrModule.forRoot(),
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
-    NgxSkeletonLoaderModule
-  ]
+    NgxSkeletonLoaderModule,
+    NgxMaskPipe,
+  ],
 })
-export class ClientesModule { }
+export class ClientesModule {}

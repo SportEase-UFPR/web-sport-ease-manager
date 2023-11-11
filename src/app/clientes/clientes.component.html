@@ -123,12 +123,28 @@
     </ng-container>
 
     <ng-template #noSkeleton>
-      <div class="col-12 col-md-6 mb-3">
-        <app-card-cliente
-          (emitterUnblock)="openModalConfirmacao(modalUnblockCliente)"
-          (emitterBlock)="openModalConfirmacao(modalBlockCliente)"
-        ></app-card-cliente>
-      </div>
+      <ng-container *ngIf="clientes?.length! > 0; else semClientes">
+        <div
+          class="col-12 col-md-6 mb-3"
+          *ngFor="let c of clientesFiltered ? clientesFiltered : clientes"
+        >
+          <app-card-cliente
+            [cliente]="c"
+            (emitterUnblock)="
+              openModalConfirmacao(modalUnblockCliente, c.id!, c.nome!)
+            "
+            (emitterBlock)="
+              openModalConfirmacao(modalBlockCliente, c.id!, c.nome!)
+            "
+          ></app-card-cliente>
+        </div>
+      </ng-container>
+
+      <ng-template #semClientes>
+        <p class="mt-4 text-gray text-center">
+          Nenhum cliente foi encontrado :(
+        </p>
+      </ng-template>
     </ng-template>
   </div>
 </div>
