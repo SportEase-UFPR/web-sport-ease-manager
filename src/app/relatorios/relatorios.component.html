@@ -143,23 +143,23 @@
         <form [formGroup]="formFiltros">
           <div class="row w-100">
             <div class="col-12 col-md-2">
-              <app-input-field
+              <app-input-date
                 [formGroup]="formFiltros"
                 [controlName]="'dataInicial'"
-                [label]="'Início Locação'"
-                [inputType]="'date'"
-                (emitterChange)="filterHistorico()"
-              ></app-input-field>
+                [label]="'Início locação'"
+                [haveMaxDate]="maxDate ? true : false"
+                [maxDate]="maxDate ?? null"
+              ></app-input-date>
             </div>
 
             <div class="col-12 col-md-2">
-              <app-input-field
+              <app-input-date
                 [formGroup]="formFiltros"
                 [controlName]="'dataFinal'"
-                [label]="'Fim Locação'"
-                [inputType]="'date'"
-                (emitterChange)="filterHistorico()"
-              ></app-input-field>
+                [label]="'Fim locação'"
+                [haveMinDate]="minDate ? true : false"
+                [minDate]="minDate ?? null"
+              ></app-input-date>
             </div>
 
             <div class="col-12 col-md-2">

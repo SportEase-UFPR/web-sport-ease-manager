@@ -22,7 +22,7 @@ export class DashboardComponent implements OnInit {
   });
 
   formFiltro: FormGroup = new FormGroup({
-    tempoSolicitacao: new FormControl(1),
+    tempoSolicitacao: new FormControl(2),
   });
 
   faClose = faXmark;
@@ -30,8 +30,8 @@ export class DashboardComponent implements OnInit {
 
   reservas?: Reserva[];
   opcFiltroSolicitacoes: Item[] = [
-    new Item(0, 'Antigas primeiro'),
-    new Item(1, 'Recentes primeiro'),
+    new Item(1, 'Antigas primeiro'),
+    new Item(2, 'Recentes primeiro'),
   ];
 
   private idReserva?: number;
@@ -56,7 +56,7 @@ export class DashboardComponent implements OnInit {
         }
       },
       error: (err: HttpErrorResponse) => {
-        console.log(err)
+        console.log(err);
         this.reservas = [];
         if (err.error?.message == 'Nenhuma reserva solicitada') {
           this.toastrService.info(
@@ -85,16 +85,22 @@ export class DashboardComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
-  ordenarReservas() {
-    if (Number(this.formFiltro.get('tempoSolicitacao')?.value) === 0) {
+  ordenarReservas(loaderName?: string) {
+    this.ngxLoaderService?.startLoader(loaderName!);
+    if (Number(this.formFiltro.get('tempoSolicitacao')?.value) === 1) {
       this.reservas = this.reservas?.sort(
-        (a, b) => moment(a.dataHoraSolicitacao) - moment(b.dataHoraSolicitacao)
+        (a, b) =>
+          a.informacoesComplementaresLocacao?.idLocacao! -
+          b.informacoesComplementaresLocacao?.idLocacao!
       );
     } else {
       this.reservas = this.reservas?.sort(
-        (a, b) => moment(b.dataHoraSolicitacao) - moment(a.dataHoraSolicitacao)
+        (a, b) =>
+          b.informacoesComplementaresLocacao?.idLocacao! -
+          a.informacoesComplementaresLocacao?.idLocacao!
       );
     }
+    this.ngxLoaderService.stopLoader(loaderName!);
   }
 
   aprovarReserva() {

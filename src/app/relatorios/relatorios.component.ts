@@ -53,6 +53,9 @@ export class RelatoriosComponent implements OnInit {
   filtroLocal: Item[] = [];
   filtroStatus: Item[] = [];
 
+  minDate?: Date;
+  maxDate?: Date;
+
   p: number = 1;
   private idReserva?: number;
 
@@ -65,6 +68,14 @@ export class RelatoriosComponent implements OnInit {
 
   ngOnInit(): void {
     this.populate();
+
+    this.formFiltros.get('dataInicial')?.valueChanges.subscribe((v) => {
+      (this.minDate = new Date(v)), this.filterHistorico();
+    });
+
+    this.formFiltros.get('dataFinal')?.valueChanges.subscribe((v) => {
+      (this.maxDate = new Date(v)), this.filterHistorico();
+    });
   }
 
   populate() {
@@ -94,8 +105,8 @@ export class RelatoriosComponent implements OnInit {
     let filteredHistorico = this.historico;
 
     if (dataInicial?.value && dataFinal?.value) {
-      const dataInicialValue = moment(dataInicial?.value);
-      const dataFinalValue = moment(dataFinal?.value);
+      const dataInicialValue = moment(dataInicial?.value).startOf('day');
+      const dataFinalValue = moment(dataFinal?.value).startOf('day');
 
       if (dataFinalValue.diff(dataInicialValue, 'hour') >= 0) {
         this.ngxLoaderService.startLoader('loader-01');

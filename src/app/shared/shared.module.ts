@@ -17,6 +17,9 @@ import { BtnChipComponent } from './components/buttons/btn-chip/btn-chip.compone
 import { InputFieldComponent } from './components/inputs/input-field/input-field.component';
 import { InputToogleComponent } from './components/inputs/input-toogle/input-toogle.component';
 import { PasswordChecklistComponent } from './components/password-checklist/password-checklist.component';
+import { InputDateComponent } from './components/inputs/input-date/input-date.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,8 @@ import { PasswordChecklistComponent } from './components/password-checklist/pass
     BtnChipComponent,
     InputFieldComponent,
     InputToogleComponent,
-    PasswordChecklistComponent
+    PasswordChecklistComponent,
+    InputDateComponent
   ],
   imports: [
     CommonModule,
@@ -40,6 +44,8 @@ import { PasswordChecklistComponent } from './components/password-checklist/pass
     NgxMaskDirective,
     NgxMaskPipe,
     FontAwesomeModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   exports: [
     InputSenhaComponent,
@@ -52,7 +58,8 @@ import { PasswordChecklistComponent } from './components/password-checklist/pass
     BtnChipComponent,
     InputFieldComponent,
     InputToogleComponent,
-    PasswordChecklistComponent
+    PasswordChecklistComponent,
+    InputDateComponent
   ],
   providers: [provideNgxMask()],
 })
