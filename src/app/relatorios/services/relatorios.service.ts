@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { EncerrarReserva } from 'src/app/shared/models/reserva/encerrar-reserva.model';
 import { NegarReserva } from 'src/app/shared/models/reserva/negar-reserva.model';
 import { Reserva } from 'src/app/shared/models/reserva/reserva.model';
 import { UsuarioSs } from 'src/app/shared/models/usuario-ss/usuario-ss.model';
@@ -43,6 +44,14 @@ export class RelatoriosService {
   public negarReserva(id: number, dados: NegarReserva) {
     return this.httpService.put(
       `${env.baseUrl}locacoes/negar-reserva/${id}`,
+      JSON.stringify(dados),
+      { headers: this.createHeaders() }
+    );
+  }
+
+  public encerrarReserva(idReserva: number, dados: EncerrarReserva) {
+    return this.httpService.put(
+      `${env.baseUrl}locacoes/encerrar-reserva/${idReserva}`,
       JSON.stringify(dados),
       { headers: this.createHeaders() }
     );

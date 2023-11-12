@@ -13,6 +13,7 @@ export class Reserva {
     public motivoCancelamento?: string,
     public informacoesComplementaresLocacao?: InformacoesComplementaresLocacao,
     public comentario?: string,
-    public avaliacao?: number
+    public avaliacao?: number,
+    public motivoEncerramento?: string
   ) {}
 }

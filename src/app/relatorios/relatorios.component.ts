@@ -18,6 +18,8 @@ import { Item } from '../shared/components/inputs/input-select-option/model/item
 import { NegarReserva } from '../shared/models/reserva/negar-reserva.model';
 import { faEye } from '@fortawesome/free-regular-svg-icons';
 import { BuildFilter } from '../utils/build-filter';
+import { distinctUntilChanged } from 'rxjs';
+import { EncerrarReserva } from '../shared/models/reserva/encerrar-reserva.model';
 const moment = require('moment');
 
 @Component({
@@ -69,19 +71,26 @@ export class RelatoriosComponent implements OnInit {
   ngOnInit(): void {
     this.populate();
 
-    this.formFiltros.get('dataInicial')?.valueChanges.subscribe((v) => {
-      (this.minDate = new Date(v)), this.filterHistorico();
-    });
+    this.formFiltros
+      .get('dataInicial')
+      ?.valueChanges.pipe(distinctUntilChanged())
+      .subscribe((v) => {
+        (this.minDate = new Date(v)), this.filterHistorico();
+      });
 
-    this.formFiltros.get('dataFinal')?.valueChanges.subscribe((v) => {
-      (this.maxDate = new Date(v)), this.filterHistorico();
-    });
+    this.formFiltros
+      .get('dataFinal')
+      ?.valueChanges.pipe(distinctUntilChanged())
+      .subscribe((v) => {
+        (this.maxDate = new Date(v)), this.filterHistorico();
+      });
   }
 
   populate() {
     this.relatoriosService.buscarRelatorios().subscribe({
       next: (result) => {
         this.historico = result;
+        this.ordernarArray(this.historico);
         this.montarFiltros();
       },
       error: (erro) => {
@@ -92,6 +101,10 @@ export class RelatoriosComponent implements OnInit {
         );
       },
     });
+  }
+
+  ordernarArray(array: Reserva[]) {
+    array?.sort((a, b) => b.id! - a.id!);
   }
 
   filterHistorico(): void {
@@ -155,12 +168,15 @@ export class RelatoriosComponent implements OnInit {
     }
 
     this.historicoFiltered = filteredHistorico;
+    this.ordernarArray(this.historicoFiltered!);
   }
 
   limparFiltros() {
     this.ngxLoaderService.startLoader('loader-01');
-    this.historicoFiltered = undefined;
     this.formFiltros.reset();
+    this.historicoFiltered = undefined;
+    this.minDate = undefined;
+    this.maxDate = undefined;
     this.ngxLoaderService.stopLoader('loader-01');
   }
 
@@ -264,12 +280,41 @@ export class RelatoriosComponent implements OnInit {
     this.ngxLoaderService.stopLoader('loader-01');
   }
 
-  encerrarReserva() {}
+  encerrarReserva() {
+    const form = this.formJustificativa;
+    if (form.valid) {
+      this.ngxLoaderService.startLoader('loader-01');
+      this.relatoriosService
+        .encerrarReserva(
+          this.idReserva!,
+          new EncerrarReserva(form.get('justificativa')?.value)
+        )
+        .subscribe({
+          next: (result) => {
+            this.populate();
+            this.closeModal();
+            this.toastrService.success('A reserva foi encerrada', 'Sucesso');
+          },
+          error: (err) => {
+            this.toastrService.error(
+              'Por favor, tente novamente mais tarde',
+              'Erro ao encerrar reserva'
+            );
+          },
+        });
+      this.ngxLoaderService.stopLoader('loader-01');
+    } else {
+      this.toastrService.warning(
+        'Por favor, informe a justificativa para encerrar a reserva',
+        'Justificativa é obrigatória'
+      );
+    }
+  }
 
   showEncerrarStatus(hora: Date | string): boolean {
     const horaAtual = moment();
     const horaReserva = moment(hora);
-    return horaAtual.diff(horaReserva, 'hours') >= 24;
+    return horaAtual.diff(horaReserva, 'hours') >= 1;
   }
 
   showAprovarReserva(hora: Date | string): boolean {

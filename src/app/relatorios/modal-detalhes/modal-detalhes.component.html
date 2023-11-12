@@ -148,12 +148,22 @@
             <span>{{ reserva.avaliacao }} de 5</span>
           </p>
         </div>
+
         <div class="col-12" *ngIf="reserva?.comentario">
           <p>
             <span class="info-title text-purple">
               Comentário sobre a reserva:
             </span>
             <span>{{ reserva.comentario }}</span>
+          </p>
+        </div>
+
+        <div class="col-12" *ngIf="reserva.motivoEncerramento">
+          <p>
+            <span class="info-title text-purple">
+              Motivo do encerramento:
+            </span>
+            <span>{{ reserva.motivoEncerramento }}</span>
           </p>
         </div>
       </div>
