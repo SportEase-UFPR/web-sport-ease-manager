@@ -117,6 +117,7 @@ export class ClientesComponent implements OnInit {
           next: (result) => {
             this.populate();
             this.closeModal();
+            form.reset();
             this.toastrService.success(
               `A conta de ${this.nomeClienteModify} foi bloqueada`,
               'Sucesso'

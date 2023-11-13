@@ -133,7 +133,7 @@ export class ComunicacaoClientesComponent implements OnInit, OnDestroy {
           next: (result) => {
             this.ngxLoaderService.stopLoader('loader-01');
             this.toastrService.success(
-              result.mensagem,
+              result?.mensagem ?? 'E-mails enviados',
               'Sucesso no envio do e-mail'
             );
             form.reset();
@@ -160,7 +160,7 @@ export class ComunicacaoClientesComponent implements OnInit, OnDestroy {
             next: (result) => {
               this.ngxLoaderService.stopLoader('loader-01');
               this.toastrService.success(
-                result.mensagem,
+                result?.mensagem ?? 'E-mail enviados',
                 'Sucesso no envio do e-mail'
               );
               form.reset();

@@ -131,10 +131,10 @@
           <app-card-cliente
             [cliente]="c"
             (emitterUnblock)="
-              openModalConfirmacao(modalUnblockCliente, c.id!, c.nome!)
+              openModalConfirmacao(modalUnblockCliente, c.usuarioId!, c.nome!)
             "
             (emitterBlock)="
-              openModalConfirmacao(modalBlockCliente, c.id!, c.nome!)
+              openModalConfirmacao(modalBlockCliente, c.usuarioId!, c.nome!)
             "
           ></app-card-cliente>
         </div>

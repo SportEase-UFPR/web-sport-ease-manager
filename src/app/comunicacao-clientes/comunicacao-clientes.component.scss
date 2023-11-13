@@ -45,3 +45,9 @@
 #label-input-toogle:active:after {
   width: 15px;
 }
+
+.destinatarios {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  justify-content: flex-start;
+}
