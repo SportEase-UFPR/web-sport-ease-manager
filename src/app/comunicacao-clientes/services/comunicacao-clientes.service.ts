@@ -38,7 +38,7 @@ export class ComunicacaoClientesService {
     dados: SendEmailCliente
   ): Observable<SendEmailResponse> {
     return this.httpService.post<SendEmailResponse>(
-      `${env.baseUrl}clientes/enviar-email`,
+      `${env.baseUrl}email`,
       JSON.stringify(dados),
       { headers: this.createHeaders() }
     );
@@ -46,7 +46,7 @@ export class ComunicacaoClientesService {
 
   public enviarEmailAll(dados: SendEmailAll): Observable<SendEmailResponse> {
     return this.httpService.post<SendEmailResponse>(
-      `${env.baseUrl}clientes/enviar-email-todos`,
+      `${env.baseUrl}email/todos`,
       JSON.stringify(dados),
       { headers: this.createHeaders() }
     );
