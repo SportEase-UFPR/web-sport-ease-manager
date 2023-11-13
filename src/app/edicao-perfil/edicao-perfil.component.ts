@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { AdmService } from '../shared/services/adm/adm.service';
 import { Adm } from '../shared/models/adm/adm.model';
-import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -12,6 +11,7 @@ import { AdmAlteracaoRequest } from '../shared/models/adm/adm-alteracao-request.
 import { AdmAlteracaoResponse } from '../shared/models/adm/adm-alteracao-response.model';
 import { ModalConfirmacaoComponent } from './modal-confirmacao/modal-confirmacao.component';
 import { ValidacoesForm } from '../utils/validacoes-form';
+import { Subject, take, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-edicao-perfil',
@@ -41,8 +41,9 @@ export class EdicaoPerfilComponent implements OnInit, OnDestroy {
   passwordChecklist: boolean = false;
   focusPasswordType?: string;
   adm!: Adm;
-  inscricaoAtualizacao!: Subscription;
-  inscricaoCliente!: Subscription;
+
+  senha$ = new Subject();
+  confirmacaoSenha$ = new Subject();
 
   constructor(
     private router: Router,
@@ -53,27 +54,32 @@ export class EdicaoPerfilComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.inscricaoAtualizacao = this.admService.getAdm().subscribe({
-      next: (result: Adm) => {
-        this.adm = result;
-        this.formAlteracaoPerfil.patchValue({
-          nome: this.adm.nome,
-          email: this.adm.email,
-          cpf: this.adm.cpf,
-        });
-      },
-      error: (err) => {
-        console.error(err);
-      },
-    });
+    this.admService
+      .getAdm()
+      .pipe(take(1))
+      .subscribe({
+        next: (result: Adm) => {
+          this.adm = result;
+          this.formAlteracaoPerfil.patchValue({
+            nome: this.adm.nome,
+            email: this.adm.email,
+            cpf: this.adm.cpf,
+          });
+        },
+        error: (err) => {
+          console.error(err);
+        },
+      });
 
     this.formAlteracaoPerfil
       .get('senha')
-      ?.valueChanges.subscribe(() => this.verificarSenhas());
+      ?.valueChanges.pipe(takeUntil(this.senha$))
+      .subscribe(() => this.verificarSenhas());
 
     this.formAlteracaoPerfil
       .get('confirmacaoSenha')
-      ?.valueChanges.subscribe(() => this.verificarSenhas());
+      ?.valueChanges.pipe(takeUntil(this.confirmacaoSenha$))
+      .subscribe(() => this.verificarSenhas());
   }
 
   verificarSenhas() {
@@ -87,8 +93,10 @@ export class EdicaoPerfilComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.inscricaoAtualizacao?.unsubscribe();
-    this.inscricaoCliente?.unsubscribe();
+    this.senha$.next(null);
+    this.confirmacaoSenha$.next(null);
+    this.senha$.complete();
+    this.confirmacaoSenha$.complete();
   }
 
   focusPassword() {
@@ -112,8 +120,9 @@ export class EdicaoPerfilComponent implements OnInit, OnDestroy {
         senha ? senha : null
       );
 
-      this.inscricaoAtualizacao = this.admService
+      this.admService
         .atualizarDados(dadosCliente)
+        .pipe(take(1))
         .subscribe({
           next: (result: AdmAlteracaoResponse) => {
             this.ngxService.stopLoader('loader-01');

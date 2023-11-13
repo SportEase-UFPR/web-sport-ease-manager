@@ -10,7 +10,6 @@ import {
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Subscription } from 'rxjs';
 import { EspacosEsportivosService } from '../services/espacos-esportivos.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
@@ -22,6 +21,7 @@ import { EsporteExclusaoResponse } from 'src/app/shared/models/espaco-esportivo/
 import { EspacoEsportivoRequest } from 'src/app/shared/models/espaco-esportivo/espaco-esportivo-request.model';
 import { EspacoEsportivoResponse as eeResponse } from '../../shared/models/espaco-esportivo/espaco-esportivo-response.model';
 import { FormEspacoValidation } from './form-espaco-validation';
+import { Subject, take, takeUntil } from 'rxjs';
 const moment = require('moment');
 
 @Component({
@@ -75,11 +75,6 @@ export class FormComponent implements OnInit, OnDestroy {
 
   esportes: Item[] = [];
   esportesOfEE: EsporteResponse[] = [];
-  inscricaoRota!: Subscription;
-  inscricaoEsportes!: Subscription;
-  inscricaoCriacaoEsporte!: Subscription;
-  inscricaoExclusaoEsporte!: Subscription;
-  inscricaoCriacaoEE!: Subscription;
 
   daysOfWeek: string[] = [
     'domingo',
@@ -90,6 +85,8 @@ export class FormComponent implements OnInit, OnDestroy {
     'sexta',
     'sábado',
   ];
+
+  funcionamento$ = new Subject();
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -105,59 +102,62 @@ export class FormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.populate();
 
-    this.inscricaoRota = this.activatedRoute.params.subscribe((params) => {
+    this.activatedRoute.params.pipe(take(1)).subscribe((params) => {
       const id = Number(params?.['id']);
       if (id) {
         this.ngxLoaderService.startLoader('loader-01');
         this.isEdicao = true;
-        this.eeService.pegarEE(id).subscribe({
-          next: (result: eeResponse) => {
-            this.ngxLoaderService.stopLoader('loader-01');
+        this.eeService
+          .pegarEE(id)
+          .pipe(take(1))
+          .subscribe({
+            next: (result: eeResponse) => {
+              this.ngxLoaderService.stopLoader('loader-01');
 
-            const diasFuncionamento: boolean[] = [
-              false,
-              false,
-              false,
-              false,
-              false,
-              false,
-              false,
-            ];
-            result.diasFuncionamento?.forEach(
-              (d) => (diasFuncionamento[d] = true)
-            );
+              const diasFuncionamento: boolean[] = [
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+                false,
+              ];
+              result.diasFuncionamento?.forEach(
+                (d) => (diasFuncionamento[d] = true)
+              );
 
-            this.idEEEdicao = result.id;
+              this.idEEEdicao = result.id;
 
-            this.formEspacoEsportivo.patchValue({
-              ativo: result.disponivel,
-              nome: result.nome,
-              descricao: result.descricao,
-              localidade: result.localidade,
-              dimensoes: result.dimensoes,
-              piso: result.piso,
-              abertura: result.horaAbertura,
-              fechamento: result.horaFechamento,
-              periodo: result.periodoLocacao,
-              maxLocacao: result.maxLocacaoDia,
-              capacidadeMin: result.capacidadeMin,
-              capacidadeMax: result.capacidadeMax,
-              funcionamento: diasFuncionamento,
-            });
+              this.formEspacoEsportivo.patchValue({
+                ativo: result.disponivel,
+                nome: result.nome,
+                descricao: result.descricao,
+                localidade: result.localidade,
+                dimensoes: result.dimensoes,
+                piso: result.piso,
+                abertura: result.horaAbertura,
+                fechamento: result.horaFechamento,
+                periodo: result.periodoLocacao,
+                maxLocacao: result.maxLocacaoDia,
+                capacidadeMin: result.capacidadeMin,
+                capacidadeMax: result.capacidadeMax,
+                funcionamento: diasFuncionamento,
+              });
 
-            this.esportesOfEE = result.listaEsportes!;
-            this.imgPreviewUrl = `data:image/jpeg;base64,${result.imagemBase64}`;
-          },
-          error: (err) => {
-            console.error(err);
-            this.ngxLoaderService.stopLoader('loader-01');
-            this.toastrService.error(
-              'Por favor, tente novamente mais tarde',
-              'Erro ao trazer dados do espaço esportivo'
-            );
-            this.navigate();
-          },
-        });
+              this.esportesOfEE = result.listaEsportes!;
+              this.imgPreviewUrl = `data:image/jpeg;base64,${result.imagemBase64}`;
+            },
+            error: (err) => {
+              console.error(err);
+              this.ngxLoaderService.stopLoader('loader-01');
+              this.toastrService.error(
+                'Por favor, tente novamente mais tarde',
+                'Erro ao trazer dados do espaço esportivo'
+              );
+              this.navigate();
+            },
+          });
       } else {
         this.isEdicao = false;
       }
@@ -165,30 +165,31 @@ export class FormComponent implements OnInit, OnDestroy {
 
     this.formEspacoEsportivo
       .get('funcionamento')
-      ?.valueChanges.subscribe((v) => this.setDiasFuncionamento(v));
+      ?.valueChanges.pipe(takeUntil(this.funcionamento$))
+      .subscribe((v) => this.setDiasFuncionamento(v));
   }
 
   ngOnDestroy(): void {
-    this.inscricaoRota?.unsubscribe();
-    this.inscricaoEsportes?.unsubscribe();
-    this.inscricaoCriacaoEsporte?.unsubscribe();
-    this.inscricaoExclusaoEsporte?.unsubscribe();
-    this.inscricaoCriacaoEE?.unsubscribe();
+    this.funcionamento$.next(null);
+    this.funcionamento$.complete();
   }
 
   populate(): void {
     this.esportes = [];
-    this.inscricaoEsportes = this.eeService.listarEsportes().subscribe({
-      next: (result: EsporteResponse[]) => {
-        result.forEach((e) => {
-          this.esportes.push(new Item(e.id, e.nome));
-        });
-      },
-      error: (err) => {
-        console.error(err);
-        this.esportes = [];
-      },
-    });
+    this.eeService
+      .listarEsportes()
+      .pipe(take(1))
+      .subscribe({
+        next: (result: EsporteResponse[]) => {
+          result.forEach((e) => {
+            this.esportes.push(new Item(e.id, e.nome));
+          });
+        },
+        error: (err) => {
+          console.error(err);
+          this.esportes = [];
+        },
+      });
   }
 
   sanatizerImg(imgUrl: string) {
@@ -236,8 +237,9 @@ export class FormComponent implements OnInit, OnDestroy {
         esporte.toUpperCase()
       );
 
-      this.inscricaoCriacaoEsporte = this.eeService
+      this.eeService
         .criarEsporte(novoEsporte)
+        .pipe(take(1))
         .subscribe({
           next: (result: EsporteResponse) => {
             this.ngxLoaderService.stopLoader('loader-01');
@@ -296,8 +298,9 @@ export class FormComponent implements OnInit, OnDestroy {
 
   deletarEsporte(id: number | string): void {
     this.ngxLoaderService.startLoader('loader-01');
-    this.inscricaoExclusaoEsporte = this.eeService
+    this.eeService
       .excluirEsporte(Number(id))
+      .pipe(take(1))
       .subscribe({
         next: (result: EsporteExclusaoResponse) => {
           this.removerTipoEsporte(Number(id));
@@ -342,8 +345,9 @@ export class FormComponent implements OnInit, OnDestroy {
       );
 
       if (this.isEdicao) {
-        this.inscricaoCriacaoEE = this.eeService
+        this.eeService
           .editarEE(novoEE, this.idEEEdicao!)
+          .pipe(take(1))
           .subscribe({
             next: (result: eeResponse) => {
               this.ngxLoaderService.stopLoader('loader-01');
@@ -359,20 +363,23 @@ export class FormComponent implements OnInit, OnDestroy {
             },
           });
       } else {
-        this.inscricaoCriacaoEE = this.eeService.cadastrarEE(novoEE).subscribe({
-          next: (result: eeResponse) => {
-            this.ngxLoaderService.stopLoader('loader-01');
-            this.navigate();
-          },
-          error: (err) => {
-            this.ngxLoaderService.stopLoader('loader-01');
-            console.error(err);
-            this.toastrService.error(
-              'Por favor, tente novamente mais tarde',
-              'Erro ao cadastrar espaço esportivo'
-            );
-          },
-        });
+        this.eeService
+          .cadastrarEE(novoEE)
+          .pipe(take(1))
+          .subscribe({
+            next: (result: eeResponse) => {
+              this.ngxLoaderService.stopLoader('loader-01');
+              this.navigate();
+            },
+            error: (err) => {
+              this.ngxLoaderService.stopLoader('loader-01');
+              console.error(err);
+              this.toastrService.error(
+                'Por favor, tente novamente mais tarde',
+                'Erro ao cadastrar espaço esportivo'
+              );
+            },
+          });
       }
     } else {
       this.toastrService.warning(

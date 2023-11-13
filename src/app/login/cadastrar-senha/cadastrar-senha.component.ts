@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { ToastrService } from 'ngx-toastr';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { Subscription } from 'rxjs';
+import { Subject, take, takeUntil } from 'rxjs';
 import { LoginService } from '../services/login.service';
 import { CadastroSenhaRequest } from 'src/app/shared/models/adm/cadastro-senha-request.model';
 import { ValidacoesForm } from 'src/app/utils/validacoes-form';
@@ -15,18 +15,7 @@ import { ValidacoesForm } from 'src/app/utils/validacoes-form';
   styleUrls: ['./cadastrar-senha.component.scss'],
 })
 export class CadastrarSenhaComponent implements OnInit, OnDestroy {
-  faInvalid = faXmark;
-  faValid = faCheck;
-  senhasDiferentes: boolean = true;
-  passwordChecklist: boolean = false;
-  focusPasswordType?: string;
-
-  private token?: string;
-
-  inscricaoRota!: Subscription;
-  inscricaoAlterarSenha!: Subscription;
-
-  public formNovaSenha: FormGroup = new FormGroup({
+  formNovaSenha: FormGroup = new FormGroup({
     senha: new FormControl(null, [
       Validators.required,
       Validators.minLength(6),
@@ -36,6 +25,17 @@ export class CadastrarSenhaComponent implements OnInit, OnDestroy {
       Validators.minLength(6),
     ]),
   });
+
+  faInvalid = faXmark;
+  faValid = faCheck;
+  senhasDiferentes: boolean = true;
+  passwordChecklist: boolean = false;
+  focusPasswordType?: string;
+
+  senha$ = new Subject();
+  confirmacaoSenha$ = new Subject();
+
+  private token?: string;
 
   constructor(
     private ngxService: NgxUiLoaderService,
@@ -47,26 +47,28 @@ export class CadastrarSenhaComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     document.body.classList.add('display-centered');
-    this.inscricaoRota = this.activatedRoute.queryParams.subscribe(
-      (queryParams) => {
-        const tokenQueryParams = queryParams['token'];
-        if (tokenQueryParams) this.token = tokenQueryParams;
-      }
-    );
+    this.activatedRoute.queryParams.pipe(take(1)).subscribe((queryParams) => {
+      const tokenQueryParams = queryParams['token'];
+      if (tokenQueryParams) this.token = tokenQueryParams;
+    });
 
     this.formNovaSenha
       .get('senha')
-      ?.valueChanges.subscribe(() => this.verificarSenhas());
+      ?.valueChanges.pipe(takeUntil(this.senha$))
+      .subscribe(() => this.verificarSenhas());
 
     this.formNovaSenha
       .get('confirmacaoSenha')
-      ?.valueChanges.subscribe(() => this.verificarSenhas());
+      ?.valueChanges.pipe(takeUntil(this.confirmacaoSenha$))
+      .subscribe(() => this.verificarSenhas());
   }
 
   ngOnDestroy(): void {
     document.body.classList.remove('display-centered');
-    this.inscricaoAlterarSenha?.unsubscribe();
-    this.inscricaoRota?.unsubscribe();
+    this.senha$.next(null);
+    this.senha$.complete();
+    this.confirmacaoSenha$.next(null);
+    this.confirmacaoSenha$.complete();
   }
 
   verificarSenhas() {
@@ -93,8 +95,9 @@ export class CadastrarSenhaComponent implements OnInit, OnDestroy {
         form.get('senha')?.value
       );
 
-      this.inscricaoAlterarSenha = this.loginService
+      this.loginService
         .alterarSenha(dados)
+        .pipe(take(1))
         .subscribe({
           next: (result) => {
             this.ngxService.stopLoader('loader-01');

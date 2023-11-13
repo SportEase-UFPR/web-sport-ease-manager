@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { faEye, faTrashCan } from '@fortawesome/free-regular-svg-icons';
@@ -10,7 +10,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AdministradoresService } from './services/administradores.service';
-import { Subscription } from 'rxjs';
+import { take } from 'rxjs';
 import { Adm } from '../shared/models/adm/adm.model';
 import { SessionStorageService } from '../shared/services/session-storage/session-storage.service';
 import { environment as env } from 'src/environments/environment';
@@ -26,12 +26,10 @@ import { AdmExclusaoResponse } from '../shared/models/adm/adm-exclusao-response'
   templateUrl: './administradores.component.html',
   styleUrls: ['./administradores.component.scss'],
 })
-export class AdministradoresComponent implements OnInit, OnDestroy {
+export class AdministradoresComponent implements OnInit {
   formSearch: FormGroup = new FormGroup({
     searchValue: new FormControl(null, [Validators.required]),
   });
-
-  inscricaoAdms!: Subscription;
 
   adms?: Adm[];
   admsFilter: Adm[] = [];
@@ -64,7 +62,7 @@ export class AdministradoresComponent implements OnInit, OnDestroy {
   }
 
   populate(): void {
-    this.inscricaoAdms = this.admsService.getAdministradores().subscribe({
+    this.admsService.getAdministradores().pipe(take(1)).subscribe({
       next: (result: Adm[]) => {
         this.adms = result;
         this.admsFilter = result;
@@ -75,8 +73,6 @@ export class AdministradoresComponent implements OnInit, OnDestroy {
       },
     });
   }
-
-  ngOnDestroy(): void {}
 
   searchAdms(): void {
     this.admsFilter = this.adms!;
@@ -105,7 +101,7 @@ export class AdministradoresComponent implements OnInit, OnDestroy {
 
   deletarEspacoEsportivo() {
     this.ngxLoaderService.startLoader('loader-01');
-    this.admsService.deletarAdm(this.idGerenteDelete).subscribe({
+    this.admsService.deletarAdm(this.idGerenteDelete).pipe(take(1)).subscribe({
       next: (result: AdmExclusaoResponse) => {
         this.ngxLoaderService.stopLoader('loader-01');
         this.populate();

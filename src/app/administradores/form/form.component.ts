@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { ToastrService } from 'ngx-toastr';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
-import { Subscription } from 'rxjs';
+import { Subject, take, takeUntil } from 'rxjs';
 import { AdmCriacaoRequest } from 'src/app/shared/models/adm/adm-criacao-request';
 import { AdmCriacaoResponse } from 'src/app/shared/models/adm/adm-criacao-response';
 import { AdministradoresService } from '../services/administradores.service';
@@ -38,7 +38,8 @@ export class FormComponent implements OnInit, OnDestroy {
   passwordChecklist: boolean = false;
   focusPasswordType?: string;
 
-  inscricaoAdm!: Subscription;
+  senha$ = new Subject();
+  confirmacaoSenha$ = new Subject();
 
   constructor(
     private router: Router,
@@ -50,15 +51,20 @@ export class FormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.formAdministrador
       .get('senha')
-      ?.valueChanges.subscribe(() => this.verificarSenhas());
+      ?.valueChanges.pipe(takeUntil(this.senha$))
+      .subscribe(() => this.verificarSenhas());
 
     this.formAdministrador
       .get('confirmacaoSenha')
-      ?.valueChanges.subscribe(() => this.verificarSenhas());
+      ?.valueChanges.pipe(takeUntil(this.confirmacaoSenha$))
+      .subscribe(() => this.verificarSenhas());
   }
 
   ngOnDestroy(): void {
-    this.inscricaoAdm?.unsubscribe();
+    this.senha$.next(null);
+    this.confirmacaoSenha$.next(null);
+    this.senha$.complete();
+    this.confirmacaoSenha$.complete();
   }
 
   verificarSenhas() {
@@ -86,23 +92,26 @@ export class FormComponent implements OnInit, OnDestroy {
         form.get('cpf')?.value,
         form.get('senha')?.value
       );
-      this.inscricaoAdm = this.admsService.cadastrarAdm(dados).subscribe({
-        next: (result: AdmCriacaoResponse) => {
-          this.ngxLoaderService.stopLoader('loader-01');
-          this.toastrService.success(
-            'Em alguns instantes o administrador irá receber um e-mail com instruções para ativação da conta.',
-            'Administrador cadastrado!'
-          );
-          this.router.navigateByUrl('/administradores');
-        },
-        error: (err: HttpErrorResponse) => {
-          this.ngxLoaderService.stopLoader('loader-01');
-          this.toastrService.error(
-            'Por favor, tente novamnete mais tarde.',
-            'Não foi possível cadastrar o administrador'
-          );
-        },
-      });
+      this.admsService
+        .cadastrarAdm(dados)
+        .pipe(take(1))
+        .subscribe({
+          next: (result: AdmCriacaoResponse) => {
+            this.ngxLoaderService.stopLoader('loader-01');
+            this.toastrService.success(
+              'Em alguns instantes o administrador irá receber um e-mail com instruções para ativação da conta.',
+              'Administrador cadastrado!'
+            );
+            this.router.navigateByUrl('/administradores');
+          },
+          error: (err: HttpErrorResponse) => {
+            this.ngxLoaderService.stopLoader('loader-01');
+            this.toastrService.error(
+              'Por favor, tente novamnete mais tarde.',
+              'Não foi possível cadastrar o administrador'
+            );
+          },
+        });
     } else {
       this.ngxLoaderService.stopLoader('loader-01');
       this.toastrService.warning(

@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { FeedbackReserva } from '../shared/models/reserva/feedback-reserva.model';
 import { BuildFilter } from '../utils/build-filter';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-feedbacks',
@@ -40,17 +41,20 @@ export class FeedbacksComponent implements OnInit {
   }
 
   populate() {
-    this.feedbacksService.listarEE().subscribe({
-      next: (result) => {
-        this.espacos = result.map((r) => new Item(r.id, r.nome));
-      },
-      error: (err) => {
-        this.toastrService.error(
-          'Por favor, tente novamente mais tarde',
-          'Erro ao buscar espaços esportivos'
-        );
-      },
-    });
+    this.feedbacksService
+      .listarEE()
+      .pipe(take(1))
+      .subscribe({
+        next: (result) => {
+          this.espacos = result.map((r) => new Item(r.id, r.nome));
+        },
+        error: (err) => {
+          this.toastrService.error(
+            'Por favor, tente novamente mais tarde',
+            'Erro ao buscar espaços esportivos'
+          );
+        },
+      });
   }
 
   buscarComentarios() {
@@ -59,6 +63,7 @@ export class FeedbacksComponent implements OnInit {
       .buscarComentarios(
         Number(this.formComentarios.get('espacoEsportivo')?.value)
       )
+      .pipe(take(1))
       .subscribe({
         next: (result) => {
           this.formRating.reset();

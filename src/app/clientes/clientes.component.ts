@@ -7,6 +7,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { ClientesService } from './services/clientes.service';
 import { ClienteDetalhado } from '../shared/models/cliente/cliente-detalhado.model';
 import { BloquearContaRequest } from '../shared/models/cliente/bloquear-conta-request.model';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-clientes',
@@ -45,19 +46,22 @@ export class ClientesComponent implements OnInit {
   populate() {
     this.clientes = undefined;
     this.clientesFiltered = undefined;
-    this.clientesService.buscarCliente().subscribe({
-      next: (result) => {
-        this.clientes = result;
-        this.ordenaArray(this.clientes);
-      },
-      error: (err) => {
-        this.clientes = [];
-        this.toastrService.error(
-          'Por favor, tente novamente mais tarde',
-          'Erro ao buscar clientes'
-        );
-      },
-    });
+    this.clientesService
+      .buscarCliente()
+      .pipe(take(1))
+      .subscribe({
+        next: (result) => {
+          this.clientes = result;
+          this.ordenaArray(this.clientes);
+        },
+        error: (err) => {
+          this.clientes = [];
+          this.toastrService.error(
+            'Por favor, tente novamente mais tarde',
+            'Erro ao buscar clientes'
+          );
+        },
+      });
   }
 
   searchClientes(): void {
@@ -113,6 +117,7 @@ export class ClientesComponent implements OnInit {
           this.idCliente,
           new BloquearContaRequest(form.get('justificativa')?.value)
         )
+        .pipe(take(1))
         .subscribe({
           next: (result) => {
             this.populate();

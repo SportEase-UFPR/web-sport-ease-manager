@@ -15,6 +15,7 @@ import { ModalDetalhesComponent } from './modal-detalhes/modal-detalhes.componen
 import { EspacoEsportivoExclusaoResponse as eeExclusaoResponse } from '../shared/models/espaco-esportivo/espaco-esportivo-exclusao-response.model';
 import { ToastrService } from 'ngx-toastr';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-espacos-esportivos',
@@ -54,15 +55,18 @@ export class EspacosEsportivosComponent implements OnInit {
   }
 
   populate(): void {
-    this.eeService.listarEE().subscribe({
-      next: (result: eeResponse[]) => {
-        this.ee = result;
-      },
-      error: (err) => {
-        this.ee = [];
-        console.error(err);
-      },
-    });
+    this.eeService
+      .listarEE()
+      .pipe(take(1))
+      .subscribe({
+        next: (result: eeResponse[]) => {
+          this.ee = result;
+        },
+        error: (err) => {
+          this.ee = [];
+          console.error(err);
+        },
+      });
   }
 
   searchEspacoEsportivo(): void {
@@ -92,23 +96,26 @@ export class EspacosEsportivosComponent implements OnInit {
 
   deletarEspacoEsportivo() {
     this.ngxLoaderService.startLoader('loader-01');
-    this.eeService.excluirEE(this.idEEDelete).subscribe({
-      next: (result: eeExclusaoResponse) => {
-        this.closeModal();
-        this.populate();
-        this.ngxLoaderService.stopLoader('loader-01');
-        this.toastrService.success('Espaço esportivo removido', 'Sucesso!');
-      },
-      error: (err) => {
-        this.closeModal();
-        console.error(err);
-        this.ngxLoaderService.stopLoader('loader-01');
-        this.toastrService.error(
-          'Por favor, tente novamente mais tarde',
-          'Erro ao remover espaço esportivo'
-        );
-      },
-    });
+    this.eeService
+      .excluirEE(this.idEEDelete)
+      .pipe(take(1))
+      .subscribe({
+        next: (result: eeExclusaoResponse) => {
+          this.closeModal();
+          this.populate();
+          this.ngxLoaderService.stopLoader('loader-01');
+          this.toastrService.success('Espaço esportivo removido', 'Sucesso!');
+        },
+        error: (err) => {
+          this.closeModal();
+          console.error(err);
+          this.ngxLoaderService.stopLoader('loader-01');
+          this.toastrService.error(
+            'Por favor, tente novamente mais tarde',
+            'Erro ao remover espaço esportivo'
+          );
+        },
+      });
   }
 
   visualizarEE(ee: eeResponse): void {

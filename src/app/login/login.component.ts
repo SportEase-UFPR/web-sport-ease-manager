@@ -7,7 +7,7 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { LoginRequest } from '../shared/models/adm/login-request.model';
 import { LoginResponse } from '../shared/models/adm/login-response.model';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Subscription } from 'rxjs';
+import { take } from 'rxjs';
 import { LoginService } from './services/login.service';
 
 @Component({
@@ -21,9 +21,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     senha: new FormControl(null, [Validators.required]),
   });
 
-  inscricaoRota!: Subscription;
-  inscricaoLogin!: Subscription;
-
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -35,15 +32,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     document.body.classList.add('display-centered');
 
-    this.inscricaoRota = this.activatedRoute.queryParams.subscribe((queryParams) => {
+    this.activatedRoute.queryParams.pipe(take(1)).subscribe((queryParams) => {
       this.formLogin.get('email')?.setValue(queryParams?.['email']);
     });
   }
 
   ngOnDestroy(): void {
     document.body.classList.remove('display-centered');
-    this.inscricaoRota?.unsubscribe();
-    this.inscricaoLogin?.unsubscribe();
   }
 
   navigate() {
@@ -68,39 +63,42 @@ export class LoginComponent implements OnInit, OnDestroy {
         form.get('email')?.value,
         form.get('senha')?.value
       );
-      this.inscricaoLogin = this.loginService.login(dados).subscribe({
-        next: (result: LoginResponse) => {
-          this.ngxLoaderService.stopLoader('loader-01');
-          this.loginService.setUsuarioLogado(result);
-          this.router.navigateByUrl('/dashboard');
-        },
-        error: (err: HttpErrorResponse) => {
-          this.ngxLoaderService.stopLoader('loader-01');
+      this.loginService
+        .login(dados)
+        .pipe(take(1))
+        .subscribe({
+          next: (result: LoginResponse) => {
+            this.ngxLoaderService.stopLoader('loader-01');
+            this.loginService.setUsuarioLogado(result);
+            this.router.navigateByUrl('/dashboard');
+          },
+          error: (err: HttpErrorResponse) => {
+            this.ngxLoaderService.stopLoader('loader-01');
 
-          switch (err.status) {
-            case 403:
-              this.toastrService.error(
-                'E-mail ou senha incorretos. Por favor, verifique os dados informados.',
-                'Não foi possível realizar o login'
-              );
-              break;
+            switch (err.status) {
+              case 403:
+                this.toastrService.error(
+                  'E-mail ou senha incorretos. Por favor, verifique os dados informados.',
+                  'Não foi possível realizar o login'
+                );
+                break;
 
-            case 412:
-              this.toastrService.error(
-                'Está conta não está ativa.',
-                'Não foi possível realizar o login'
-              );
-              break;
+              case 412:
+                this.toastrService.error(
+                  'Está conta não está ativa.',
+                  'Não foi possível realizar o login'
+                );
+                break;
 
-            default:
-              this.toastrService.error(
-                'Por favor, tente novamente mais tarde.',
-                'Não foi possível realizar o login'
-              );
-              break;
-          }
-        },
-      });
+              default:
+                this.toastrService.error(
+                  'Por favor, tente novamente mais tarde.',
+                  'Não foi possível realizar o login'
+                );
+                break;
+            }
+          },
+        });
     } else {
       this.ngxLoaderService.stopLoader('loader-01');
       this.toastrService.warning(

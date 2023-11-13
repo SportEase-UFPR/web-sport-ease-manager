@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   faAngleDown,
@@ -18,7 +18,7 @@ import { Item } from '../shared/components/inputs/input-select-option/model/item
 import { NegarReserva } from '../shared/models/reserva/negar-reserva.model';
 import { faEye } from '@fortawesome/free-regular-svg-icons';
 import { BuildFilter } from '../utils/build-filter';
-import { distinctUntilChanged } from 'rxjs';
+import { Subject, distinctUntilChanged, take, takeUntil } from 'rxjs';
 import { EncerrarReserva } from '../shared/models/reserva/encerrar-reserva.model';
 const moment = require('moment');
 
@@ -27,7 +27,7 @@ const moment = require('moment');
   templateUrl: './relatorios.component.html',
   styleUrls: ['./relatorios.component.scss'],
 })
-export class RelatoriosComponent implements OnInit {
+export class RelatoriosComponent implements OnInit, OnDestroy {
   formFiltros: FormGroup = new FormGroup({
     dataInicial: new FormControl(null),
     dataFinal: new FormControl(null),
@@ -59,6 +59,10 @@ export class RelatoriosComponent implements OnInit {
   maxDate?: Date;
 
   p: number = 1;
+
+  dataInicial$ = new Subject();
+  dataFinal$ = new Subject();
+
   private idReserva?: number;
 
   constructor(
@@ -74,6 +78,7 @@ export class RelatoriosComponent implements OnInit {
     this.formFiltros
       .get('dataInicial')
       ?.valueChanges.pipe(distinctUntilChanged())
+      .pipe(takeUntil(this.dataInicial$))
       .subscribe((v) => {
         (this.minDate = new Date(v)), this.filterHistorico();
       });
@@ -81,26 +86,37 @@ export class RelatoriosComponent implements OnInit {
     this.formFiltros
       .get('dataFinal')
       ?.valueChanges.pipe(distinctUntilChanged())
+      .pipe(takeUntil(this.dataFinal$))
       .subscribe((v) => {
         (this.maxDate = new Date(v)), this.filterHistorico();
       });
   }
 
+  ngOnDestroy(): void {
+    this.dataInicial$.next(null);
+    this.dataFinal$.next(null);
+    this.dataInicial$.complete();
+    this.dataFinal$.complete();
+  }
+
   populate() {
-    this.relatoriosService.buscarRelatorios().subscribe({
-      next: (result) => {
-        this.historico = result;
-        this.ordernarArray(this.historico);
-        this.montarFiltros();
-      },
-      error: (erro) => {
-        this.historico = [];
-        this.toastrService.error(
-          'Por favor, tente novamnete mais tarde',
-          'Erro ao trazer histórico das reservas'
-        );
-      },
-    });
+    this.relatoriosService
+      .buscarRelatorios()
+      .pipe(take(1))
+      .subscribe({
+        next: (result) => {
+          this.historico = result;
+          this.ordernarArray(this.historico);
+          this.montarFiltros();
+        },
+        error: (erro) => {
+          this.historico = [];
+          this.toastrService.error(
+            'Por favor, tente novamnete mais tarde',
+            'Erro ao trazer histórico das reservas'
+          );
+        },
+      });
   }
 
   ordernarArray(array: Reserva[]) {
@@ -228,23 +244,26 @@ export class RelatoriosComponent implements OnInit {
 
   aprovarReserva() {
     this.ngxLoaderService.startLoader('loader-01');
-    this.relatoriosService.aprovarReserva(this.idReserva!).subscribe({
-      next: (result) => {
-        this.populate();
-        this.formJustificativa.reset();
-        this.closeModal();
-        this.toastrService.success(
-          `Reserva ${this.idReserva} aprovada com sucesso`,
-          'Sucesso!'
-        );
-      },
-      error: (err) => {
-        this.toastrService.error(
-          'Por favor, tente novamente mais tarde',
-          `Erro ao aprovar reserva ${this.idReserva}`
-        );
-      },
-    });
+    this.relatoriosService
+      .aprovarReserva(this.idReserva!)
+      .pipe(take(1))
+      .subscribe({
+        next: (result) => {
+          this.populate();
+          this.formJustificativa.reset();
+          this.closeModal();
+          this.toastrService.success(
+            `Reserva ${this.idReserva} aprovada com sucesso`,
+            'Sucesso!'
+          );
+        },
+        error: (err) => {
+          this.toastrService.error(
+            'Por favor, tente novamente mais tarde',
+            `Erro ao aprovar reserva ${this.idReserva}`
+          );
+        },
+      });
     this.ngxLoaderService.stopLoader('loader-01');
   }
 
@@ -254,6 +273,7 @@ export class RelatoriosComponent implements OnInit {
     if (motivo?.valid) {
       this.relatoriosService
         .negarReserva(this.idReserva!, new NegarReserva(motivo.value))
+        .pipe(take(1))
         .subscribe({
           next: (result) => {
             this.populate();
@@ -289,6 +309,7 @@ export class RelatoriosComponent implements OnInit {
           this.idReserva!,
           new EncerrarReserva(form.get('justificativa')?.value)
         )
+        .pipe(take(1))
         .subscribe({
           next: (result) => {
             this.populate();

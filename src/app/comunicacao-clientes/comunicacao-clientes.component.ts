@@ -9,6 +9,7 @@ import { EmailCliente } from '../shared/models/cliente/email-cliente.model';
 import { faEnvelopeCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import { SendEmailAll } from '../shared/models/cliente/send-email-all.model';
 import { SendEmailCliente } from '../shared/models/cliente/send-email-cliente.model';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-comunicacao-clientes',
@@ -64,20 +65,24 @@ export class ComunicacaoClientesComponent implements OnInit, OnDestroy {
     if (form.get('sendToAll')?.value) {
       this.ngxLoaderService.startLoader('loader-01');
 
-      this.comunicacaoService.buscarClientes().subscribe({
-        next: (result) => {
-          this.emailClientes = result;
-          this.emailClietesToSelect = result.map(
-            (c) => new Item(c.idCliente, `${c.nomeCliente}: ${c.emailCliente}`)
-          );
-        },
-        error: (err) => {
-          this.toastrService.error(
-            'Por favor, tente novamente mais tarde',
-            'Erro ao trazer e-mail dos clientes'
-          );
-        },
-      });
+      this.comunicacaoService
+        .buscarClientes()
+        .pipe(take(1))
+        .subscribe({
+          next: (result) => {
+            this.emailClientes = result;
+            this.emailClietesToSelect = result.map(
+              (c) =>
+                new Item(c.idCliente, `${c.nomeCliente}: ${c.emailCliente}`)
+            );
+          },
+          error: (err) => {
+            this.toastrService.error(
+              'Por favor, tente novamente mais tarde',
+              'Erro ao trazer e-mail dos clientes'
+            );
+          },
+        });
 
       form.addControl('cliente', new FormControl(null));
       form.updateValueAndValidity();
@@ -129,38 +134,14 @@ export class ComunicacaoClientesComponent implements OnInit, OnDestroy {
           form.get('mensagem')?.value
         );
 
-        this.comunicacaoService.enviarEmailAll(dados).subscribe({
-          next: (result) => {
-            this.ngxLoaderService.stopLoader('loader-01');
-            this.toastrService.success(
-              result?.mensagem ?? 'E-mails enviados',
-              'Sucesso no envio do e-mail'
-            );
-            form.reset();
-            this.emailClienteToSend = [];
-          },
-          error: (err) => {
-            this.ngxLoaderService.stopLoader('loader-01');
-            this.toastrService.error(
-              'Por favor, tente novamente mais tarde',
-              'Erro ao enviar e-mail'
-            );
-          },
-        });
-      } else {
-        if (this.emailClienteToSend.length) {
-          this.ngxLoaderService.startLoader('loader-01');
-          const dados: SendEmailCliente = new SendEmailCliente(
-            this.emailClienteToSend,
-            form.get('assunto')?.value,
-            form.get('mensagem')?.value
-          );
-
-          this.comunicacaoService.enviarEmailClientes(dados).subscribe({
+        this.comunicacaoService
+          .enviarEmailAll(dados)
+          .pipe(take(1))
+          .subscribe({
             next: (result) => {
               this.ngxLoaderService.stopLoader('loader-01');
               this.toastrService.success(
-                result?.mensagem ?? 'E-mail enviados',
+                result?.mensagem ?? 'E-mails enviados',
                 'Sucesso no envio do e-mail'
               );
               form.reset();
@@ -174,6 +155,36 @@ export class ComunicacaoClientesComponent implements OnInit, OnDestroy {
               );
             },
           });
+      } else {
+        if (this.emailClienteToSend.length) {
+          this.ngxLoaderService.startLoader('loader-01');
+          const dados: SendEmailCliente = new SendEmailCliente(
+            this.emailClienteToSend,
+            form.get('assunto')?.value,
+            form.get('mensagem')?.value
+          );
+
+          this.comunicacaoService
+            .enviarEmailClientes(dados)
+            .pipe(take(1))
+            .subscribe({
+              next: (result) => {
+                this.ngxLoaderService.stopLoader('loader-01');
+                this.toastrService.success(
+                  result?.mensagem ?? 'E-mail enviados',
+                  'Sucesso no envio do e-mail'
+                );
+                form.reset();
+                this.emailClienteToSend = [];
+              },
+              error: (err) => {
+                this.ngxLoaderService.stopLoader('loader-01');
+                this.toastrService.error(
+                  'Por favor, tente novamente mais tarde',
+                  'Erro ao enviar e-mail'
+                );
+              },
+            });
         } else {
           this.toastrService.warning(
             'Por favor, informe ao menos um cliente que irá receber o e-mail',

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment as env } from 'src/environments/environment';
-import { Subscription } from 'rxjs';
+import { take } from 'rxjs';
 import { AdministradoresService } from '../services/administradores.service';
 
 @Component({
@@ -13,8 +13,6 @@ export class AtivacaoContaComponent implements OnInit, OnDestroy {
   ativandoConta: boolean = true;
   contaAtivada: boolean = false;
   email = env.email;
-  inscricaoRota!: Subscription;
-  inscricaoAtivacao!: Subscription;
 
   constructor(
     private router: Router,
@@ -25,36 +23,33 @@ export class AtivacaoContaComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     document.body.classList.add('display-centered');
 
-    this.inscricaoRota = this.activatedRoute.queryParams.subscribe(
-      (queryParams) => {
-        const token = queryParams['token'];
+    this.activatedRoute.queryParams.pipe(take(1)).subscribe((queryParams) => {
+      const token = queryParams['token'];
 
-        if (token) {
-          this.inscricaoAtivacao = this.admsService
-            .ativarConta(token)
-            .subscribe({
-              next: (result) => {
-                this.ativandoConta = false;
-                this.contaAtivada = true;
-              },
+      if (token) {
+        this.admsService
+          .ativarConta(token)
+          .pipe(take(1))
+          .subscribe({
+            next: (result) => {
+              this.ativandoConta = false;
+              this.contaAtivada = true;
+            },
 
-              error: (err) => {
-                this.ativandoConta = false;
-                this.contaAtivada = false;
-              },
-            });
-        } else {
-          this.ativandoConta = false;
-          this.contaAtivada = false;
-        }
+            error: (err) => {
+              this.ativandoConta = false;
+              this.contaAtivada = false;
+            },
+          });
+      } else {
+        this.ativandoConta = false;
+        this.contaAtivada = false;
       }
-    );
+    });
   }
 
   ngOnDestroy(): void {
     document.body.classList.remove('display-centered');
-    this.inscricaoAtivacao?.unsubscribe();
-    this.inscricaoRota?.unsubscribe();
   }
 
   navigate() {

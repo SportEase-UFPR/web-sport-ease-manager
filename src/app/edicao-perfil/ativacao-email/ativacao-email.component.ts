@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { take } from 'rxjs';
 import { EmailAtivacaoRequest } from 'src/app/shared/models/adm/email-ativacao-request.model';
 import { AdmService } from 'src/app/shared/services/adm/adm.service';
 import { environment as env } from 'src/environments/environment';
@@ -14,8 +14,6 @@ export class AtivacaoEmailComponent implements OnInit, OnDestroy {
   ativandoEmail: boolean = true;
   emailAtivada: boolean = false;
   email = env.email;
-  inscricaoRota!: Subscription;
-  inscricaoAtivacao!: Subscription;
 
   constructor(
     private router: Router,
@@ -26,39 +24,36 @@ export class AtivacaoEmailComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     document.body.classList.add('display-centered');
 
-    this.inscricaoRota = this.activatedRoute.queryParams.subscribe(
-      (queryParams) => {
-        const token = queryParams['token'];
+    this.activatedRoute.queryParams.pipe(take(1)).subscribe((queryParams) => {
+      const token = queryParams['token'];
 
-        if (token) {
-          const ativacaoEmail: EmailAtivacaoRequest = new EmailAtivacaoRequest(
-            token
-          );
-          this.inscricaoAtivacao = this.admService
-            .ativarEmail(ativacaoEmail)
-            .subscribe({
-              next: (result) => {
-                this.ativandoEmail = false;
-                this.emailAtivada = true;
-              },
+      if (token) {
+        const ativacaoEmail: EmailAtivacaoRequest = new EmailAtivacaoRequest(
+          token
+        );
+        this.admService
+          .ativarEmail(ativacaoEmail)
+          .pipe(take(1))
+          .subscribe({
+            next: (result) => {
+              this.ativandoEmail = false;
+              this.emailAtivada = true;
+            },
 
-              error: (err) => {
-                this.ativandoEmail = false;
-                this.emailAtivada = false;
-              },
-            });
-        } else {
-          this.ativandoEmail = false;
-          this.emailAtivada = false;
-        }
+            error: (err) => {
+              this.ativandoEmail = false;
+              this.emailAtivada = false;
+            },
+          });
+      } else {
+        this.ativandoEmail = false;
+        this.emailAtivada = false;
       }
-    );
+    });
   }
 
   ngOnDestroy(): void {
     document.body.classList.remove('display-centered');
-    this.inscricaoAtivacao?.unsubscribe();
-    this.inscricaoRota?.unsubscribe();
   }
 
   navigate() {

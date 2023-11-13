@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Item } from '../shared/components/inputs/input-select-option/model/item.model';
 import { NegarReserva } from '../shared/models/reserva/negar-reserva.model';
 import { HttpErrorResponse } from '@angular/common/http';
+import { take } from 'rxjs';
 const moment = require('moment');
 
 @Component({
@@ -48,29 +49,32 @@ export class DashboardComponent implements OnInit {
   }
 
   populate() {
-    this.dashboardService.listarReservasSolicitadas().subscribe({
-      next: (result) => {
-        this.reservas = result;
-        if (this.reservas.length > 1) {
-          this.ordenarReservas();
-        }
-      },
-      error: (err: HttpErrorResponse) => {
-        console.log(err);
-        this.reservas = [];
-        if (err.error?.message == 'Nenhuma reserva solicitada') {
-          this.toastrService.info(
-            'Até o momento nenhuma reserva foi solicitada',
-            'Nenhuma reserva encontrada'
-          );
-        } else {
-          this.toastrService.error(
-            'Por favor, tente novamente mais tarde',
-            'Erro ao trazer reservas solicitadas'
-          );
-        }
-      },
-    });
+    this.dashboardService
+      .listarReservasSolicitadas()
+      .pipe(take(1))
+      .subscribe({
+        next: (result) => {
+          this.reservas = result;
+          if (this.reservas.length > 1) {
+            this.ordenarReservas();
+          }
+        },
+        error: (err: HttpErrorResponse) => {
+          console.log(err);
+          this.reservas = [];
+          if (err.error?.message == 'Nenhuma reserva solicitada') {
+            this.toastrService.info(
+              'Até o momento nenhuma reserva foi solicitada',
+              'Nenhuma reserva encontrada'
+            );
+          } else {
+            this.toastrService.error(
+              'Por favor, tente novamente mais tarde',
+              'Erro ao trazer reservas solicitadas'
+            );
+          }
+        },
+      });
   }
 
   openModalConfirmacao(id: number, modal: any): void {
@@ -105,23 +109,26 @@ export class DashboardComponent implements OnInit {
 
   aprovarReserva() {
     this.ngxLoaderService.startLoader('loader-01');
-    this.dashboardService.aprovarReserva(this.idReserva!).subscribe({
-      next: (result) => {
-        this.populate();
-        this.formNegarReserva.reset();
-        this.closeModal();
-        this.toastrService.success(
-          `Reserva ${this.idReserva} aprovada com sucesso`,
-          'Sucesso!'
-        );
-      },
-      error: (err) => {
-        this.toastrService.error(
-          'Por favor, tente novamente mais tarde',
-          `Erro ao aprovar reserva ${this.idReserva}`
-        );
-      },
-    });
+    this.dashboardService
+      .aprovarReserva(this.idReserva!)
+      .pipe(take(1))
+      .subscribe({
+        next: (result) => {
+          this.populate();
+          this.formNegarReserva.reset();
+          this.closeModal();
+          this.toastrService.success(
+            `Reserva ${this.idReserva} aprovada com sucesso`,
+            'Sucesso!'
+          );
+        },
+        error: (err) => {
+          this.toastrService.error(
+            'Por favor, tente novamente mais tarde',
+            `Erro ao aprovar reserva ${this.idReserva}`
+          );
+        },
+      });
     this.ngxLoaderService.stopLoader('loader-01');
   }
 
@@ -131,6 +138,7 @@ export class DashboardComponent implements OnInit {
     if (motivo?.valid) {
       this.dashboardService
         .negarReserva(this.idReserva!, new NegarReserva(motivo.value))
+        .pipe(take(1))
         .subscribe({
           next: (result) => {
             this.populate();
