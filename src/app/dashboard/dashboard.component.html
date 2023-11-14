@@ -127,12 +127,30 @@
       class="row w-100 justify-content-center"
       *ngIf="reservas?.length! > 0; else semReservas"
     >
-      <div class="col-12 col-md-6 my-2" *ngFor="let r of reservas">
-        <app-card-reserva
-          [reserva]="r"
-          (aprovarReserva)="openModalConfirmacao(r.id!, modalAprovarReserva)"
-          (negarReserva)="openModalConfirmacao(r.id!, modalNegarReserva)"
-        ></app-card-reserva>
+      <div class="col-12 col-md-6">
+        <div
+          class="my-3"
+          *ngFor="let r of separaArray.separarArray(true, reservas!)"
+        >
+          <app-card-reserva
+            [reserva]="r"
+            (aprovarReserva)="openModalConfirmacao(r.id!, modalAprovarReserva)"
+            (negarReserva)="openModalConfirmacao(r.id!, modalNegarReserva)"
+          ></app-card-reserva>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <div
+          class="my-3"
+          *ngFor="let r of separaArray.separarArray(false, reservas!)"
+        >
+          <app-card-reserva
+            [reserva]="r"
+            (aprovarReserva)="openModalConfirmacao(r.id!, modalAprovarReserva)"
+            (negarReserva)="openModalConfirmacao(r.id!, modalNegarReserva)"
+          ></app-card-reserva>
+        </div>
       </div>
     </div>
 

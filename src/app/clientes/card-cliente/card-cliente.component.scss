@@ -14,6 +14,11 @@
     .motivo-reserva-collapse {
       cursor: pointer;
     }
+
+    .qtd-reservas{
+      display: grid;
+      grid-template-columns: auto auto auto;
+    }
   }
 
   .reserva-footer {

@@ -10,6 +10,7 @@ import { Item } from '../shared/components/inputs/input-select-option/model/item
 import { NegarReserva } from '../shared/models/reserva/negar-reserva.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { take } from 'rxjs';
+import { SeparaArray } from '../utils/separa-array';
 const moment = require('moment');
 
 @Component({
@@ -36,6 +37,7 @@ export class DashboardComponent implements OnInit {
   ];
 
   private idReserva?: number;
+  protected separaArray = SeparaArray
 
   constructor(
     private modalService: NgbModal,

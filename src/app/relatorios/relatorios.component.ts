@@ -133,6 +133,18 @@ export class RelatoriosComponent implements OnInit, OnDestroy {
 
     let filteredHistorico = this.historico;
 
+    if (Number(solicitante) == -1) {
+      filteredHistorico = this.historico;
+    }
+
+    if (Number(localFilter) == -1) {
+      filteredHistorico = this.historico;
+    }
+
+    if (Number(statusFilter) == -1) {
+      filteredHistorico = this.historico;
+    }
+
     if (dataInicial?.value && dataFinal?.value) {
       const dataInicialValue = moment(dataInicial?.value).startOf('day');
       const dataFinalValue = moment(dataFinal?.value).startOf('day');
@@ -157,7 +169,7 @@ export class RelatoriosComponent implements OnInit, OnDestroy {
       }
     }
 
-    if (solicitante) {
+    if (solicitante && solicitante != -1) {
       this.ngxLoaderService.startLoader('loader-01');
       filteredHistorico = filteredHistorico?.filter(
         (h) => h.informacoesComplementaresLocacao?.nomeCliente === solicitante
@@ -165,7 +177,7 @@ export class RelatoriosComponent implements OnInit, OnDestroy {
       this.ngxLoaderService.stopLoader('loader-01');
     }
 
-    if (localFilter) {
+    if (localFilter && localFilter != -1) {
       this.ngxLoaderService.startLoader('loader-01');
       filteredHistorico = filteredHistorico?.filter(
         (h) =>
@@ -175,7 +187,7 @@ export class RelatoriosComponent implements OnInit, OnDestroy {
       this.ngxLoaderService.stopLoader('loader-01');
     }
 
-    if (statusFilter) {
+    if (statusFilter && statusFilter != -1) {
       this.ngxLoaderService.startLoader('loader-01');
       filteredHistorico = filteredHistorico?.filter(
         (h) => h.status === statusFilter
@@ -213,6 +225,10 @@ export class RelatoriosComponent implements OnInit, OnDestroy {
     this.filtroLocal = [];
     this.filtroStatus = [];
     this.motivoReservaCollapsed = false;
+
+    BuildFilter.adicionarItem(this.filtroClientes, -1, 'Todos');
+    BuildFilter.adicionarItem(this.filtroLocal, -1, 'Todos');
+    BuildFilter.adicionarItem(this.filtroStatus, -1, 'Todos');
 
     this.historico?.forEach((h) => {
       BuildFilter.adicionarItem(

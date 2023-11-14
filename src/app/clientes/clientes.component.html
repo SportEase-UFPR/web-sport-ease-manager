@@ -77,9 +77,12 @@
 <ngx-ui-loader [loaderId]="'loader-01'"></ngx-ui-loader>
 
 <div class="mx-3 mt-4">
-  <h3 class="text-purple font-weight-bold">Clientes cadastrados</h3>
+  <h3 class="text-purple font-weight-bold mb-0">Clientes cadastrados</h3>
+  <small class="text-gray" *ngIf="clientes?.length! > 0">
+    <p class="mb-0">Quantidade total de clientes: {{ clientes?.length }}</p>
+  </small>
 
-  <div class="row my-2" *ngIf="clientes?.length! > 1">
+  <div class="row mb-2 mt-3" *ngIf="clientes?.length! > 1">
     <div class="col-12 col-md-5">
       <form [formGroup]="formSearch">
         <app-input-search
@@ -124,7 +127,51 @@
 
     <ng-template #noSkeleton>
       <ng-container *ngIf="clientes?.length! > 0; else semClientes">
-        <div
+        <div class="col-12 col-md-6">
+          <div
+            class="my-3"
+            *ngFor="
+              let c of separaArray.separarArray(
+                true,
+                clientesFiltered ? clientesFiltered : clientes!
+              )
+            "
+          >
+            <app-card-cliente
+              [cliente]="c"
+              (emitterUnblock)="
+                openModalConfirmacao(modalUnblockCliente, c.usuarioId!, c.nome!)
+              "
+              (emitterBlock)="
+                openModalConfirmacao(modalBlockCliente, c.usuarioId!, c.nome!)
+              "
+            ></app-card-cliente>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <div
+            class="my-3"
+            *ngFor="
+              let c of separaArray.separarArray(
+                false,
+                clientesFiltered ? clientesFiltered : clientes!
+              )
+            "
+          >
+            <app-card-cliente
+              [cliente]="c"
+              (emitterUnblock)="
+                openModalConfirmacao(modalUnblockCliente, c.usuarioId!, c.nome!)
+              "
+              (emitterBlock)="
+                openModalConfirmacao(modalBlockCliente, c.usuarioId!, c.nome!)
+              "
+            ></app-card-cliente>
+          </div>
+        </div>
+
+        <!-- <div
           class="col-12 col-md-6 mb-3"
           *ngFor="let c of clientesFiltered ? clientesFiltered : clientes"
         >
@@ -137,7 +184,7 @@
               openModalConfirmacao(modalBlockCliente, c.usuarioId!, c.nome!)
             "
           ></app-card-cliente>
-        </div>
+        </div> -->
       </ng-container>
 
       <ng-template #semClientes>

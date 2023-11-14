@@ -8,6 +8,7 @@ import { ClientesService } from './services/clientes.service';
 import { ClienteDetalhado } from '../shared/models/cliente/cliente-detalhado.model';
 import { BloquearContaRequest } from '../shared/models/cliente/bloquear-conta-request.model';
 import { take } from 'rxjs';
+import { SeparaArray } from '../utils/separa-array';
 
 @Component({
   selector: 'app-clientes',
@@ -31,6 +32,8 @@ export class ClientesComponent implements OnInit {
 
   clientes?: ClienteDetalhado[];
   clientesFiltered?: ClienteDetalhado[];
+
+  protected separaArray = SeparaArray;
 
   constructor(
     private modalService: NgbModal,
