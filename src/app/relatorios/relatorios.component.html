@@ -189,7 +189,7 @@
                 *ngIf="filtroStatus.length > 1"
                 [formGroup]="formFiltros"
                 [controlName]="'status'"
-                [label]="'Status das reserva'"
+                [label]="'Status da reserva'"
                 [items]="filtroStatus"
                 (emitterChange)="filterHistorico()"
               ></app-input-select-option>
@@ -268,8 +268,8 @@
         class="text-center"
         *ngIf="
           historicoFiltered
-            ? historicoFiltered?.length! > 5
-            : historico?.length! > 5
+            ? historicoFiltered?.length! > 10
+            : historico?.length! > 10
         "
       >
         <pagination-controls
@@ -309,7 +309,7 @@
               <tr
                 *ngFor="
                   let h of (historicoFiltered ? historicoFiltered! : historico!)
-                    | paginate : { itemsPerPage: 5, currentPage: p }
+                    | paginate : { itemsPerPage: 10, currentPage: p }
                 "
                 class="text-center"
               >

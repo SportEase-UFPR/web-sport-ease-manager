@@ -1,3 +1,4 @@
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FeedbacksComponent } from './feedbacks.component';
@@ -35,7 +36,8 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     NgxPaginationModule,
     ToastrModule.forRoot(),
     NgxUiLoaderModule.forRoot(ngxUiLoaderConfig),
-    NgxSkeletonLoaderModule
+    NgxSkeletonLoaderModule,
+    FontAwesomeModule,
   ]
 })
 export class FeedbacksModule { }

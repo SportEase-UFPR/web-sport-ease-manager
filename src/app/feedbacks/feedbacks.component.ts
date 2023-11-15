@@ -7,6 +7,8 @@ import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { FeedbackReserva } from '../shared/models/reserva/feedback-reserva.model';
 import { BuildFilter } from '../utils/build-filter';
 import { take } from 'rxjs';
+import { faXmark, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-feedbacks',
@@ -28,9 +30,15 @@ export class FeedbacksComponent implements OnInit {
   espacos: Item[] = [];
   filterRating: Item[] = [];
 
+  private idComentario: number = 0;
+
+  faClose = faXmark;
+  faConfirm = faCheck;
+
   constructor(
     private feedbacksService: FeedbacksService,
     private toastrService: ToastrService,
+    private modalService: NgbModal,
     private ngxLoaderService: NgxUiLoaderService
   ) {}
 
@@ -68,6 +76,7 @@ export class FeedbacksComponent implements OnInit {
         next: (result) => {
           this.formRating.reset();
           this.comentarios = result.filter((c) => c.comentario !== null);
+          this.filterRating = [];
           BuildFilter.adicionarItem(this.filterRating, -1, 'Todos');
           this.comentarios.forEach((c) =>
             BuildFilter.adicionarItem(
@@ -96,5 +105,40 @@ export class FeedbacksComponent implements OnInit {
       );
     }
     this.ngxLoaderService.stopLoader('loader-01');
+  }
+
+  openModalConfirmacao(id: number, modal: any): void {
+    this.idComentario = id;
+
+    this.modalService.open(modal, {
+      centered: true,
+    });
+  }
+
+  closeModal() {
+    this.modalService.dismissAll();
+  }
+
+  excluirComentario() {
+    this.ngxLoaderService.startLoader('loader-01');
+    this.feedbacksService
+      .deletarComentario(this.idComentario)
+      .pipe(take(1))
+      .subscribe({
+        next: (result) => {
+          this.ngxLoaderService.stopLoader('loader-01');
+          this.closeModal();
+          this.toastrService.success('O comentário foi excluído', 'Sucesso');
+          this.buscarComentarios();
+        },
+        error: (err) => {
+          this.ngxLoaderService.stopLoader('loader-01');
+          this.closeModal();
+          this.toastrService.error(
+            'Por favor, tente novamente mais tarde',
+            'Erro ao excluir o comentário'
+          );
+        },
+      });
   }
 }

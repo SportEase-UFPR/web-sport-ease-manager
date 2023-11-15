@@ -17,9 +17,16 @@
       color: var(--roxo);
     }
 
-    .data {
+    .remove-comentario {
+      background-color: transparent;
       color: var(--cinza-claro);
+      width: auto !important;
+      height: auto !important;
     }
+  }
+
+  .data {
+    color: var(--cinza-claro);
   }
 
   .comentario {

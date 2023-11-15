@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { faCircleUser } from '@fortawesome/free-regular-svg-icons';
 
-import { faUserPen } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-cabecalho',
@@ -8,7 +8,7 @@ import { faUserPen } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./cabecalho.component.scss'],
 })
 export class CabecalhoComponent implements OnInit {
-  faUser = faUserPen;
+  faUser = faCircleUser;
 
   constructor() {}
 

@@ -254,7 +254,7 @@ export class FormComponent implements OnInit, OnDestroy {
           error: (err) => {
             this.ngxLoaderService.stopLoader('loader-01');
             this.toastrService.error(
-              'Por favor, tente novamente mais tarde',
+              err.error.message ?? 'Por favor, tente novamente mais tarde',
               'Erro ao cadastrar esporte'
             );
             console.error(err);
@@ -310,7 +310,7 @@ export class FormComponent implements OnInit, OnDestroy {
         error: (err) => {
           this.ngxLoaderService.stopLoader('loader-01');
           this.toastrService.error(
-            'Por favor, tente novamnete mais tarde',
+            err.error.message ?? 'Por favor, tente novamente mais tarde',
             'Falha ao remover esporte'
           );
         },

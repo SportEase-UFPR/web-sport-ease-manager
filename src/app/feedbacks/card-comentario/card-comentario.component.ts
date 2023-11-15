@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { faTrashAlt } from '@fortawesome/free-regular-svg-icons';
 import { FeedbackReserva } from 'src/app/shared/models/reserva/feedback-reserva.model';
 
 @Component({
@@ -8,6 +9,10 @@ import { FeedbackReserva } from 'src/app/shared/models/reserva/feedback-reserva.
 })
 export class CardComentarioComponent implements OnInit {
   @Input() comentario: FeedbackReserva = new FeedbackReserva();
+
+  @Output() emmiterClick = new EventEmitter();
+
+  faTrash = faTrashAlt;
 
   constructor() {}
 
@@ -29,5 +34,9 @@ export class CardComentarioComponent implements OnInit {
     }
 
     return stars;
+  }
+
+  onClick() {
+    this.emmiterClick.emit();
   }
 }

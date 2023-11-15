@@ -15,9 +15,10 @@
       cursor: pointer;
     }
 
-    .qtd-reservas{
+    .qtd-reservas {
       display: grid;
       grid-template-columns: auto auto auto;
+      justify-content: space-evenly;
     }
   }
 

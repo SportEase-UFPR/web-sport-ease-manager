@@ -107,7 +107,7 @@ export class FormComponent implements OnInit, OnDestroy {
           error: (err: HttpErrorResponse) => {
             this.ngxLoaderService.stopLoader('loader-01');
             this.toastrService.error(
-              'Por favor, tente novamnete mais tarde.',
+              'Por favor, tente novamente mais tarde.',
               'Não foi possível cadastrar o administrador'
             );
           },

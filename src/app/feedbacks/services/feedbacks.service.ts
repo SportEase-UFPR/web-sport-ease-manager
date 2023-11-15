@@ -38,4 +38,8 @@ export class FeedbacksService {
       { headers: this.createHeaders() }
     );
   }
+
+  public deletarComentario(idLocacao: number) {
+    return this.httpService.delete(`${env.baseUrl}locacoes/comentarios/${idLocacao}`, {headers: this.createHeaders()})
+  }
 }

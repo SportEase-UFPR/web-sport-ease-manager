@@ -121,6 +121,7 @@ body {
   height: 45px;
   padding: 8px;
   width: 100%;
+  outline: none;
   transition: 0.2s ease-in-out;
 
   &:hover:not(:disabled) {
@@ -135,6 +136,7 @@ body {
   background-color: transparent;
   border-radius: 10px;
   font-size: 20px;
+  outline: none;
   transition: 0.2s ease-in-out;
 
   &:hover:not(:disabled) {

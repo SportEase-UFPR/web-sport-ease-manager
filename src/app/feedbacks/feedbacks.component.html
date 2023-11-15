@@ -1,3 +1,35 @@
+<ng-template #modalExcluirComentario let-modal>
+  <div class="modal-body">
+    <div class="d-flex justify-content-between">
+      <h4 class="modal-title text-dark-blue text-center">
+        Você realmente deseja excluir esse comentário?
+      </h4>
+    </div>
+
+    <div class="d-block d-md-flex mt-3 mb-2">
+      <div class="col-12 col-md-6 me-0 me-md-2 mb-2 mb-md-0 pe-2">
+        <app-btn-purple
+          [textButton]="'Excluir'"
+          [showIcon]="true"
+          [iconFirst]="true"
+          [icone]="faConfirm"
+          (emmiterClick)="excluirComentario()"
+        ></app-btn-purple>
+      </div>
+
+      <div class="col-12 col-md-6 pe-2">
+        <app-btn-red
+          [textButton]="'Cancelar'"
+          [showIcon]="true"
+          [iconFirst]="true"
+          [icone]="faClose"
+          (emmiterClick)="closeModal()"
+        ></app-btn-red>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
 <ngx-ui-loader [loaderId]="'loader-01'"></ngx-ui-loader>
 
 <div class="mx-3 mt-4">
@@ -80,7 +112,12 @@
             | paginate : { itemsPerPage: 9, currentPage: p }
         "
       >
-        <app-card-comentario [comentario]="c"></app-card-comentario>
+        <app-card-comentario
+          [comentario]="c"
+          (emmiterClick)="
+            openModalConfirmacao(c.idLocacao!, modalExcluirComentario)
+          "
+        ></app-card-comentario>
       </div>
     </div>
 

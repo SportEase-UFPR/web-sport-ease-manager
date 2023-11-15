@@ -5,6 +5,7 @@ export class FeedbackReserva {
     public nomeCliente?: string,
     public dataHoraComentario?: Date | string,
     public comentario?: string,
-    public avaliacao?: number
+    public avaliacao?: number,
+    public idLocacao?: number
   ) {}
 }

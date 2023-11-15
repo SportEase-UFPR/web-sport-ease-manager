@@ -31,9 +31,9 @@ export class RelatoriosComponent implements OnInit, OnDestroy {
   formFiltros: FormGroup = new FormGroup({
     dataInicial: new FormControl(null),
     dataFinal: new FormControl(null),
-    solicitante: new FormControl(null),
-    local: new FormControl(null),
-    status: new FormControl(null),
+    solicitante: new FormControl(-1),
+    local: new FormControl(-1),
+    status: new FormControl(-1),
   });
 
   formJustificativa: FormGroup = new FormGroup({
@@ -112,7 +112,7 @@ export class RelatoriosComponent implements OnInit, OnDestroy {
         error: (erro) => {
           this.historico = [];
           this.toastrService.error(
-            'Por favor, tente novamnete mais tarde',
+            'Por favor, tente novamente mais tarde',
             'Erro ao trazer histórico das reservas'
           );
         },
@@ -201,7 +201,13 @@ export class RelatoriosComponent implements OnInit, OnDestroy {
 
   limparFiltros() {
     this.ngxLoaderService.startLoader('loader-01');
-    this.formFiltros.reset();
+    this.formFiltros.patchValue({
+      dataInicial: null,
+      dataFinal: null,
+      solicitante: -1,
+      local: -1,
+      status: -1,
+    });
     this.historicoFiltered = undefined;
     this.minDate = undefined;
     this.maxDate = undefined;
@@ -330,12 +336,15 @@ export class RelatoriosComponent implements OnInit, OnDestroy {
           next: (result) => {
             this.populate();
             this.closeModal();
-            this.toastrService.success('A reserva foi encerrada', 'Sucesso');
+            this.toastrService.success(
+              `A reserva ${this.idReserva} foi encerrada`,
+              'Sucesso'
+            );
           },
           error: (err) => {
             this.toastrService.error(
               'Por favor, tente novamente mais tarde',
-              'Erro ao encerrar reserva'
+              `Erro ao encerrar reserva ${this.idReserva}`
             );
           },
         });
