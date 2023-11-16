@@ -241,7 +241,20 @@ body {
 
 //estilo para ngx-material-timepicker
 .timepicker {
+  .timepicker-dial__container {
+    justify-content: center !important;
+  }
+
+  .timepicker-dial__period {
+    display: none !important;
+  }
+
   .timepicker__actions {
     justify-content: space-evenly !important;
   }
+}
+
+//Estilo para o calendário
+.mat-calendar-body-selected {
+  background-color: var(--roxo) !important;
 }

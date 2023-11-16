@@ -56,8 +56,8 @@ export class RelatoriosComponent implements OnInit, OnDestroy {
   filtroLocal: Item[] = [];
   filtroStatus: Item[] = [];
 
-  minDate?: Date;
-  maxDate?: Date;
+  minDate?: Date = undefined;
+  maxDate?: Date = undefined;
 
   p: number = 1;
 
@@ -81,7 +81,10 @@ export class RelatoriosComponent implements OnInit, OnDestroy {
       ?.valueChanges.pipe(distinctUntilChanged())
       .pipe(takeUntil(this.dataInicial$))
       .subscribe((v) => {
-        (this.minDate = new Date(v)), this.filterHistorico();
+        if (v) {
+          this.minDate = new Date(v);
+          this.filterHistorico();
+        }
       });
 
     this.formFiltros
@@ -89,7 +92,10 @@ export class RelatoriosComponent implements OnInit, OnDestroy {
       ?.valueChanges.pipe(distinctUntilChanged())
       .pipe(takeUntil(this.dataFinal$))
       .subscribe((v) => {
-        (this.maxDate = new Date(v)), this.filterHistorico();
+        if (v) {
+          this.maxDate = new Date(v);
+          this.filterHistorico();
+        }
       });
   }
 

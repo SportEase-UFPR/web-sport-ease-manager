@@ -186,15 +186,20 @@ export class FormComponent implements OnInit, OnDestroy {
       .get('fechamento')
       ?.valueChanges.pipe(takeUntil(this.fechamento$))
       .subscribe((v) => {
-        this.horaFechamento = v;
-        this.validHours();
+        if (v) {
+          this.horaFechamento = v;
+          this.validHours();
+        }
       });
 
     this.formEspacoEsportivo
       .get('periodo')
       ?.valueChanges.pipe(takeUntil(this.periodo$))
       .subscribe((v) => {
-        this.validPeriodo();
+        if (v) {
+          this.horaAbertura = v;
+          this.validPeriodo();
+        }
       });
   }
 

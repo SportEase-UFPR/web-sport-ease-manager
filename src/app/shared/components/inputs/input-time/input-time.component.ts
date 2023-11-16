@@ -35,10 +35,10 @@ export class InputTimeComponent implements OnInit {
         dialInactiveColor: '#ffffff'
     },
     clockFace: {
-        clockFaceBackgroundColor: '#e9e9e9',
+        clockFaceBackgroundColor: '#b5b4b454',
         clockHandColor: '#5d5fef',
-        clockFaceTimeInactiveColor: '#fa5a7d',
-        clockFaceInnerTimeInactiveColor: '#fa5a7d',
+        clockFaceTimeInactiveColor: '#151d48',
+        clockFaceInnerTimeInactiveColor: '#151d48',
     }
 };
 
