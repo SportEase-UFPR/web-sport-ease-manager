@@ -1,7 +1,7 @@
 <div class="card-comentario">
   <div class="card-cabecalho">
     <h5 class="autor">{{ comentario.nomeCliente }}</h5>
-    <button class="btn-basic remove-comentario p-0 me-2" (click)="onClick()">
+    <button *ngIf="comentario.comentario" class="btn-basic remove-comentario p-0 me-2" (click)="onClick()">
       <fa-icon [icon]="faTrash"></fa-icon>
     </button>
   </div>
@@ -75,6 +75,6 @@
       </div>
     </div>
 
-    <p class="mb-1 comentario">"{{ comentario.comentario }}"</p>
+    <p *ngIf="comentario.comentario" class="mb-1 comentario">"{{ comentario.comentario }}"</p>
   </div>
 </div>

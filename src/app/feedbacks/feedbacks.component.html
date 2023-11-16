@@ -124,7 +124,7 @@
     <ng-template #semComentarios>
       <p class="mt-4 text-gray text-center">
         {{
-          formComentarios.get("espacoEsportivo")?.value == null
+          formComentarios.get("espacoEsportivo")?.value == -1
             ? "Selecione o espaço esportivo que deseja visualizar os comentários :)"
             : "Nenhum comentário foi encontrado :("
         }}

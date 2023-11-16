@@ -47,6 +47,7 @@ export class RelatoriosComponent implements OnInit, OnDestroy {
   faBan = faBan;
 
   motivoReservaCollapsed: boolean = true;
+  showLimparFiltros: boolean = false;
 
   historico?: Reserva[];
   historicoFiltered?: Reserva[];
@@ -133,16 +134,19 @@ export class RelatoriosComponent implements OnInit, OnDestroy {
 
     let filteredHistorico = this.historico;
 
-    if (Number(solicitante) == -1) {
+    if (Number(solicitante) === -1) {
       filteredHistorico = this.historico;
+      this.showLimparFiltros = false;
     }
 
-    if (Number(localFilter) == -1) {
+    if (Number(localFilter) === -1) {
       filteredHistorico = this.historico;
+      this.showLimparFiltros = false;
     }
 
-    if (Number(statusFilter) == -1) {
+    if (Number(statusFilter) === -1) {
       filteredHistorico = this.historico;
+      this.showLimparFiltros = false;
     }
 
     if (dataInicial?.value && dataFinal?.value) {
@@ -153,6 +157,7 @@ export class RelatoriosComponent implements OnInit, OnDestroy {
         this.ngxLoaderService.startLoader('loader-01');
         filteredHistorico = filteredHistorico?.filter((h) => {
           const dataReserva = moment(h.dataHoraInicioReserva);
+          this.showLimparFiltros = true;
 
           return (
             dataReserva.isSameOrAfter(dataInicialValue, 'day') &&
@@ -172,8 +177,10 @@ export class RelatoriosComponent implements OnInit, OnDestroy {
     if (solicitante && solicitante != -1) {
       this.ngxLoaderService.startLoader('loader-01');
       filteredHistorico = filteredHistorico?.filter(
-        (h) => h.informacoesComplementaresLocacao?.nomeCliente === solicitante
+        (h) =>
+          h.informacoesComplementaresLocacao?.idCliente === Number(solicitante)
       );
+      this.showLimparFiltros = true;
       this.ngxLoaderService.stopLoader('loader-01');
     }
 
@@ -184,6 +191,7 @@ export class RelatoriosComponent implements OnInit, OnDestroy {
           h.informacoesComplementaresLocacao?.idEspacoEsportivo ===
           Number(localFilter)
       );
+      this.showLimparFiltros = true;
       this.ngxLoaderService.stopLoader('loader-01');
     }
 
@@ -192,6 +200,7 @@ export class RelatoriosComponent implements OnInit, OnDestroy {
       filteredHistorico = filteredHistorico?.filter(
         (h) => h.status === statusFilter
       );
+      this.showLimparFiltros = true;
       this.ngxLoaderService.stopLoader('loader-01');
     }
 
@@ -239,6 +248,7 @@ export class RelatoriosComponent implements OnInit, OnDestroy {
     this.historico?.forEach((h) => {
       BuildFilter.adicionarItem(
         this.filtroClientes,
+        h.informacoesComplementaresLocacao?.idCliente!,
         h.informacoesComplementaresLocacao?.nomeCliente!
       );
 

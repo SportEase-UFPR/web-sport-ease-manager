@@ -238,3 +238,10 @@ body {
 .toast-warning {
   background-color: #ffa500 !important;
 }
+
+//estilo para ngx-material-timepicker
+.timepicker {
+  .timepicker__actions {
+    justify-content: space-evenly !important;
+  }
+}

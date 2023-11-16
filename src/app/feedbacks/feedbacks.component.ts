@@ -17,7 +17,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class FeedbacksComponent implements OnInit {
   formComentarios: FormGroup = new FormGroup({
-    espacoEsportivo: new FormControl(null),
+    espacoEsportivo: new FormControl(-1),
   });
 
   formRating: FormGroup = new FormGroup({
@@ -54,7 +54,11 @@ export class FeedbacksComponent implements OnInit {
       .pipe(take(1))
       .subscribe({
         next: (result) => {
-          this.espacos = result.map((r) => new Item(r.id, r.nome));
+          this.espacos = [];
+          BuildFilter.adicionarItem(this.espacos, -1, 'Nenhum');
+          result.forEach((e) => {
+            BuildFilter.adicionarItem(this.espacos, e.id!, e.nome!);
+          });
         },
         error: (err) => {
           this.toastrService.error(
@@ -66,31 +70,36 @@ export class FeedbacksComponent implements OnInit {
   }
 
   buscarComentarios() {
-    this.comentarios = undefined;
-    this.feedbacksService
-      .buscarComentarios(
-        Number(this.formComentarios.get('espacoEsportivo')?.value)
-      )
-      .pipe(take(1))
-      .subscribe({
-        next: (result) => {
-          this.formRating.reset();
-          this.comentarios = result.filter((c) => c.comentario !== null);
-          this.filterRating = [];
-          BuildFilter.adicionarItem(this.filterRating, -1, 'Todos');
-          this.comentarios.forEach((c) =>
-            BuildFilter.adicionarItem(
-              this.filterRating,
-              c.avaliacao!,
-              `${c.avaliacao} ${c.avaliacao == 1 ? ' estrela' : ' estrelas'}`
-            )
-          );
-        },
-        error: (err) => {
-          this.comentarios = [];
-          console.log(err);
-        },
-      });
+    const espaco = Number(this.formComentarios.get('espacoEsportivo')?.value);
+    if (espaco == -1) {
+      this.filterRating = [];
+      this.comentarios = [];
+      this.comentariosFiltered = undefined;
+    } else {
+      this.comentarios = undefined;
+      this.feedbacksService
+        .buscarComentarios(espaco)
+        .pipe(take(1))
+        .subscribe({
+          next: (result) => {
+            this.comentarios = result.filter((c) => c.avaliacao);
+            this.filterRating = [];
+            BuildFilter.adicionarItem(this.filterRating, -1, 'Todos');
+            this.comentarios.forEach((c) =>
+              BuildFilter.adicionarItem(
+                this.filterRating,
+                c.avaliacao!,
+                `${c.avaliacao} ${c.avaliacao == 1 ? ' estrela' : ' estrelas'}`
+              )
+            );
+            this.formRating.reset();
+          },
+          error: (err) => {
+            this.comentarios = [];
+            console.log(err);
+          },
+        });
+    }
   }
 
   filtrarComentarios() {

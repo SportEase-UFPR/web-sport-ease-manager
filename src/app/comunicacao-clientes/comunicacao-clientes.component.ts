@@ -19,6 +19,7 @@ import { take } from 'rxjs';
 export class ComunicacaoClientesComponent implements OnInit, OnDestroy {
   formComunicacao: FormGroup = new FormGroup({
     sendToAll: new FormControl(true),
+    cliente: new FormControl(null),
     assunto: new FormControl(null),
     mensagem: new FormControl({ value: '', disabled: false }, [
       Validators.required(),
@@ -84,15 +85,13 @@ export class ComunicacaoClientesComponent implements OnInit, OnDestroy {
           },
         });
 
-      form.addControl('cliente', new FormControl(null));
-      form.updateValueAndValidity();
-      this.showClientes = true;
+      setTimeout(() => {
+        this.showClientes = true;
 
-      this.ngxLoaderService.stopLoader('loader-01');
+        this.ngxLoaderService.stopLoader('loader-01');
+      }, 500);
     } else {
       this.showClientes = false;
-      form.removeControl('cliente');
-      form.updateValueAndValidity();
     }
   }
 

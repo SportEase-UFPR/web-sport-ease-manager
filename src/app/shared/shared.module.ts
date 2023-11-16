@@ -20,6 +20,8 @@ import { PasswordChecklistComponent } from './components/password-checklist/pass
 import { InputDateComponent } from './components/inputs/input-date/input-date.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { InputTimeComponent } from './components/inputs/input-time/input-time.component';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     InputFieldComponent,
     InputToogleComponent,
     PasswordChecklistComponent,
-    InputDateComponent
+    InputDateComponent,
+    InputTimeComponent
   ],
   imports: [
     CommonModule,
@@ -45,7 +48,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     NgxMaskPipe,
     FontAwesomeModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    NgxMaterialTimepickerModule
   ],
   exports: [
     InputSenhaComponent,
@@ -59,7 +63,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     InputFieldComponent,
     InputToogleComponent,
     PasswordChecklistComponent,
-    InputDateComponent
+    InputDateComponent,
+    InputTimeComponent
   ],
   providers: [provideNgxMask()],
 })

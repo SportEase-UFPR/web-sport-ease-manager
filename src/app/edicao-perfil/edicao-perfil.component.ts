@@ -108,11 +108,11 @@ export class EdicaoPerfilComponent implements OnInit, OnDestroy {
   }
 
   alterarDados(): void {
-    this.ngxService.startLoader('loader-01');
     const form = this.formAlteracaoPerfil;
     const nome = form.get('nome')?.value;
     const email = form.get('email')?.value;
     const senha = form.get('senha')?.value;
+
     if (nome !== this.adm.nome || email !== this.adm.email || senha) {
       const dadosCliente: AdmAlteracaoRequest = new AdmAlteracaoRequest(
         nome,
@@ -120,38 +120,71 @@ export class EdicaoPerfilComponent implements OnInit, OnDestroy {
         senha ? senha : null
       );
 
-      this.admService
-        .atualizarDados(dadosCliente)
-        .pipe(take(1))
-        .subscribe({
-          next: (result: AdmAlteracaoResponse) => {
-            this.ngxService.stopLoader('loader-01');
+      if (senha) {
+        this.verificarSenhas();
 
-            if (email !== this.adm.email) {
-              this.openModal(email);
-            } else {
-              this.toastrService.success(
-                'Dados alterados com sucesso',
-                'Sucesso!'
-              );
-              this.router.navigateByUrl('/dashboard');
-            }
-          },
-          error: (err) => {
-            this.ngxService.stopLoader('loader-01');
-            this.toastrService.error(
-              'Não foi possível atualziar o cadastro. Tente novamente mais tarde',
-              'Falha ao atualziar os dados'
-            );
-          },
-        });
+        if (this.formAlteracaoPerfil.get('senha')?.invalid) {
+          this.toastrService.warning(
+            'Por favor, a senha deve atender as regras',
+            'Senha está com um formato incorreto'
+          );
+        }
+
+        if (this.formAlteracaoPerfil.get('confirmacaoSenha')?.invalid) {
+          this.toastrService.warning(
+            'Por favor, a confimmação da senha deve atender as regras',
+            'Confirmação da senha está com um formato incorreto'
+          );
+        }
+
+        if (this.senhasDiferentes) {
+          this.toastrService.warning(
+            'Por favor, a senha e a confirmação da senha devem ser idênticas',
+            'As senhas não são idênticas'
+          );
+        } else {
+          this.enviarDados(dadosCliente, email);
+        }
+      } else {
+        this.enviarDados(dadosCliente, email);
+      }
     } else {
-      this.ngxService.stopLoader('loader-01');
       this.toastrService.info(
-        'Por favor, forneca pelo menos um dado que deseja atualziar',
+        'Por favor, forneca pelo menos um dado que deseja atualizar',
         'Nenhum dado para atualizar'
       );
     }
+  }
+
+  enviarDados(dadosCliente: AdmAlteracaoRequest, email: string) {
+    this.ngxService.startLoader('loader-01');
+    this.admService
+      .atualizarDados(dadosCliente)
+      .pipe(take(1))
+      .subscribe({
+        next: (result: AdmAlteracaoResponse) => {
+          this.ngxService.stopLoader('loader-01');
+
+          if (email !== this.adm.email) {
+            this.openModal(email);
+          } else {
+            this.toastrService.success(
+              'Dados alterados com sucesso',
+              'Sucesso!'
+            );
+            this.router.navigateByUrl('/dashboard');
+          }
+        },
+        error: (err) => {
+          this.ngxService.stopLoader('loader-01');
+          this.toastrService.error(
+            err.error.message ??
+              'Não foi possível atualizar o cadastro. Tente novamente mais tarde',
+            'Falha ao atualizar os dados'
+          );
+        },
+      });
+    this.ngxService.stopLoader('loader-01');
   }
 
   openModal(email: string): void {

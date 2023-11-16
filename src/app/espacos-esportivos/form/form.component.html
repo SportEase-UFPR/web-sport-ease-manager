@@ -162,36 +162,31 @@
       </div>
 
       <div class="col-12 col-md-4">
-        <app-input-field
+        <app-input-time
           [formGroup]="formEspacoEsportivo"
           [controlName]="'abertura'"
           [label]="'Horário de abertura'"
-          [validacaoInput]="true"
-          [inputType]="'time'"
-          (emitterChange)="validHours()"
-        ></app-input-field>
+          [haveMaxTime]="horaFechamento ? true : false"
+          [maxTime]="horaFechamento!"
+        ></app-input-time>
       </div>
 
       <div class="col-12 col-md-3">
-        <app-input-field
+        <app-input-time
           [formGroup]="formEspacoEsportivo"
           [controlName]="'fechamento'"
           [label]="'Horário de fechamento'"
-          [validacaoInput]="true"
-          [inputType]="'time'"
-          (emitterChange)="validHours()"
-        ></app-input-field>
+          [haveMinTime]="horaAbertura ? true : false"
+          [minTime]="horaAbertura!"
+        ></app-input-time>
       </div>
 
       <div class="col-12 col-md-5">
-        <app-input-field
+        <app-input-time
           [formGroup]="formEspacoEsportivo"
           [controlName]="'periodo'"
           [label]="'Duração da locação'"
-          [validacaoInput]="true"
-          [inputType]="'time'"
-          (emitterChange)="validPeriodo()"
-        ></app-input-field>
+        ></app-input-time>
       </div>
 
       <div class="col-12 col-md-7">

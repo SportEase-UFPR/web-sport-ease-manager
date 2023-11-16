@@ -86,7 +86,13 @@ export class FormComponent implements OnInit, OnDestroy {
     'sábado',
   ];
 
+  horaAbertura?: string;
+  horaFechamento?: string;
+
   funcionamento$ = new Subject();
+  abertura$ = new Subject();
+  fechamento$ = new Subject();
+  periodo$ = new Subject();
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -167,11 +173,40 @@ export class FormComponent implements OnInit, OnDestroy {
       .get('funcionamento')
       ?.valueChanges.pipe(takeUntil(this.funcionamento$))
       .subscribe((v) => this.setDiasFuncionamento(v));
+
+    this.formEspacoEsportivo
+      .get('abertura')
+      ?.valueChanges.pipe(takeUntil(this.abertura$))
+      .subscribe((v) => {
+        this.horaAbertura = v;
+        this.validHours();
+      });
+
+    this.formEspacoEsportivo
+      .get('fechamento')
+      ?.valueChanges.pipe(takeUntil(this.fechamento$))
+      .subscribe((v) => {
+        this.horaFechamento = v;
+        this.validHours();
+      });
+
+    this.formEspacoEsportivo
+      .get('periodo')
+      ?.valueChanges.pipe(takeUntil(this.periodo$))
+      .subscribe((v) => {
+        this.validPeriodo();
+      });
   }
 
   ngOnDestroy(): void {
     this.funcionamento$.next(null);
+    this.abertura$.next(null);
+    this.fechamento$.next(null);
+    this.periodo$.next(null);
     this.funcionamento$.complete();
+    this.abertura$.complete();
+    this.fechamento$.complete();
+    this.periodo$.complete();
   }
 
   populate(): void {
@@ -198,12 +233,25 @@ export class FormComponent implements OnInit, OnDestroy {
 
   carregarImg() {
     this.imgCompressService.uploadFile().then(({ image, orientation }) => {
-      this.imgCompressService
-        .compressFile(image, orientation, 50, 50) // 50% ratio, 50% quality
-        .then((compressedImage) => {
-          this.imgPreviewUrl = compressedImage;
-        });
+      if (this.imgValid(image.split(',')[0]?.split(';')[0]?.split('/')[1])) {
+        this.imgCompressService
+          .compressFile(image, orientation, 50, 50) // 50% ratio, 50% quality
+          .then((compressedImage) => {
+            this.imgPreviewUrl = compressedImage;
+          });
+      } else {
+        this.toastrService.warning(
+          "Os tipos aceitos são: 'jpg', 'jpeg' e 'png'",
+          'Tipo da imagem incorreto'
+        );
+      }
     });
+  }
+
+  imgValid(imgType: string): boolean {
+    const allowedExtensions = ['jpg', 'jpeg', 'png'];
+
+    return allowedExtensions.includes(imgType);
   }
 
   removeImg(): void {
