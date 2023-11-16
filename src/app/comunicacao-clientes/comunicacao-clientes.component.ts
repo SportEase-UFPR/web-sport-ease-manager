@@ -20,7 +20,7 @@ export class ComunicacaoClientesComponent implements OnInit, OnDestroy {
   formComunicacao: FormGroup = new FormGroup({
     sendToAll: new FormControl(true),
     cliente: new FormControl(null),
-    assunto: new FormControl(null),
+    assunto: new FormControl(null, [Validators.required()]),
     mensagem: new FormControl({ value: '', disabled: false }, [
       Validators.required(),
     ]),

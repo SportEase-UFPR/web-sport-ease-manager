@@ -26,4 +26,8 @@
     width: 7%;
     box-shadow: none;
   }
+
+  &:focus-within {
+    box-shadow: 4px 4px 2px 0 var(--roxo);
+  }
 }
