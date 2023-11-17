@@ -100,14 +100,14 @@ export class FormComponent implements OnInit, OnDestroy {
             this.ngxLoaderService.stopLoader('loader-01');
             this.toastrService.success(
               'Em alguns instantes o administrador irá receber um e-mail com instruções para ativação da conta.',
-              'Administrador cadastrado!'
+              'Administrador cadastrado'
             );
             this.router.navigateByUrl('/administradores');
           },
           error: (err: HttpErrorResponse) => {
             this.ngxLoaderService.stopLoader('loader-01');
             this.toastrService.error(
-              'Por favor, tente novamente mais tarde.',
+              err.error.message ?? 'Por favor, tente novamente mais tarde.',
               'Não foi possível cadastrar o administrador'
             );
           },
@@ -116,7 +116,7 @@ export class FormComponent implements OnInit, OnDestroy {
       this.ngxLoaderService.stopLoader('loader-01');
       this.toastrService.warning(
         'Por favor, preenecha todos os campos corretamente',
-        'Não foi possível cadastrar o administrador'
+        'Dados incorretos'
       );
     }
   }

@@ -106,7 +106,7 @@ export class AdministradoresComponent implements OnInit {
         this.ngxLoaderService.stopLoader('loader-01');
         this.populate();
         this.closeModal();
-        this.toastrService.success('Gerente removido', 'Sucesso!');
+        this.toastrService.success('Gerente removido', 'Sucesso');
       },
       error: (err) => {
         this.ngxLoaderService.stopLoader('loader-01');

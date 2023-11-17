@@ -18,6 +18,7 @@ import { NgxImageCompressService } from 'ngx-image-compress';
 import { ModalDetalhesComponent } from './modal-detalhes/modal-detalhes.component';
 import { NgxMaskPipe } from 'ngx-mask';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { ModalAvisoComponent } from './modal-aviso/modal-aviso.component';
 
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
   bgsColor: '#5d5fef',
@@ -36,6 +37,7 @@ const ngxUiLoaderConfig: NgxUiLoaderConfig = {
     EspacosEsportivosComponent,
     FormComponent,
     ModalDetalhesComponent,
+    ModalAvisoComponent,
   ],
   imports: [
     CommonModule,

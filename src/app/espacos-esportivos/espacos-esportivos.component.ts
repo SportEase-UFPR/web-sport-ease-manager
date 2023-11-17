@@ -104,7 +104,7 @@ export class EspacosEsportivosComponent implements OnInit {
           this.closeModal();
           this.populate();
           this.ngxLoaderService.stopLoader('loader-01');
-          this.toastrService.success('Espaço esportivo removido', 'Sucesso!');
+          this.toastrService.success('Espaço esportivo removido', 'Sucesso');
         },
         error: (err) => {
           this.closeModal();

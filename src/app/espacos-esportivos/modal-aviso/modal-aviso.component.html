@@ -1,0 +1,18 @@
+<div class="modal-body">
+  <h3 class="text-red text-center">ATENÇÃO</h3>
+
+  <p class="text-center">
+    Lembre-se, ao desativar o espaço esportivo, todas as reservas futuras dele
+    serão encerradas.
+  </p>
+
+  <div class="d-flex justify-content-center">
+    <app-btn-purple
+      [textButton]="'Entendi'"
+      [showIcon]="true"
+      [iconFirst]="true"
+      [icone]="faConfirm"
+      (emmiterClick)="activeModal.close()"
+    ></app-btn-purple>
+  </div>
+</div>

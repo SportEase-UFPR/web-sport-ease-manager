@@ -141,16 +141,19 @@ export class RelatoriosComponent implements OnInit, OnDestroy {
     let filteredHistorico = this.historico;
 
     if (Number(solicitante) === -1) {
+      this.ngxLoaderService.startLoader('loader-01');
       filteredHistorico = this.historico;
       this.showLimparFiltros = false;
     }
 
     if (Number(localFilter) === -1) {
+      this.ngxLoaderService.startLoader('loader-01');
       filteredHistorico = this.historico;
       this.showLimparFiltros = false;
     }
 
     if (Number(statusFilter) === -1) {
+      this.ngxLoaderService.startLoader('loader-01');
       filteredHistorico = this.historico;
       this.showLimparFiltros = false;
     }
@@ -170,7 +173,6 @@ export class RelatoriosComponent implements OnInit, OnDestroy {
             dataReserva.isSameOrBefore(dataFinalValue, 'day')
           );
         });
-        this.ngxLoaderService.stopLoader('loader-01');
       } else {
         dataFinal.patchValue(null);
         this.toastrService.info(
@@ -187,7 +189,6 @@ export class RelatoriosComponent implements OnInit, OnDestroy {
           h.informacoesComplementaresLocacao?.idCliente === Number(solicitante)
       );
       this.showLimparFiltros = true;
-      this.ngxLoaderService.stopLoader('loader-01');
     }
 
     if (localFilter && localFilter != -1) {
@@ -198,7 +199,6 @@ export class RelatoriosComponent implements OnInit, OnDestroy {
           Number(localFilter)
       );
       this.showLimparFiltros = true;
-      this.ngxLoaderService.stopLoader('loader-01');
     }
 
     if (statusFilter && statusFilter != -1) {
@@ -207,11 +207,13 @@ export class RelatoriosComponent implements OnInit, OnDestroy {
         (h) => h.status === statusFilter
       );
       this.showLimparFiltros = true;
-      this.ngxLoaderService.stopLoader('loader-01');
     }
 
-    this.historicoFiltered = filteredHistorico;
-    this.ordernarArray(this.historicoFiltered!);
+    setTimeout(() => {
+      this.historicoFiltered = filteredHistorico;
+      this.ordernarArray(this.historicoFiltered!);
+      this.ngxLoaderService.stopLoader('loader-01');
+    }, 500);
   }
 
   limparFiltros() {
@@ -226,6 +228,7 @@ export class RelatoriosComponent implements OnInit, OnDestroy {
     this.historicoFiltered = undefined;
     this.minDate = undefined;
     this.maxDate = undefined;
+    this.showLimparFiltros = false;
     this.ngxLoaderService.stopLoader('loader-01');
   }
 
@@ -292,7 +295,7 @@ export class RelatoriosComponent implements OnInit, OnDestroy {
           this.closeModal();
           this.toastrService.success(
             `Reserva ${this.idReserva} aprovada com sucesso`,
-            'Sucesso!'
+            'Sucesso'
           );
         },
         error: (err) => {
@@ -319,7 +322,7 @@ export class RelatoriosComponent implements OnInit, OnDestroy {
             this.closeModal();
             this.toastrService.success(
               `Reserva ${this.idReserva} negada com sucesso`,
-              'Sucesso!'
+              'Sucesso'
             );
           },
           error: (err) => {

@@ -22,6 +22,7 @@ import { EspacoEsportivoRequest } from 'src/app/shared/models/espaco-esportivo/e
 import { EspacoEsportivoResponse as eeResponse } from '../../shared/models/espaco-esportivo/espaco-esportivo-response.model';
 import { FormEspacoValidation } from './form-espaco-validation';
 import { Subject, take, takeUntil } from 'rxjs';
+import { ModalAvisoComponent } from '../modal-aviso/modal-aviso.component';
 const moment = require('moment');
 
 @Component({
@@ -89,6 +90,7 @@ export class FormComponent implements OnInit, OnDestroy {
   horaAbertura?: string;
   horaFechamento?: string;
 
+  ativo$ = new Subject();
   funcionamento$ = new Subject();
   abertura$ = new Subject();
   fechamento$ = new Subject();
@@ -207,6 +209,13 @@ export class FormComponent implements OnInit, OnDestroy {
           this.validPeriodo();
         }
       });
+
+    if (this.isEdicao) {
+      this.formEspacoEsportivo
+        .get('ativo')
+        ?.valueChanges.pipe(takeUntil(this.ativo$))
+        .subscribe((v) => this.showAviso(v));
+    }
   }
 
   ngOnDestroy(): void {
@@ -252,7 +261,7 @@ export class FormComponent implements OnInit, OnDestroy {
           });
       } else {
         this.toastrService.warning(
-          "Os tipos aceitos são: 'jpg', 'jpeg' e 'png'",
+          "O tipo aceito é: 'jpeg'",
           'Tipo da imagem incorreto'
         );
       }
@@ -260,7 +269,7 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   imgValid(imgType: string): boolean {
-    const allowedExtensions = ['jpg', 'jpeg', 'png'];
+    const allowedExtensions = ['jpeg'];
 
     return allowedExtensions.includes(imgType);
   }
@@ -538,5 +547,13 @@ export class FormComponent implements OnInit, OnDestroy {
         this.diasFuncionamento.push(i);
       }
     });
+  }
+
+  showAviso(show: boolean) {
+    if (!show) {
+      this.modalService.open(ModalAvisoComponent, {
+        centered: true,
+      });
+    }
   }
 }

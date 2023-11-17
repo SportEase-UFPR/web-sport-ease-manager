@@ -103,14 +103,14 @@ export class CadastrarSenhaComponent implements OnInit, OnDestroy {
             this.ngxService.stopLoader('loader-01');
             this.toastrService.success(
               'Sua senha foi alterada com sucesso.',
-              'Senha alterada!'
+              'Senha alterada'
             );
             this.router.navigateByUrl('/login');
           },
           error: (err) => {
             this.toastrService.error(
               'Não foi possível atualizar sua senha. Por favor, tente novamente mais tarde',
-              'Falha ao atualziar senha!'
+              'Falha ao atualziar senha'
             );
             this.ngxService.stopLoader('loader-01');
           },

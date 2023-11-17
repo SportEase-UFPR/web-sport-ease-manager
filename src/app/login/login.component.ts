@@ -103,7 +103,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.ngxLoaderService.stopLoader('loader-01');
       this.toastrService.warning(
         'Por favor, preenecha todos os campos corretamente',
-        'Não foi possível realziar o login'
+        'Não foi possível realizar o login'
       );
     }
   }

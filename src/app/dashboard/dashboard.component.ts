@@ -121,7 +121,7 @@ export class DashboardComponent implements OnInit {
           this.closeModal();
           this.toastrService.success(
             `Reserva ${this.idReserva} aprovada com sucesso`,
-            'Sucesso!'
+            'Sucesso'
           );
         },
         error: (err) => {
@@ -148,7 +148,7 @@ export class DashboardComponent implements OnInit {
             this.closeModal();
             this.toastrService.success(
               `Reserva ${this.idReserva} negada com sucesso`,
-              'Sucesso!'
+              'Sucesso'
             );
           },
           error: (err) => {
@@ -160,7 +160,7 @@ export class DashboardComponent implements OnInit {
         });
     } else {
       this.toastrService.error(
-        'Por favor, informe o motivo da negação da reserva',
+        'Por favor, informe o motivo de negação da reserva',
         `Erro ao negar reserva ${this.idReserva}`
       );
     }

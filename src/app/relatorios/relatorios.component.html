@@ -267,7 +267,7 @@
       <div
         class="text-center"
         *ngIf="
-          historicoFiltered
+          historicoFiltered?.length! > 0
             ? historicoFiltered?.length! > 10
             : historico?.length! > 10
         "
@@ -308,7 +308,7 @@
             <tbody>
               <tr
                 *ngFor="
-                  let h of (historicoFiltered ? historicoFiltered! : historico!)
+                  let h of (historicoFiltered?.length! > 0 ? historicoFiltered! : historico!)
                     | paginate : { itemsPerPage: 10, currentPage: p }
                 "
                 class="text-center"

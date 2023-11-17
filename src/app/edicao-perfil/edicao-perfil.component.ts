@@ -170,7 +170,7 @@ export class EdicaoPerfilComponent implements OnInit, OnDestroy {
           } else {
             this.toastrService.success(
               'Dados alterados com sucesso',
-              'Sucesso!'
+              'Sucesso'
             );
             this.router.navigateByUrl('/dashboard');
           }
