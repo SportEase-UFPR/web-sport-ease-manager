@@ -14,13 +14,15 @@
         id="{{ controlName }}"
         name="{{ controlName }}"
         placeholder="{{ placeholder }}"
-        (focus)="pickerClockMax.open()"
-        (click)="pickerClockMax.open()"
         readonly
         [ngxTimepicker]="pickerClockMax"
         [format]="24"
         [max]="maxTime"
       />
+
+      <ngx-material-timepicker-toggle
+        [for]="pickerClockMax"
+      ></ngx-material-timepicker-toggle>
 
       <ngx-material-timepicker
         #pickerClockMax
@@ -28,14 +30,6 @@
         [cancelBtnTmpl]="cancelBtn"
         [confirmBtnTmpl]="confirmBtn"
       ></ngx-material-timepicker>
-
-      <button
-        (click)="pickerClockMax.open()"
-        class="btn-time pe-2"
-        type="submit"
-      >
-        <fa-icon [icon]="faClock"></fa-icon>
-      </button>
     </ng-container>
 
     <ng-container *ngIf="haveMinTime">
@@ -46,13 +40,15 @@
         id="{{ controlName }}"
         name="{{ controlName }}"
         placeholder="{{ placeholder }}"
-        (focus)="pickerClockMin.open()"
-        (click)="pickerClockMin.open()"
         readonly
         [ngxTimepicker]="pickerClockMin"
         [format]="24"
         [min]="minTime"
       />
+
+      <ngx-material-timepicker-toggle
+        [for]="pickerClockMin"
+      ></ngx-material-timepicker-toggle>
 
       <ngx-material-timepicker
         #pickerClockMin
@@ -60,14 +56,6 @@
         [cancelBtnTmpl]="cancelBtn"
         [confirmBtnTmpl]="confirmBtn"
       ></ngx-material-timepicker>
-
-      <button
-        (click)="pickerClockMin.open()"
-        class="btn-time pe-2"
-        type="submit"
-      >
-        <fa-icon [icon]="faClock"></fa-icon>
-      </button>
     </ng-container>
 
     <ng-container *ngIf="!haveMinTime && !haveMaxTime">
@@ -78,12 +66,14 @@
         id="{{ controlName }}"
         name="{{ controlName }}"
         placeholder="{{ placeholder }}"
-        (focus)="pickerClock.open()"
-        (click)="pickerClock.open()"
         readonly
         [ngxTimepicker]="pickerClock"
         [format]="24"
       />
+
+      <ngx-material-timepicker-toggle
+        [for]="pickerClock"
+      ></ngx-material-timepicker-toggle>
 
       <ngx-material-timepicker
         #pickerClock
@@ -91,10 +81,6 @@
         [cancelBtnTmpl]="cancelBtn"
         [confirmBtnTmpl]="confirmBtn"
       ></ngx-material-timepicker>
-
-      <button (click)="pickerClock.open()" class="btn-time pe-2" type="submit">
-        <fa-icon [icon]="faClock"></fa-icon>
-      </button>
     </ng-container>
 
     <ng-template #cancelBtn>

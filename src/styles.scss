@@ -258,3 +258,15 @@ body {
 .mat-calendar-body-selected {
   background-color: var(--roxo) !important;
 }
+
+.ngx-material-timepicker-toggle{
+  background-color: var(--branco) !important;
+  border: none;
+  font-size: 20px;
+  color: var(--azul-escuro) !important;
+  border-radius: 0 10px 10px 0;
+  font-weight: 500;
+  height: 45px;
+  padding: 8px;
+  box-shadow: none;
+}

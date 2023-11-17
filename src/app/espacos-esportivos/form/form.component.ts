@@ -142,9 +142,15 @@ export class FormComponent implements OnInit, OnDestroy {
                 localidade: result.localidade,
                 dimensoes: result.dimensoes,
                 piso: result.piso,
-                abertura: result.horaAbertura,
-                fechamento: result.horaFechamento,
-                periodo: result.periodoLocacao,
+                abertura: `${result.horaAbertura?.split(':')[0]}:${
+                  result.horaAbertura?.split(':')[1]
+                }`,
+                fechamento: `${result.horaFechamento?.split(':')[0]}:${
+                  result.horaFechamento?.split(':')[1]
+                }`,
+                periodo: `${result.periodoLocacao?.split(':')[0]}:${
+                  result.periodoLocacao?.split(':')[1]
+                }`,
                 maxLocacao: result.maxLocacaoDia,
                 capacidadeMin: result.capacidadeMin,
                 capacidadeMax: result.capacidadeMax,
