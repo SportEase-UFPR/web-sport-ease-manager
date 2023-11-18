@@ -132,8 +132,8 @@ export class RelatoriosComponent implements OnInit, OnDestroy {
 
   filterHistorico(): void {
     const form = this.formFiltros;
-    const dataInicial = form.get('dataInicial');
-    const dataFinal = form.get('dataFinal');
+    const dataInicial = form.get('dataInicial')?.value;
+    const dataFinal = form.get('dataFinal')?.value;
     const solicitante = form.get('solicitante')?.value;
     const localFilter = form.get('local')?.value;
     const statusFilter = form.get('status')?.value;
@@ -158,28 +158,25 @@ export class RelatoriosComponent implements OnInit, OnDestroy {
       this.showLimparFiltros = false;
     }
 
-    if (dataInicial?.value && dataFinal?.value) {
-      const dataInicialValue = moment(dataInicial?.value).startOf('day');
-      const dataFinalValue = moment(dataFinal?.value).startOf('day');
+    if (dataInicial) {
+      this.ngxLoaderService.startLoader('loader-01');
+      const dataInicialValue = moment(dataInicial).startOf('day');
+      filteredHistorico = filteredHistorico?.filter((h) => {
+        const dataReserva = moment(h.dataHoraInicioReserva);
 
-      if (dataFinalValue.diff(dataInicialValue, 'hour') >= 0) {
-        this.ngxLoaderService.startLoader('loader-01');
-        filteredHistorico = filteredHistorico?.filter((h) => {
-          const dataReserva = moment(h.dataHoraInicioReserva);
-          this.showLimparFiltros = true;
+        return dataReserva.isSameOrAfter(dataInicialValue, 'day');
+      });
+      this.showLimparFiltros = true;
+    }
 
-          return (
-            dataReserva.isSameOrAfter(dataInicialValue, 'day') &&
-            dataReserva.isSameOrBefore(dataFinalValue, 'day')
-          );
-        });
-      } else {
-        dataFinal.patchValue(null);
-        this.toastrService.info(
-          'A data final não pode ser anterior à data inicial. Por favor, selecione uma data válida',
-          'Período inválido'
-        );
-      }
+    if (dataFinal) {
+      const dataFinalValue = moment(dataFinal).startOf('day');
+      filteredHistorico = filteredHistorico?.filter((h) => {
+        const dataReserva = moment(h.dataHoraInicioReserva);
+
+        return dataReserva.isSameOrBefore(dataFinalValue, 'day');
+      });
+      this.showLimparFiltros = true;
     }
 
     if (solicitante && solicitante != -1) {
