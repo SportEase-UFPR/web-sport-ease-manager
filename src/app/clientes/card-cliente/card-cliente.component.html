@@ -1,0 +1,115 @@
+<div class="card-reserva">
+  <div class="reserva-header">
+    <h4 class="text-purple">{{ cliente.nome }}</h4>
+  </div>
+
+  <hr class="mt-1 mb-2" />
+
+  <div class="reserva-body">
+    <div class="row w-100">
+      <div class="col-12">
+        <p>
+          <span class="info-title text-purple">E-mail: </span>
+          <span>{{ cliente.email }}</span>
+        </p>
+      </div>
+
+      <div class="col-12" [ngClass]="{ 'col-md-5': !cliente.alunoUFPR }">
+        <p>
+          <span class="info-title text-purple">CPF: </span>
+          <span>{{ cliente.cpf! | mask : "000.000.000-00" }}</span>
+        </p>
+      </div>
+
+      <div class="col-12 col-md-5">
+        <p>
+          <span class="info-title text-purple">Aluno UFPR: </span>
+          <span>{{ cliente.alunoUFPR ? "Sim" : "Não" }}</span>
+        </p>
+      </div>
+
+      <div class="col-12 col-md-7" *ngIf="cliente.alunoUFPR">
+        <p>
+          <span class="info-title text-purple">GRR: </span>
+          <span>{{ cliente.grr }}</span>
+        </p>
+      </div>
+
+      <div class="col-12">
+        <p>
+          <span class="info-title text-purple"
+            >Quantidade total de reservas:
+          </span>
+          <span>{{ cliente.totalReservas }}</span>
+        </p>
+      </div>
+
+      <div *ngIf="cliente.totalReservas! > 0" class="col-12">
+        <p class="info-title text-purple">Quantidade de reservas por status:</p>
+      </div>
+
+      <div *ngIf="cliente.totalReservas! > 0" class="col-12 qtd-reservas">
+        <p *ngIf="cliente.totalReservasAprovadas! > 0">
+          <span class="info-title text-purple"
+            >{{ statusReserva.APROVADA | titlecase }}:
+          </span>
+          <span>{{ cliente.totalReservasAprovadas }}</span>
+        </p>
+
+        <p *ngIf="cliente.totalReservasCanceladas! > 0">
+          <span class="info-title text-purple"
+            >{{ statusReserva.CANCELADA | titlecase }}:
+          </span>
+          <span>{{ cliente.totalReservasCanceladas }}</span>
+        </p>
+
+        <p *ngIf="cliente.totalReservasEncerradas! > 0">
+          <span class="info-title text-purple"
+            >{{ statusReserva.ENCERRADA | titlecase }}:
+          </span>
+          <span>{{ cliente.totalReservasEncerradas }}</span>
+        </p>
+
+        <p *ngIf="cliente.totalReservasFinalizadas! > 0">
+          <span class="info-title text-purple"
+            >{{ statusReserva.FINALIZADA | titlecase }}:
+          </span>
+          <span>{{ cliente.totalReservasFinalizadas }}</span>
+        </p>
+
+        <p *ngIf="cliente.totalReservasNegadas! > 0">
+          <span class="info-title text-purple"
+            >{{ statusReserva.NEGADA | titlecase }}:
+          </span>
+          <span>{{ cliente.totalReservasNegadas }}</span>
+        </p>
+
+        <p *ngIf="cliente.totalReservasSolicitadas! > 0">
+          <span class="info-title text-purple"
+            >{{ statusReserva.SOLICITADA | titlecase }}:
+          </span>
+          <span>{{ cliente.totalReservasSolicitadas }}</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="reserva-footer">
+      <app-btn-purple
+        *ngIf="cliente.bloqueada; else bloquear"
+        [showIcon]="true"
+        [icone]="faCircleCheck"
+        [textButton]="'Desbloquear conta'"
+        (emmiterClick)="ativarConta()"
+      ></app-btn-purple>
+
+      <ng-template #bloquear>
+        <app-btn-red
+          [showIcon]="true"
+          [icone]="faBan"
+          [textButton]="'Bloquear Conta'"
+          (emmiterClick)="desativarConta()"
+        ></app-btn-red>
+      </ng-template>
+    </div>
+  </div>
+</div>

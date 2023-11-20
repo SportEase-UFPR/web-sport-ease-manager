@@ -1,6 +1,8 @@
+@import "/src/cores.scss";
+
 .btn-purple {
-  background-color: #5d5fef;
-  color: #fff;
+  background-color: var(--roxo);
+  color: var(--branco);
   transition: 0.2s ease-in-out;
 
   &:disabled {

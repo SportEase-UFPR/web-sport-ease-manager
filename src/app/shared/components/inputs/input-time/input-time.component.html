@@ -1,0 +1,93 @@
+<div [formGroup]="formGroup" class="mb-3">
+  <app-label [idInput]="controlName" [textLabel]="label"></app-label>
+  <div
+    class="d-flex input-time-content"
+    [ngClass]="{
+      'is-invalid-input-time': inputValid()
+    }"
+  >
+    <ng-container *ngIf="haveMaxTime">
+      <input
+        type="text"
+        class="input-time w-100"
+        formControlName="{{ controlName }}"
+        id="{{ controlName }}"
+        name="{{ controlName }}"
+        placeholder="{{ placeholder }}"
+        readonly
+        [ngxTimepicker]="pickerClockMax"
+        [format]="24"
+        [max]="maxTime"
+      />
+
+      <ngx-material-timepicker-toggle
+        [for]="pickerClockMax"
+      ></ngx-material-timepicker-toggle>
+
+      <ngx-material-timepicker
+        #pickerClockMax
+        [theme]="myTheme"
+        [cancelBtnTmpl]="cancelBtn"
+        [confirmBtnTmpl]="confirmBtn"
+      ></ngx-material-timepicker>
+    </ng-container>
+
+    <ng-container *ngIf="haveMinTime">
+      <input
+        type="text"
+        class="input-time w-100"
+        formControlName="{{ controlName }}"
+        id="{{ controlName }}"
+        name="{{ controlName }}"
+        placeholder="{{ placeholder }}"
+        readonly
+        [ngxTimepicker]="pickerClockMin"
+        [format]="24"
+        [min]="minTime"
+      />
+
+      <ngx-material-timepicker-toggle
+        [for]="pickerClockMin"
+      ></ngx-material-timepicker-toggle>
+
+      <ngx-material-timepicker
+        #pickerClockMin
+        [theme]="myTheme"
+        [cancelBtnTmpl]="cancelBtn"
+        [confirmBtnTmpl]="confirmBtn"
+      ></ngx-material-timepicker>
+    </ng-container>
+
+    <ng-container *ngIf="!haveMinTime && !haveMaxTime">
+      <input
+        type="text"
+        class="input-time w-100"
+        formControlName="{{ controlName }}"
+        id="{{ controlName }}"
+        name="{{ controlName }}"
+        placeholder="{{ placeholder }}"
+        readonly
+        [ngxTimepicker]="pickerClock"
+        [format]="24"
+      />
+
+      <ngx-material-timepicker-toggle
+        [for]="pickerClock"
+      ></ngx-material-timepicker-toggle>
+
+      <ngx-material-timepicker
+        #pickerClock
+        [theme]="myTheme"
+        [cancelBtnTmpl]="cancelBtn"
+        [confirmBtnTmpl]="confirmBtn"
+      ></ngx-material-timepicker>
+    </ng-container>
+
+    <ng-template #cancelBtn>
+      <app-btn-red [textButton]="'Cancelar'"></app-btn-red>
+    </ng-template>
+    <ng-template #confirmBtn>
+      <app-btn-purple [textButton]="'Confirmar'"></app-btn-purple>
+    </ng-template>
+  </div>
+</div>

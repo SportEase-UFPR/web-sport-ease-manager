@@ -5,23 +5,40 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
-import { InputCheckboxComponent } from './components/inputs-with-label/input-checkbox/input-checkbox.component';
-import { LabelComponent } from './components/inputs-with-label/label/label.component';
-import { WithoutInputTextComponent } from './components/inputs-without-label/without-input-text/without-input-text.component';
-import { WithoutInputNumberComponent } from './components/inputs-without-label/without-input-number/without-input-number.component';
-import { WithoutInputEmailComponent } from './components/inputs-without-label/without-input-email/without-input-email.component';
-import { InputSenhaComponent } from './components/inputs-with-label/input-senha/input-senha.component';
+import { LabelComponent } from './components/inputs/label/label.component';
+import { InputSenhaComponent } from './components/inputs/input-senha/input-senha.component';
 import { BtnPurpleComponent } from './components/buttons/btn-purple/btn-purple.component';
+import { BtnBorderPurpleComponent } from './components/buttons/btn-border-purple/btn-border-purple.component';
+import { InputSearchComponent } from './components/inputs/input-search/input-search.component';
+import { BtnRedComponent } from './components/buttons/btn-red/btn-red.component';
+import { InputTextareaComponent } from './components/inputs/input-textarea/input-textarea.component';
+import { InputSelectOptionComponent } from './components/inputs/input-select-option/input-select-option.component';
+import { BtnChipComponent } from './components/buttons/btn-chip/btn-chip.component';
+import { InputFieldComponent } from './components/inputs/input-field/input-field.component';
+import { InputToogleComponent } from './components/inputs/input-toogle/input-toogle.component';
+import { PasswordChecklistComponent } from './components/password-checklist/password-checklist.component';
+import { InputDateComponent } from './components/inputs/input-date/input-date.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { InputTimeComponent } from './components/inputs/input-time/input-time.component';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 @NgModule({
   declarations: [
-    InputCheckboxComponent,
     LabelComponent,
-    WithoutInputTextComponent,
-    WithoutInputNumberComponent,
-    WithoutInputEmailComponent,
     InputSenhaComponent,
     BtnPurpleComponent,
+    BtnBorderPurpleComponent,
+    InputSearchComponent,
+    BtnRedComponent,
+    InputTextareaComponent,
+    InputSelectOptionComponent,
+    BtnChipComponent,
+    InputFieldComponent,
+    InputToogleComponent,
+    PasswordChecklistComponent,
+    InputDateComponent,
+    InputTimeComponent
   ],
   imports: [
     CommonModule,
@@ -30,14 +47,24 @@ import { BtnPurpleComponent } from './components/buttons/btn-purple/btn-purple.c
     NgxMaskDirective,
     NgxMaskPipe,
     FontAwesomeModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    NgxMaterialTimepickerModule
   ],
   exports: [
-    InputCheckboxComponent,
-    WithoutInputTextComponent,
-    WithoutInputNumberComponent,
-    WithoutInputEmailComponent,
     InputSenhaComponent,
-    BtnPurpleComponent
+    BtnPurpleComponent,
+    BtnBorderPurpleComponent,
+    InputSearchComponent,
+    BtnRedComponent,
+    InputTextareaComponent,
+    InputSelectOptionComponent,
+    BtnChipComponent,
+    InputFieldComponent,
+    InputToogleComponent,
+    PasswordChecklistComponent,
+    InputDateComponent,
+    InputTimeComponent
   ],
   providers: [provideNgxMask()],
 })

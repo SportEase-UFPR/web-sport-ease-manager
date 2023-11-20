@@ -1,0 +1,35 @@
+@import "/src/cores.scss";
+
+.card-comentario {
+  cursor: default;
+  background-color: var(--branco);
+  box-shadow: 2px 2px 4px 0 var(--cinza-claro);
+  padding: 10px;
+  border-radius: 10px;
+  transition: 0.2s ease-in-out;
+
+  .card-cabecalho {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    .autor {
+      color: var(--roxo);
+    }
+
+    .remove-comentario {
+      background-color: transparent;
+      color: var(--cinza-claro);
+      width: auto !important;
+      height: auto !important;
+    }
+  }
+
+  .data {
+    color: var(--cinza-claro);
+  }
+
+  .comentario {
+    font-style: italic;
+  }
+}

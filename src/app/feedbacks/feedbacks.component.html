@@ -1,0 +1,134 @@
+<ng-template #modalExcluirComentario let-modal>
+  <div class="modal-body">
+    <div class="d-flex justify-content-between">
+      <h4 class="modal-title text-dark-blue text-center">
+        Você realmente deseja excluir esse comentário?
+      </h4>
+    </div>
+
+    <div class="d-block d-md-flex mt-3 mb-2">
+      <div class="col-12 col-md-6 me-0 me-md-2 mb-2 mb-md-0 pe-2">
+        <app-btn-purple
+          [textButton]="'Excluir'"
+          [showIcon]="true"
+          [iconFirst]="true"
+          [icone]="faConfirm"
+          (emmiterClick)="excluirComentario()"
+        ></app-btn-purple>
+      </div>
+
+      <div class="col-12 col-md-6 pe-2">
+        <app-btn-red
+          [textButton]="'Cancelar'"
+          [showIcon]="true"
+          [iconFirst]="true"
+          [icone]="faClose"
+          (emmiterClick)="closeModal()"
+        ></app-btn-red>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ngx-ui-loader [loaderId]="'loader-01'"></ngx-ui-loader>
+
+<div class="mx-3 mt-4">
+  <h3 class="text-purple font-weight-bold">Comentários do espaço esportivo</h3>
+
+  <div class="d-flex justify-content-between">
+    <form [formGroup]="formComentarios">
+      <app-input-select-option
+        [label]="'Selecione o espaço esportivo'"
+        [formGroup]="formComentarios"
+        [controlName]="'espacoEsportivo'"
+        [items]="espacos"
+        (emitterChange)="buscarComentarios()"
+      ></app-input-select-option>
+    </form>
+
+    <form [formGroup]="formRating" *ngIf="filterRating.length > 2">
+      <app-input-select-option
+        [label]="'Exibir comentários'"
+        [formGroup]="formRating"
+        [controlName]="'rating'"
+        [items]="filterRating"
+        (emitterChange)="filtrarComentarios()"
+      ></app-input-select-option>
+    </form>
+  </div>
+
+  <ng-container *ngIf="comentarios == undefined; else noSkeleton">
+    <div class="row w-100">
+      <div class="col-4 mt-4" *ngFor="let i of [0, 1, 2, 3, 4, 5]">
+        <ngx-skeleton-loader
+          count="1"
+          appearance="line"
+          [theme]="{ background: '#73779144' }"
+        ></ngx-skeleton-loader>
+
+        <div class="my-2"></div>
+
+        <ngx-skeleton-loader
+          count="1"
+          appearance="line"
+          [theme]="{ background: '#73779144' }"
+        ></ngx-skeleton-loader>
+
+        <div class="w-50">
+          <ngx-skeleton-loader
+            count="1"
+            appearance="line"
+            [theme]="{ background: '#73779144' }"
+          ></ngx-skeleton-loader>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #noSkeleton>
+    <div
+      class="text-center"
+      *ngIf="
+        comentariosFiltered
+          ? comentariosFiltered.length > 9
+          : comentarios?.length! > 9
+      "
+    >
+      <pagination-controls
+        (pageChange)="p = $event"
+        previousLabel="<"
+        nextLabel=">"
+      ></pagination-controls>
+    </div>
+
+    <div
+      class="mt-2 row w-100"
+      *ngIf="comentarios?.length! > 0; else semComentarios"
+    >
+      <div
+        class="col-12 col-md-6 col-lg-4 mb-3"
+        *ngFor="
+          let c of (comentariosFiltered ? comentariosFiltered : comentarios!)
+            | paginate : { itemsPerPage: 9, currentPage: p }
+        "
+      >
+        <app-card-comentario
+          [comentario]="c"
+          (emmiterClick)="
+            openModalConfirmacao(c.idLocacao!, modalExcluirComentario)
+          "
+        ></app-card-comentario>
+      </div>
+    </div>
+
+    <ng-template #semComentarios>
+      <p class="mt-4 text-gray text-center">
+        {{
+          formComentarios.get("espacoEsportivo")?.value == -1
+            ? "Selecione o espaço esportivo que deseja visualizar os comentários :)"
+            : "Nenhum comentário foi encontrado :("
+        }}
+      </p>
+    </ng-template>
+  </ng-template>
+</div>

@@ -1,0 +1,57 @@
+<div class="menu ps-3">
+  <a id="inicio" routerLink="/dashboard">
+    <p>
+      <fa-icon [icon]="faHouse" class="me-2"></fa-icon>
+      <span> Início </span>
+    </p>
+  </a>
+
+  <a id="administradores" routerLink="/administradores">
+    <p>
+      <fa-icon [icon]="faUsers" class="me-2"></fa-icon>
+      <span> Administradores </span>
+    </p>
+  </a>
+
+  <a id="clientes" routerLink="/clientes">
+    <p>
+      <fa-icon [icon]="faUsersGroup" class="me-2"></fa-icon>
+      <span> Clientes </span>
+    </p>
+  </a>
+
+  <a id="feedbacks" routerLink="/feedbacks">
+    <p>
+      <fa-icon [icon]="faComments" class="me-2"></fa-icon>
+      <span> Comentários </span>
+    </p>
+  </a>
+
+  <a id="comunicar-clientes" routerLink="/comunicar-clientes">
+    <p>
+      <fa-icon [icon]="faEmail" class="me-2"></fa-icon>
+      <span> Comunicar Clientes </span>
+    </p>
+  </a>
+
+  <a id="espacos-esportivos" routerLink="/espacos-esportivos">
+    <p>
+      <fa-icon [icon]="faDumbbell" class="me-2"></fa-icon>
+      <span> Espaços Esportivos </span>
+    </p>
+  </a>
+
+  <a id="relatorios" routerLink="/relatorios">
+    <p>
+      <fa-icon [icon]="faChart" class="me-2"></fa-icon>
+      <span> Relatórios </span>
+    </p>
+  </a>
+
+  <div>
+    <button class="ms-2 btn-logout" (click)="sair()">
+      <fa-icon [icon]="faExit" class="me-2"></fa-icon>
+      <span> Sair </span>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,301 @@
+<ng-template #modalCadastroEsporte let-modal>
+  <div class="modal-body">
+    <div>
+      <h4 class="modal-title text-purple text-center">Lista de Esporte</h4>
+    </div>
+
+    <div class="lista-esportes with-scrollbar p-4">
+      <table class="w-100">
+        <thead>
+          <tr>
+            <th>Esporte</th>
+            <th class="text-center">Ação</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let e of esportes">
+            <td>{{ e.label | titlecase }}</td>
+            <td>
+              <div class="w-50 mx-auto my-1">
+                <app-btn-red
+                  [showIcon]="true"
+                  [iconFirst]="true"
+                  [icone]="faTrash"
+                  (emmiterClick)="deletarEsporte(e.value!)"
+                ></app-btn-red>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr />
+
+    <div>
+      <h4 class="modal-title text-purple text-center">Cadastar Esporte</h4>
+    </div>
+
+    <div class="my-4">
+      <form [formGroup]="formEsporte">
+        <app-input-field
+          [formGroup]="formEsporte"
+          [controlName]="'nome'"
+          [label]="'Nome do esporte'"
+          [validacaoInput]="true"
+        ></app-input-field>
+      </form>
+    </div>
+
+    <div class="d-block d-md-flex mt-3 mb-2">
+      <div class="col-12 col-md-6 me-0 me-md-2 mb-2 mb-md-0 pe-2">
+        <app-btn-purple
+          [textButton]="'Confirmar'"
+          [showIcon]="true"
+          [iconFirst]="true"
+          [icone]="faConfirm"
+          (emmiterClick)="cadastrarEsporte()"
+        ></app-btn-purple>
+      </div>
+
+      <div class="col-12 col-md-6 pe-2">
+        <app-btn-red
+          [textButton]="'Cancelar'"
+          [showIcon]="true"
+          [iconFirst]="true"
+          [icone]="faClose"
+          (emmiterClick)="closeModal()"
+        ></app-btn-red>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ngx-ui-loader [loaderId]="'loader-01'"></ngx-ui-loader>
+
+<div class="mx-3 mt-4">
+  <h3 class="text-purple font-weight-bold">
+    {{ isEdicao ? "Editar espaço esportivo" : "Cadastrar espaço esportivo" }}
+  </h3>
+
+  <form [formGroup]="formEspacoEsportivo" class="form-espaco-esportivo">
+    <div class="row w-100">
+      <div class="col-12 col-lg-5 mt-4 espaco-esportivo-img">
+        <div class="img-section" (click)="carregarImg()">
+          <p *ngIf="!imgPreviewUrl" class="text-gray my-2">Carregar imagem</p>
+
+          <img
+            *ngIf="imgPreviewUrl"
+            [src]="sanatizerImg(imgPreviewUrl)"
+            alt=""
+            id="img-preview"
+          />
+        </div>
+        <div *ngIf="imgPreviewUrl" class="my-1 w-100">
+          <button
+            type="button"
+            class="btn-delete-img text-purple"
+            (click)="removeImg()"
+          >
+            Remover Imagem
+          </button>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-7">
+        <app-input-toogle
+          [formGroup]="formEspacoEsportivo"
+          [controlName]="'ativo'"
+          [label]="'Espaco Esportivo Ativo'"
+        ></app-input-toogle>
+
+        <div>
+          <app-input-field
+            [formGroup]="formEspacoEsportivo"
+            [controlName]="'nome'"
+            [label]="'Nome'"
+            [validacaoInput]="true"
+            [placeholder]="'Ex.: Pista de Corrida'"
+          ></app-input-field>
+        </div>
+
+        <div>
+          <app-input-textarea
+            [formGroup]="formEspacoEsportivo"
+            [controlName]="'descricao'"
+            [label]="'Descrição'"
+            [validacaoInput]="true"
+            [placeholder]="'Descreva brevemente o espaço esportivo...'"
+          ></app-input-textarea>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-3">
+        <app-input-field
+          [formGroup]="formEspacoEsportivo"
+          [controlName]="'localidade'"
+          [label]="'Localidade'"
+          [validacaoInput]="true"
+          [placeholder]="'Ex.: Centro Politécnico'"
+        ></app-input-field>
+      </div>
+
+      <div class="col-12 col-md-5">
+        <app-input-field
+          [formGroup]="formEspacoEsportivo"
+          [controlName]="'maxLocacao'"
+          [label]="'Quantidade máxima de locações no dia por cliente'"
+          [placeholder]="'Ex.: 2'"
+          [validacaoInput]="true"
+        ></app-input-field>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <app-input-field
+          [formGroup]="formEspacoEsportivo"
+          [controlName]="'dimensoes'"
+          [label]="'Dimensões'"
+          [validacaoInput]="true"
+          [placeholder]="'Ex.: 40m x 20m'"
+        ></app-input-field>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <app-input-time
+          [formGroup]="formEspacoEsportivo"
+          [controlName]="'abertura'"
+          [label]="'Horário de abertura'"
+          [haveMaxTime]="horaFechamento ? true : false"
+          [maxTime]="horaFechamento!"
+        ></app-input-time>
+      </div>
+
+      <div class="col-12 col-md-3">
+        <app-input-time
+          [formGroup]="formEspacoEsportivo"
+          [controlName]="'fechamento'"
+          [label]="'Horário de fechamento'"
+          [haveMinTime]="horaAbertura ? true : false"
+          [minTime]="horaAbertura!"
+        ></app-input-time>
+      </div>
+
+      <div class="col-12 col-md-5">
+        <app-input-time
+          [formGroup]="formEspacoEsportivo"
+          [controlName]="'periodo'"
+          [label]="'Duração da locação'"
+        ></app-input-time>
+      </div>
+
+      <div class="col-12 col-md-7">
+        <p class="text-gray mb-0">Dias de funcionamento</p>
+
+        <div class="daysOfWeek d-flex justify-content-between">
+          <div
+            formArrayName="funcionamento"
+            class="chipDayOfWeek"
+            *ngFor="let d of daysOfWeek; index as i"
+          >
+            <label class="chipLabel text-center" for="{{ d }}">
+              <input
+                formControlName="{{ i }}"
+                type="checkbox"
+                class="chipInput"
+                name="{{ d }}"
+                id="{{ d }}"
+                value="{{ i + 1 }}"
+              />
+              <div class="chipConteudo">
+                <p class="mb-0 text-center text-lg-start">
+                  {{ d | titlecase }}
+                </p>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-5">
+        <app-input-field
+          [formGroup]="formEspacoEsportivo"
+          [controlName]="'piso'"
+          [label]="'Piso'"
+          [validacaoInput]="true"
+          [placeholder]="'Ex.: Madeira'"
+        ></app-input-field>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <app-input-field
+          [formGroup]="formEspacoEsportivo"
+          [controlName]="'capacidadeMin'"
+          [label]="'Quantidade mínima de participantes'"
+          [validacaoInput]="true"
+          [placeholder]="'Ex.: 6'"
+        ></app-input-field>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <app-input-field
+          [formGroup]="formEspacoEsportivo"
+          [controlName]="'capacidadeMax'"
+          [label]="'Quantidade máxima de participantes'"
+          [validacaoInput]="true"
+          [placeholder]="'Ex.: 24'"
+        ></app-input-field>
+      </div>
+
+      <div class="col-12 col-md-5">
+        <div class="row align-items-center">
+          <div class="col-12 col-md-10 pe-1">
+            <app-input-select-option
+              [formGroup]="formEspacoEsportivo"
+              [controlName]="'esportes'"
+              [label]="'Tipos de esportes'"
+              [validacaoInput]="false"
+              [items]="esportes"
+              (emitterChange)="adicionaEsporte()"
+            ></app-input-select-option>
+          </div>
+
+          <div class="col-12 col-md-2 ps-0 mt-2">
+            <app-btn-purple
+              [showIcon]="true"
+              [iconFirst]="true"
+              [icone]="faAdd"
+              (emmiterClick)="opneModal(modalCadastroEsporte)"
+            ></app-btn-purple>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-7 tipos-esportes">
+        <div *ngFor="let e of esportesOfEE">
+          <app-btn-chip
+            [text]="e.nome!"
+            (emitterClick)="removerTipoEsporte(e.id!)"
+          ></app-btn-chip>
+        </div>
+      </div>
+
+      <div class="col-12 d-block d-md-flex">
+        <div>
+          <app-btn-purple
+            [textButton]="'Salvar'"
+            [type]="'submit'"
+            (emmiterClick)="salvarEspacoEsportivo()"
+          ></app-btn-purple>
+        </div>
+
+        <div class="ms-0 ms-md-2 mt-2 mt-md-0">
+          <app-btn-border-purple
+            [textButton]="'Cancelar'"
+            (emmiterClick)="navigate()"
+          ></app-btn-border-purple>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

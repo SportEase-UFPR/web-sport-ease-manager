@@ -1,0 +1,181 @@
+<ng-template #modalExclusaoAdm let-modal>
+  <div class="modal-body">
+    <div class="d-flex justify-content-between">
+      <h4 class="modal-title text-dark-blue text-center">
+        Você realmente deseja remover
+        {{ nomeGerenteDelete ? nomeGerenteDelete : "este gerente" }}?
+      </h4>
+    </div>
+
+    <div class="d-block d-md-flex mt-3 mb-2">
+      <div class="col-12 col-md-6 me-0 me-md-2 mb-2 mb-md-0 pe-2">
+        <app-btn-purple
+          [textButton]="'Confirmar'"
+          [showIcon]="true"
+          [iconFirst]="true"
+          [icone]="faConfirm"
+          (emmiterClick)="deletarEspacoEsportivo()"
+        ></app-btn-purple>
+      </div>
+
+      <div class="col-12 col-md-6 pe-2">
+        <app-btn-red
+          [textButton]="'Cancelar'"
+          [showIcon]="true"
+          [iconFirst]="true"
+          [icone]="faClose"
+          (emmiterClick)="closeModal()"
+        ></app-btn-red>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ngx-ui-loader [loaderId]="'loader-01'"></ngx-ui-loader>
+
+<div class="mx-3 mt-4">
+  <h3 class="text-purple font-weight-bold">Administradores cadastrados</h3>
+
+  <div
+    class="row mt-3"
+    [ngClass]="
+      adms?.length! > 1 ? 'justify-content-between' : 'justify-content-end'
+    "
+  >
+    <div class="col-12 col-md-5" *ngIf="adms?.length! > 1">
+      <form [formGroup]="formSearch">
+        <app-input-search
+          [formGroup]="formSearch"
+          controlName="searchValue"
+          placeholder="Pesquisar por nome..."
+          (emitterSearch)="searchAdms()"
+        ></app-input-search>
+      </form>
+    </div>
+
+    <div class="col-12 col-md-3">
+      <app-btn-purple
+        textButton="Novo administrador"
+        [showIcon]="true"
+        [icone]="faPlus"
+        (emmiterClick)="navigate('novo-administrador')"
+      ></app-btn-purple>
+    </div>
+  </div>
+
+  <div class="table-content mt-2">
+    <ng-container *ngIf="adms == undefined; else noSkeleton">
+      <table class="table">
+        <thead>
+          <tr class="text-center">
+            <th scope="col">Nome</th>
+            <th scope="col">E-mail</th>
+            <th scope="col">CPF</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let a of [0, 1, 2]" class="text-center">
+            <td>
+              <ngx-skeleton-loader
+                count="1"
+                appearance="line"
+                [theme]="{ background: '#73779144' }"
+              ></ngx-skeleton-loader>
+            </td>
+            <td>
+              <ngx-skeleton-loader
+                count="1"
+                appearance="line"
+                [theme]="{ background: '#73779144' }"
+              ></ngx-skeleton-loader>
+            </td>
+            <td>
+              <ngx-skeleton-loader
+                count="1"
+                appearance="line"
+                [theme]="{ background: '#73779144' }"
+              ></ngx-skeleton-loader>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-container>
+
+    <ng-template #noSkeleton>
+      <div
+        class="text-center"
+        *ngIf="adms?.length! > 5 || admsFilter?.length! > 5"
+      >
+        <pagination-controls
+          (pageChange)="p = $event"
+          previousLabel="<"
+          nextLabel=">"
+        ></pagination-controls>
+      </div>
+
+      <div class="table-scroll">
+        <div
+          *ngIf="
+            adms?.length == 0 && admsFilter?.length == 0;
+            else administradores
+          "
+          class="h-100 d-flex justify-content-center align-items-center"
+        >
+          <h3 class="text-gray text-center py-5">
+            Nenhum administrador(a) foi cadastrado até o momento :(
+          </h3>
+        </div>
+
+        <ng-template #administradores>
+          <table class="table">
+            <thead>
+              <tr class="text-center">
+                <th scope="col">Nome</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">CPF</th>
+                <th *ngIf="adms?.length! > 1" scope="col">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let a of (formSearch.valid ? admsFilter : adms!)
+                    | paginate : { itemsPerPage: 5, currentPage: p }
+                "
+                class="text-center"
+              >
+                <td>
+                  <p class="mb-0 mt-2">{{ a.nome }}</p>
+                </td>
+
+                <td>
+                  <p class="mb-0 mt-2">{{ a.email }}</p>
+                </td>
+
+                <td>
+                  <p class="mb-0 mt-2">
+                    {{ a.cpf! | mask : "000.000.000-00" }}
+                  </p>
+                </td>
+
+                <td *ngIf="adms?.length! > 1">
+                  <div class="d-flex justify-content-center">
+                    <button
+                      *ngIf="userId !== a.idUsuario"
+                      class="btn-acoes"
+                      (click)="
+                        openModalConfirmacao(modalExclusaoAdm, a.id!, a.nome!)
+                      "
+                    >
+                      <fa-icon [icon]="faTrash"></fa-icon>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-template>
+      </div>
+    </ng-template>
+  </div>
+</div>

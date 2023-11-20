@@ -1,0 +1,25 @@
+@import "/src/cores.scss";
+
+.input-time-content {
+  box-shadow: 4px 4px 5px 0 var(--cinza-claro);
+  border-radius: 10px;
+
+  .input-time {
+    background-color: var(--branco);
+    border: none;
+    border-radius: 10px 0 0 10px;
+    height: 45px;
+    outline: none;
+    padding: 0 10px;
+    color: var(--azul-escuro);
+    box-shadow: none;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}
+
+.is-invalid-input-time {
+  box-shadow: 4px 4px 5px 0 var(--vermelho);
+}

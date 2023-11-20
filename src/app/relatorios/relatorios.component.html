@@ -1,0 +1,402 @@
+<ng-template #modalAprovarReserva let-modal>
+  <div class="modal-body">
+    <div class="d-flex justify-content-between">
+      <h4 class="modal-title text-dark-blue text-center">
+        Você realmente deseja aprovar essa reserva?
+      </h4>
+    </div>
+
+    <div class="d-block d-md-flex mt-3 mb-2">
+      <div class="col-12 col-md-6 me-0 me-md-2 mb-2 mb-md-0 pe-2">
+        <app-btn-purple
+          [textButton]="'Aprovar'"
+          [showIcon]="true"
+          [iconFirst]="true"
+          [icone]="faConfirm"
+          (emmiterClick)="aprovarReserva()"
+        ></app-btn-purple>
+      </div>
+
+      <div class="col-12 col-md-6 pe-2">
+        <app-btn-red
+          [textButton]="'Cancelar'"
+          [showIcon]="true"
+          [iconFirst]="true"
+          [icone]="faClose"
+          (emmiterClick)="closeModal()"
+        ></app-btn-red>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #modalNegarReserva let-modal>
+  <div class="modal-body">
+    <div class="d-flex justify-content-between">
+      <h4 class="modal-title text-dark-blue text-center">
+        Você realmente deseja negar essa reserva?
+      </h4>
+    </div>
+
+    <div>
+      <form [formGroup]="formJustificativa">
+        <app-input-textarea
+          [formGroup]="formJustificativa"
+          [controlName]="'justificativa'"
+          [label]="'Justificativa'"
+        ></app-input-textarea>
+      </form>
+    </div>
+
+    <div class="d-block d-md-flex mt-3 mb-2">
+      <div class="col-12 col-md-6 me-0 me-md-2 mb-2 mb-md-0 pe-2">
+        <app-btn-purple
+          [textButton]="'Confirmar'"
+          [showIcon]="true"
+          [iconFirst]="true"
+          [icone]="faConfirm"
+          (emmiterClick)="negarReserva()"
+        ></app-btn-purple>
+      </div>
+
+      <div class="col-12 col-md-6 pe-2">
+        <app-btn-red
+          [textButton]="'Cancelar'"
+          [showIcon]="true"
+          [iconFirst]="true"
+          [icone]="faClose"
+          (emmiterClick)="closeModal()"
+        ></app-btn-red>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #modalEncerrarReserva let-modal>
+  <div class="modal-body">
+    <div class="d-flex justify-content-between">
+      <h4 class="modal-title text-dark-blue text-center">
+        Você realmente deseja encerrar essa reserva?
+      </h4>
+    </div>
+
+    <div>
+      <form [formGroup]="formJustificativa">
+        <app-input-textarea
+          [formGroup]="formJustificativa"
+          [controlName]="'justificativa'"
+          [label]="'Justificativa'"
+        ></app-input-textarea>
+      </form>
+    </div>
+
+    <div class="d-block d-md-flex mt-3 mb-2">
+      <div class="col-12 col-md-6 me-0 me-md-2 mb-2 mb-md-0 pe-2">
+        <app-btn-purple
+          [textButton]="'Confirmar'"
+          [showIcon]="true"
+          [iconFirst]="true"
+          [icone]="faConfirm"
+          (emmiterClick)="encerrarReserva()"
+        ></app-btn-purple>
+      </div>
+
+      <div class="col-12 col-md-6 pe-2">
+        <app-btn-red
+          [textButton]="'Cancelar'"
+          [showIcon]="true"
+          [iconFirst]="true"
+          [icone]="faClose"
+          (emmiterClick)="closeModal()"
+        ></app-btn-red>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ngx-ui-loader [loaderId]="'loader-01'"></ngx-ui-loader>
+
+<div class="mx-3 mt-4">
+  <h3 class="text-purple font-weight-bold">
+    Relatórios de espaços esportivos alugados
+  </h3>
+
+  <div>
+    <div class="text-end mb-2">
+      <span
+        (click)="motivoReserva.toggle()"
+        [attr.aria-expanded]="!motivoReservaCollapsed"
+        aria-controls="collapseExample"
+        class="filtros-collapse text-dark-blue"
+      >
+        <strong>
+          Filtros
+          <span>
+            <fa-icon [icon]="changeIcon(motivoReservaCollapsed)"></fa-icon>
+          </span>
+        </strong>
+      </span>
+    </div>
+
+    <div #motivoReserva="ngbCollapse" [(ngbCollapse)]="motivoReservaCollapsed">
+      <div>
+        <form [formGroup]="formFiltros">
+          <div class="row w-100">
+            <div class="col-12 col-md-2">
+              <app-input-date
+                [formGroup]="formFiltros"
+                [controlName]="'dataInicial'"
+                [label]="'Início locação'"
+                [haveMaxDate]="maxDate ? true : false"
+                [maxDate]="maxDate ?? null"
+              ></app-input-date>
+            </div>
+
+            <div class="col-12 col-md-2">
+              <app-input-date
+                [formGroup]="formFiltros"
+                [controlName]="'dataFinal'"
+                [label]="'Fim locação'"
+                [haveMinDate]="minDate ? true : false"
+                [minDate]="minDate ?? null"
+              ></app-input-date>
+            </div>
+
+            <div class="col-12 col-md-2">
+              <app-input-select-option
+                *ngIf="filtroClientes.length > 1"
+                [formGroup]="formFiltros"
+                [controlName]="'solicitante'"
+                [label]="'Solicitante'"
+                [items]="filtroClientes"
+                (emitterChange)="filterHistorico()"
+              ></app-input-select-option>
+            </div>
+
+            <div class="col-12 col-md-2">
+              <app-input-select-option
+                *ngIf="filtroLocal.length > 1"
+                [formGroup]="formFiltros"
+                [controlName]="'local'"
+                [label]="'Local'"
+                [items]="filtroLocal"
+                (emitterChange)="filterHistorico()"
+              ></app-input-select-option>
+            </div>
+
+            <div class="col-12 col-md-2">
+              <app-input-select-option
+                *ngIf="filtroStatus.length > 1"
+                [formGroup]="formFiltros"
+                [controlName]="'status'"
+                [label]="'Status da reserva'"
+                [items]="filtroStatus"
+                (emitterChange)="filterHistorico()"
+              ></app-input-select-option>
+            </div>
+
+            <div class="col-12 col-md-2 mt-4" *ngIf="showLimparFiltros">
+              <app-btn-purple
+                [textButton]="'Limpar filtros'"
+                [showIcon]="true"
+                [icone]="faFilterRemove"
+                (emmiterClick)="limparFiltros()"
+              ></app-btn-purple>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-content mb-3">
+    <ng-container *ngIf="historico == undefined; else noSkeleton">
+      <table class="table">
+        <thead>
+          <tr class="text-center">
+            <th scope="col">Solicitante</th>
+            <th scope="col">Espaço alugado</th>
+            <th scope="col">Data / Hora Locação</th>
+            <th scope="col">Status</th>
+            <th scope="col">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let a of [0, 1, 2]" class="text-center">
+            <td>
+              <ngx-skeleton-loader
+                count="1"
+                appearance="line"
+                [theme]="{ background: '#73779144' }"
+              ></ngx-skeleton-loader>
+            </td>
+            <td>
+              <ngx-skeleton-loader
+                count="1"
+                appearance="line"
+                [theme]="{ background: '#73779144' }"
+              ></ngx-skeleton-loader>
+            </td>
+            <td>
+              <ngx-skeleton-loader
+                count="1"
+                appearance="line"
+                [theme]="{ background: '#73779144' }"
+              ></ngx-skeleton-loader>
+            </td>
+            <td>
+              <ngx-skeleton-loader
+                count="1"
+                appearance="line"
+                [theme]="{ background: '#73779144' }"
+              ></ngx-skeleton-loader>
+            </td>
+            <td>
+              <ngx-skeleton-loader
+                count="1"
+                appearance="line"
+                [theme]="{ background: '#73779144' }"
+              ></ngx-skeleton-loader>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </ng-container>
+
+    <ng-template #noSkeleton>
+      <div
+        class="text-center"
+        *ngIf="
+          historicoFiltered?.length! > 0
+            ? historicoFiltered?.length! > 10
+            : historico?.length! > 10
+        "
+      >
+        <pagination-controls
+          (pageChange)="p = $event"
+          previousLabel="<"
+          nextLabel=">"
+        ></pagination-controls>
+      </div>
+
+      <div class="table-scroll">
+        <div
+          *ngIf="
+            historicoFiltered
+              ? historicoFiltered?.length == 0
+              : historico?.length == 0;
+            else relatorios
+          "
+          class="h-100 d-flex justify-content-center align-items-center"
+        >
+          <h3 class="text-gray text-center py-5">
+            Nenhum histórico encontrado :(
+          </h3>
+        </div>
+
+        <ng-template #relatorios>
+          <table class="table">
+            <thead>
+              <tr class="text-center">
+                <th scope="col">Solicitante</th>
+                <th scope="col">Espaço alugado</th>
+                <th scope="col">Data / Hora Locação</th>
+                <th scope="col">Status</th>
+                <th scope="col">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="
+                  let h of (historicoFiltered?.length! > 0 ? historicoFiltered! : historico!)
+                    | paginate : { itemsPerPage: 10, currentPage: p }
+                "
+                class="text-center"
+              >
+                <td>
+                  {{
+                    h.informacoesComplementaresLocacao?.nomeCliente | titlecase
+                  }}
+                </td>
+                <td>
+                  {{ h.informacoesComplementaresLocacao?.nomeEspacoEsportivo }}
+                </td>
+                <td>
+                  <div>{{ h.dataHoraInicioReserva | date : "dd/MM/yyyy" }}</div>
+                  <div>
+                    {{ h.dataHoraInicioReserva | date : "HH:mm" }} -
+                    {{ h.dataHoraFimReserva | date : "HH:mm" }}
+                  </div>
+                </td>
+                <td>{{ h.status | titlecase }}</td>
+                <td>
+                  <div class="d-flex justify-content-center mb-2">
+                    <app-btn-purple
+                      *ngIf="
+                        h.status == 'SOLICITADA' &&
+                        showAprovarReserva(h.dataHoraInicioReserva!)
+                      "
+                      class="me-2"
+                      [showIcon]="true"
+                      [icone]="faConfirm"
+                      [textButton]="'Aprovar'"
+                      (emmiterClick)="
+                        openModalConfirmacao(
+                          h.informacoesComplementaresLocacao?.idLocacao!,
+                          modalAprovarReserva
+                        )
+                      "
+                    ></app-btn-purple>
+
+                    <app-btn-red
+                      *ngIf="
+                        h.status == 'SOLICITADA' &&
+                        showNegarReserva(h.dataHoraInicioReserva!)
+                      "
+                      [showIcon]="true"
+                      [icone]="faBan"
+                      [textButton]="'Negar'"
+                      (emmiterClick)="
+                        openModalConfirmacao(
+                          h.informacoesComplementaresLocacao?.idLocacao!,
+                          modalNegarReserva
+                        )
+                      "
+                    ></app-btn-red>
+
+                    <app-btn-red
+                      *ngIf="
+                        (h.status == 'APROVADA' &&
+                          showEncerrarStatus(h.dataHoraFimReserva!)) ||
+                        (h.status == 'SOLICITADA' &&
+                          (!showAprovarReserva(h.dataHoraInicioReserva!) ||
+                            !showNegarReserva(h.dataHoraInicioReserva!)))
+                      "
+                      [showIcon]="true"
+                      [icone]="faClose"
+                      [textButton]="'Encerrar'"
+                      (emmiterClick)="
+                        openModalConfirmacao(
+                          h.informacoesComplementaresLocacao?.idLocacao!,
+                          modalEncerrarReserva
+                        )
+                      "
+                    ></app-btn-red>
+
+                    <app-btn-border-purple
+                      class="ms-2"
+                      [showIcon]="true"
+                      [icone]="faEye"
+                      [textButton]="'Detalhes'"
+                      (emmiterClick)="openModalDetalhes(h)"
+                    ></app-btn-border-purple>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-template>
+      </div>
+    </ng-template>
+  </div>
+</div>

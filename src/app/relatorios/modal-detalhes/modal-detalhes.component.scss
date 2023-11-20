@@ -1,0 +1,34 @@
+.with-scrollbar {
+  background-color: var(--branco-gelo);
+  scrollbar-width: thin;
+  scrollbar-color: var(--roxo) var(--branco-gelo);
+
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--branco-gelo);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--roxo);
+    border-radius: 20px;
+    border: 3px solid var(--branco-gelo);
+  }
+}
+
+.infos {
+  height: 400px;
+  overflow-y: auto;
+
+  .historico-body {
+    .info-title {
+      font-weight: 500;
+    }
+
+    .motivo-reserva-collapse {
+      cursor: pointer;
+    }
+  }
+}

@@ -1,0 +1,17 @@
+<div [formGroup]="formGroup" class="mb-3">
+  <div class="d-flex input-search-content">
+    <input
+      type="text"
+      class="input-search w-100"
+      formControlName="{{ controlName }}"
+      id="{{ controlName }}"
+      name="{{ controlName }}"
+      placeholder="{{ placeholder }}"
+      (keyup)="search()"
+      autocomplete="off"
+    />
+    <button (click)="search()" class="btn-search" type="submit">
+      <fa-icon [icon]="faSearch"></fa-icon>
+    </button>
+  </div>
+</div>

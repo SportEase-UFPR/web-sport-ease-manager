@@ -1,0 +1,59 @@
+@import "/src/cores.scss";
+
+#espaco-ativo {
+  height: 0;
+  width: 0;
+  visibility: hidden;
+}
+
+.label-input-toogle {
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: normal;
+}
+
+#label-input-toogle {
+  cursor: pointer;
+  text-indent: -9999px;
+  width: 50px;
+  height: 25px;
+  background: var(--cinza);
+  display: block;
+  border-radius: 100px;
+  position: relative;
+}
+
+#label-input-toogle:after {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  width: 15px;
+  height: 15px;
+  background: var(--branco);
+  border-radius: 90px;
+  transition: 0.2s;
+}
+
+#espaco-ativo:checked + #label-input-toogle {
+  background: var(--roxo);
+}
+
+#espaco-ativo:checked + #label-input-toogle:after {
+  left: calc(100% - 5px);
+  transform: translateX(-100%);
+}
+
+#label-input-toogle:active:after {
+  width: 15px;
+}
+
+.destinatarios {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  justify-content: flex-start;
+}
+
+.editor:focus-within {
+  box-shadow: 4px 4px 2px 0 var(--roxo);
+}

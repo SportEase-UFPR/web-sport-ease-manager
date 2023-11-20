@@ -1,0 +1,149 @@
+@import "/src/cores.scss";
+
+.lista-esportes {
+  height: 200px;
+  overflow-y: auto;
+
+  table {
+    background-color: var(--branco-gelo);
+  }
+}
+
+.with-scrollbar {
+  background-color: var(--branco-gelo);
+  scrollbar-width: thin;
+  scrollbar-color: var(--roxo) var(--branco-gelo);
+
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--branco-gelo);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--roxo);
+    border-radius: 20px;
+    border: 3px solid var(--branco-gelo);
+  }
+}
+
+.form-espaco-esportivo {
+  #espaco-ativo {
+    height: 0;
+    width: 0;
+    visibility: hidden;
+  }
+
+  .label-input-toogle {
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: normal;
+  }
+
+  #label-input-toogle {
+    cursor: pointer;
+    text-indent: -9999px;
+    width: 50px;
+    height: 25px;
+    background: var(--cinza);
+    display: block;
+    border-radius: 100px;
+    position: relative;
+  }
+
+  #label-input-toogle:after {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 15px;
+    height: 15px;
+    background: var(--branco);
+    border-radius: 90px;
+    transition: 0.2s;
+  }
+
+  #espaco-ativo:checked + #label-input-toogle {
+    background: var(--roxo);
+  }
+
+  #espaco-ativo:checked + #label-input-toogle:after {
+    left: calc(100% - 5px);
+    transform: translateX(-100%);
+  }
+
+  #label-input-toogle:active:after {
+    width: 15px;
+  }
+
+  .espaco-esportivo-img {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .img-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      max-width: 410px;
+      max-height: 320px;
+      border-radius: 15px;
+      padding: 4px;
+      border: 2px solid var(--roxo);
+
+      #img-preview {
+        border-radius: 10px;
+        max-height: 310px;
+        max-width: 400px;
+      }
+    }
+    .btn-delete-img {
+      border: none;
+      background-color: transparent;
+      font-weight: 500;
+      height: 45px;
+      padding: 8px;
+    }
+  }
+
+  .tipos-esportes {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    align-content: center;
+    justify-content: flex-start;
+  }
+
+  .chipDayOfWeek {
+    .chipLabel {
+      cursor: pointer;
+
+      .chipInput {
+        display: none;
+        transition: 0.2s ease-in-out;
+
+        &:checked ~ .chipConteudo {
+          transition: 0.2s ease-in-out;
+          background-color: var(--roxo) !important;
+          color: var(--branco) !important;
+        }
+      }
+
+      .chipConteudo {
+        position: relative;
+        display: inline-block;
+        background-color: var(--branco);
+        border: none;
+        padding: 10px;
+        color: var(--cinza-claro);
+        box-shadow: 4px 4px 5px 0 var(--cinza-claro);
+        border-radius: 10px;
+        transition: 0.2s;
+        overflow: hidden;
+      }
+    }
+  }
+}

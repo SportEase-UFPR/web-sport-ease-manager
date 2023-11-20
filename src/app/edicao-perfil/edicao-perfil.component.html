@@ -1,0 +1,83 @@
+<ngx-ui-loader [loaderId]="'loader-01'"></ngx-ui-loader>
+
+<div class="container">
+  <h3 class="mt-2 text-purple">Editar minhas irformações</h3>
+
+  <form [formGroup]="formAlteracaoPerfil" class="p-2">
+    <div class="row w-100">
+      <div class="col-12">
+        <app-input-field
+          [formGroup]="formAlteracaoPerfil"
+          [controlName]="'nome'"
+          [label]="'Nome completo'"
+          [validacaoInput]="true"
+        ></app-input-field>
+      </div>
+
+      <div class="col-12">
+        <app-input-field
+          [formGroup]="formAlteracaoPerfil"
+          [controlName]="'email'"
+          [label]="'E-mail'"
+          [validacaoInput]="true"
+          [inputType]="'email'"
+        ></app-input-field>
+      </div>
+
+      <div class="col-12">
+        <app-input-field
+          [formGroup]="formAlteracaoPerfil"
+          [controlName]="'cpf'"
+          [label]="'CPF'"
+          mask="000.000.000-00"
+        ></app-input-field>
+      </div>
+
+      <div class="col-12 col-md-6 mt-2">
+        <app-input-senha
+          [formGroup]="formAlteracaoPerfil"
+          [controlName]="'senha'"
+          [label]="'Senha...'"
+          [validacaoInput]="true"
+          (emmiterFocus)="focusPassword()"
+        >
+        </app-input-senha>
+      </div>
+
+      <div class="col-12 col-md-6 mt-2">
+        <app-input-senha
+          [formGroup]="formAlteracaoPerfil"
+          [controlName]="'confirmacaoSenha'"
+          [label]="'Confirmar Senha...'"
+          [validacaoInput]="true"
+          (emmiterFocus)="focusPassword()"
+        >
+        </app-input-senha>
+      </div>
+
+      <ng-container *ngIf="passwordChecklist">
+        <app-password-checklist
+          [control]="formAlteracaoPerfil.get('senha')!"
+          [senhasDiferentes]="senhasDiferentes"
+        ></app-password-checklist>
+      </ng-container>
+
+      <div class="col-12 d-block d-md-flex justify-content-end mt-2">
+        <div>
+          <app-btn-purple
+            [textButton]="'Salvar'"
+            [type]="'submit'"
+            (emmiterClick)="alterarDados()"
+          ></app-btn-purple>
+        </div>
+
+        <div class="ms-0 ms-md-2 mt-2 mt-md-0">
+          <app-btn-border-purple
+            [textButton]="'Cancelar'"
+            (emmiterClick)="navigate()"
+          ></app-btn-border-purple>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

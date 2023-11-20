@@ -1,0 +1,30 @@
+@import "/src/cores.scss";
+
+.card-reserva {
+  background-color: var(--branco);
+  border-radius: 15px;
+  box-shadow: 2px 4px 4px 2px var(--cinza-claro);
+  padding: 10px;
+
+  .reserva-body {
+    .info-title {
+      font-weight: 500;
+    }
+
+    .motivo-reserva-collapse {
+      cursor: pointer;
+    }
+
+    .qtd-reservas {
+      display: grid;
+      grid-template-columns: auto auto auto;
+      justify-content: space-evenly;
+    }
+  }
+
+  .reserva-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+}
