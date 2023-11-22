@@ -140,6 +140,8 @@ export class RelatoriosComponent implements OnInit, OnDestroy {
 
     let filteredHistorico = this.historico;
 
+    this.p = 1;
+
     if (Number(solicitante) === -1) {
       this.ngxLoaderService.startLoader('loader-01');
       filteredHistorico = this.historico;
@@ -226,6 +228,7 @@ export class RelatoriosComponent implements OnInit, OnDestroy {
     this.minDate = undefined;
     this.maxDate = undefined;
     this.showLimparFiltros = false;
+    this.p = 1;
     this.ngxLoaderService.stopLoader('loader-01');
   }
 

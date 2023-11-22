@@ -92,7 +92,10 @@ export class FeedbacksComponent implements OnInit {
                 `${c.avaliacao} ${c.avaliacao == 1 ? ' estrela' : ' estrelas'}`
               )
             );
-            this.formRating.reset();
+            this.formRating.patchValue({
+              rating: -1
+            });
+            this.filtrarComentarios()
           },
           error: (err) => {
             this.comentarios = [];
