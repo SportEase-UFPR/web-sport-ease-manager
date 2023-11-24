@@ -55,6 +55,14 @@ export class EspacosEsportivosService {
     );
   }
 
+  public editarDisponibilidade(disponivel: boolean, idEE: number): Observable<eeResponse> {
+    return this.httpService.put<eeResponse>(
+      `${env.baseUrl}espacos-esportivos/${idEE}`,
+      JSON.stringify({disponivel}),
+      { headers: this.createHeaders() }
+    );
+  }
+
   public listarEE(): Observable<eeResponse[]> {
     return this.httpService.get<eeResponse[]>(
       `${env.baseUrl}espacos-esportivos`,

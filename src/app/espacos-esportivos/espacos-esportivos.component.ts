@@ -6,6 +6,7 @@ import {
   faCheck,
   faPencil,
   faPlus,
+  faPowerOff,
   faXmark,
 } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -16,6 +17,7 @@ import { EspacoEsportivoExclusaoResponse as eeExclusaoResponse } from '../shared
 import { ToastrService } from 'ngx-toastr';
 import { NgxUiLoaderService } from 'ngx-ui-loader';
 import { take } from 'rxjs';
+import { EspacoEsportivoRequest } from '../shared/models/espaco-esportivo/espaco-esportivo-request.model';
 
 @Component({
   selector: 'app-espacos-esportivos',
@@ -30,11 +32,14 @@ export class EspacosEsportivosComponent implements OnInit {
   ee?: eeResponse[];
   eeFilter: eeResponse[] = [];
 
+  eeOnOff?: eeResponse;
+
   p: number = 1;
   faPlus = faPlus;
   faTrash = faTrashCan;
   faPencil = faPencil;
   faEye = faEye;
+  faOnOff = faPowerOff;
 
   faClose = faXmark;
   faConfirm = faCheck;
@@ -129,5 +134,44 @@ export class EspacosEsportivosComponent implements OnInit {
 
   editarEE(id: number): void {
     this.router.navigateByUrl(`/editar-espaco/${id}`);
+  }
+
+  openModalOnOff(modal: any, ee: eeResponse): void {
+    this.eeOnOff = ee;
+    this.modalService.open(modal, {
+      centered: true,
+    });
+  }
+
+  espacoOnOff() {
+    this.ngxLoaderService.startLoader('loader-01');
+
+    this.eeService
+      .editarDisponibilidade(!this.eeOnOff?.disponivel, this.eeOnOff?.id!)
+      .pipe(take(1))
+      .subscribe({
+        next: (result: eeResponse) => {
+          this.ngxLoaderService.stopLoader('loader-01');
+          this.toastrService.success(
+            `${this.eeOnOff?.nome} foi ${
+              this.eeOnOff?.disponivel ? 'desativado' : 'ativado'
+            }`,
+            'Sucesso'
+          );
+          this.populate();
+          this.closeModal();
+          this.eeOnOff = undefined;
+        },
+        error: (err) => {
+          this.ngxLoaderService.stopLoader('loader-01');
+          console.error(err);
+          this.toastrService.error(
+            'Por favor, tente novamente mais tarde',
+            `Erro ao ${
+              this.eeOnOff?.disponivel ? 'desativar' : 'ativar'
+            } espaço esportivo`
+          );
+        },
+      });
   }
 }

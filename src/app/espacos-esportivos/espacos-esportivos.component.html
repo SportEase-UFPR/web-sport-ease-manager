@@ -7,7 +7,7 @@
       </h4>
     </div>
 
-    <p class="text-red text-center my-3">
+    <p class="text-dark-blue text-center my-3">
       Lembre-se, ao confirmar a exclusão, todas as reservas futuras para este
       espaço esportivo serão encerradas.
     </p>
@@ -20,6 +20,45 @@
           [iconFirst]="true"
           [icone]="faConfirm"
           (emmiterClick)="deletarEspacoEsportivo()"
+        ></app-btn-purple>
+      </div>
+
+      <div class="col-12 col-md-6 pe-2">
+        <app-btn-red
+          [textButton]="'Cancelar'"
+          [showIcon]="true"
+          [iconFirst]="true"
+          [icone]="faClose"
+          (emmiterClick)="closeModal()"
+        ></app-btn-red>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #modalOnOff let-modal>
+  <div class="modal-body">
+    <div class="d-flex justify-content-between">
+      <h4 class="modal-title text-dark-blue text-center">
+        Você realmente deseja
+        {{ eeOnOff?.disponivel ? "desativar" : "ativar" }}
+        {{ eeOnOff?.nome ? '"' + eeOnOff?.nome + '"' : "este espaço esportivo" }}?
+      </h4>
+    </div>
+
+    <p class="text-dark-blue text-center my-3" *ngIf="eeOnOff?.disponivel">
+      Lembre-se, ao confirmar a desativação, todas as reservas futuras para este
+      espaço esportivo serão encerradas.
+    </p>
+
+    <div class="d-block d-md-flex mt-3 mb-2">
+      <div class="col-12 col-md-6 me-0 me-md-2 mb-2 mb-md-0 pe-2">
+        <app-btn-purple
+          [textButton]="eeOnOff?.disponivel ? 'Desativar' : 'Ativar'"
+          [showIcon]="true"
+          [iconFirst]="true"
+          [icone]="faConfirm"
+          (emmiterClick)="espacoOnOff()"
         ></app-btn-purple>
       </div>
 
@@ -178,7 +217,7 @@
                     </button>
 
                     <button
-                      class="btn-acoes"
+                      class="btn-acoes mx-2"
                       (click)="
                         openModalConfirmacao(
                           modalExclusaoEsporte,
@@ -188,6 +227,13 @@
                       "
                     >
                       <fa-icon [icon]="faTrash"></fa-icon>
+                    </button>
+
+                    <button
+                      class="btn-acoes"
+                      (click)="openModalOnOff(modalOnOff, ee!)"
+                    >
+                      <fa-icon [icon]="faOnOff"></fa-icon>
                     </button>
                   </div>
                 </td>

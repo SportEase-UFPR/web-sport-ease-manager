@@ -159,7 +159,7 @@ export class FormComponent implements OnInit, OnDestroy {
                 funcionamento: diasFuncionamento,
               });
 
-              this.esportesOfEE = result.listaEsportes!;
+              this.esportesOfEE = result.listaEsportes ?? [];
               this.imgPreviewUrl = `data:image/jpeg;base64,${result.imagemBase64}`;
             },
             error: (err) => {
@@ -426,7 +426,7 @@ export class FormComponent implements OnInit, OnDestroy {
               console.error(err);
               this.toastrService.error(
                 'Por favor, tente novamente mais tarde',
-                'Erro ao cadastrar espaço esportivo'
+                'Erro ao editar espaço esportivo'
               );
             },
           });
