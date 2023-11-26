@@ -1,27 +1,39 @@
-# WebSportEaseManager
+# SportEase UFPR - WEB Administrador
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.4.
+## Website
 
-## Development server
+Link para acessar o [site](https://sportease-manager.netlify.app/)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Instalação e uso
 
-## Code scaffolding
+1. Instalar [Node.Js](https://nodejs.org/en) e NPM
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+2. Instalar o Angular CLI
 
-## Build
+```sh
+npm install -g @angular/cli
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+4. Clone esse repositório e acesse a pasta
 
-## Running unit tests
+```sh
+git clone https://github.com/SportEase-UFPR/web-sport-ease-manager.git
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+cd web-sport-ease-client/
+```
 
-## Running end-to-end tests
+4. Instale os pacotes NPM do projeto
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```sh
 
-## Further help
+npm install
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```
+
+5. Executar o projeto
+
+```sh
+
+ng s -o
+
+```
